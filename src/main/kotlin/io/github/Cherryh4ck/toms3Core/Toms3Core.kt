@@ -16,10 +16,12 @@ class Toms3Core : JavaPlugin() {
         logger.info("Core activado.")
         logger.info("---------------------")
 
-        getCommand("playtime")?.setExecutor(Playtime(this))
-        getCommand("dupe")?.setExecutor(DupeJoke(this))
         getCommand("tmcore")?.setExecutor(this)
         getCommand("tmcore")?.setTabCompleter(this)
+        getCommand("playtime")?.setExecutor(Playtime(this))
+        getCommand("dupe")?.setExecutor(DupeJoke(this))
+        getCommand("joindate")?.setExecutor(Joindate(this))
+        getCommand("jd")?.setExecutor(Joindate(this))
     }
 
     override fun onDisable() {
@@ -31,16 +33,20 @@ class Toms3Core : JavaPlugin() {
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+        val mensaje : Component
         if(args.isEmpty()){
-            val mensaje = minimessage.deserialize("<gold>$prefix Plugin corriendo - versión 1.0</gold>")
+            mensaje = minimessage.deserialize("<gold>$prefix Plugin corriendo - versión 1.0 (revisión n. 1)</gold>")
             sender.sendMessage(mensaje)
             return true
         }
 
         when (args[0].lowercase()) {
+            "help" -> {
+                mensaje = minimessage.deserialize("$prefix <gold>Comandos disponibles:<newline>- <gray>/tmcore</gray><newline>- <gray>/tmcore illegal_test</gray><newline>- <gray>/joindate</gray><newline>- <gray>/playtime</gray></gold>")
+                sender.sendMessage(mensaje)
+            }
             "illegal_test" -> {
                 // terminar
-                val mensaje : Component
                 if (sender is Player) {
                     mensaje = minimessage.deserialize("$prefix <red>popbob</red>")
                 }
@@ -49,7 +55,6 @@ class Toms3Core : JavaPlugin() {
                 }
                 sender.sendMessage(mensaje)
             }
-
             else -> {
                 // por qué no uso senderror? pues ni idea xD
                 val mensaje = minimessage.deserialize("$prefix <red>Ese comando no existe.</red>")
@@ -62,14 +67,13 @@ class Toms3Core : JavaPlugin() {
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String>? {
         val completions = mutableListOf<String>()
         if (args.size == 1) {
-            val subs = listOf("illegal_test")
+            val subs = listOf("help", "illegal_test")
             for (s in subs) {
                 if (s.startsWith(args[0].lowercase())) {
                     completions.add(s)
                 }
             }
         }
-
         return completions
     }
 }

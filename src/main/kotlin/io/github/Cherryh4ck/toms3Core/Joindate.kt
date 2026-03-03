@@ -1,19 +1,21 @@
 package io.github.Cherryh4ck.toms3Core
 
-import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.Command
+import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-import kotlin.time.Duration.Companion.milliseconds
+import net.kyori.adventure.text.minimessage.MiniMessage
+import org.bukkit.Bukkit.getOfflinePlayer
 
-class Playtime(private val plugin: Toms3Core) : CommandExecutor {
+import java.text.SimpleDateFormat
+import java.util.Date
+
+class Joindate(private val plugin: Toms3Core) : CommandExecutor {
     val minimessage = MiniMessage.miniMessage()
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        // no .yaml porqe tengo paja
         val targetUser : String
         val userLocale : String
         val isSpanish : Boolean
@@ -21,6 +23,7 @@ class Playtime(private val plugin: Toms3Core) : CommandExecutor {
         if (sender is Player){
             userLocale = sender.locale().toString()
             isSpanish = userLocale.startsWith("es")
+
             targetUser = if (args.isEmpty()) {
                 sender.name
             } else{
@@ -46,25 +49,33 @@ class Playtime(private val plugin: Toms3Core) : CommandExecutor {
         }
 
         Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
-            // m cago en todo
-            // que lio es esto con los premium en un servidor cracked wtf
-            val offlineplayer = Bukkit.getOfflinePlayers()
-                .firstOrNull { it.name.equals(targetUser, ignoreCase = true) }
-                ?: Bukkit.getOfflinePlayer(targetUser)
-            if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L){
-                val mensaje = if (isSpanish) { minimessage.deserialize("<red>$targetUser nunca entró al servidor.</red>") } else { minimessage.deserialize("<red>$targetUser has never entered the server.</red>") }
-                sender.sendMessage(mensaje)
+            val offlineplayer = getOfflinePlayer(targetUser)
+
+            if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L) {
+                val message = if (isSpanish){
+                    minimessage.deserialize("<red>${offlineplayer.name} nunca entró al servidor.</red>")
+                }
+                else{
+                    minimessage.deserialize("<red>${offlineplayer.name} has never entered the server.</red>")
+                }
+
+                sender.sendMessage(message)
                 return@Runnable
             }
 
-            val statTicks = offlineplayer.getStatistic(org.bukkit.Statistic.PLAY_ONE_MINUTE).toLong()
-            val ms = statTicks * 50
-            val result = ms.milliseconds
+            val unixTime = offlineplayer.firstPlayed
+            val format = if (isSpanish) { SimpleDateFormat("dd/MM/yyyy HH:mm") } else { SimpleDateFormat("MM/dd/yyyy hh:mm a") }
+            val result = format.format(Date(unixTime))
 
-            val mensaje = if (isSpanish) { minimessage.deserialize("<gold>$targetUser tiene un tiempo de juego de <bold>$result</bold>.</gold>") } else { minimessage.deserialize("<gold>$targetUser has a playtime of <bold>$result</bold>.</gold>") }
-            sender.sendMessage(mensaje)
+            val message = if (isSpanish){
+                minimessage.deserialize("<gold>${offlineplayer.name} se unió al servidor el <bold>${result}</bold>.</gold>")
+            }
+            else{
+                minimessage.deserialize("<gold>${offlineplayer.name} joined the server on <bold>${result}</bold>.</gold>")
+            }
+
+            sender.sendMessage(message)
         })
-
         return true
     }
 }

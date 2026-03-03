@@ -5,13 +5,19 @@ api-version: '1.21'
 authors: [ Cherryh4ck ]
 description: Plugin específico para Toms3
 commands:
+  tmcore:
+    description: Toms3 Core main command.
+    usage: /tmcore [option]
+    permission: tmcore.main
   playtime:
     description: Shows the playtime of a player.
     usage: /playtime [player]
   dupe:
     description: Joke command.
     usage: /dupe
-  tmcore:
-    description: Toms3 Core main command.
-    usage: /tmcore [option]
-    permission: tmcore.main
+  joindate:
+    description: "Shows player's joindate"
+    usage: /joindate
+  jd:
+    description: "Shows player's joindate"
+    usage: /jd
