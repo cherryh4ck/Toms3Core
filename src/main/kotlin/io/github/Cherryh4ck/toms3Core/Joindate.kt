@@ -53,10 +53,10 @@ class Joindate(private val plugin: Toms3Core) : CommandExecutor {
 
             if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L) {
                 val message = if (isSpanish){
-                    minimessage.deserialize("<red>${offlineplayer.name} nunca entró al servidor.</red>")
+                    minimessage.deserialize("<red>${offlineplayer.name} nunca entró al servidor o tiene un UUID premium.</red>")
                 }
                 else{
-                    minimessage.deserialize("<red>${offlineplayer.name} has never entered the server.</red>")
+                    minimessage.deserialize("<red>${offlineplayer.name} has never entered the server or has a premium UUID.</red>")
                 }
 
                 sender.sendMessage(message)

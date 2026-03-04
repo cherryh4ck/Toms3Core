@@ -2,6 +2,7 @@ package io.github.Cherryh4ck.toms3Core
 
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
+import org.bukkit.Bukkit.getOfflinePlayer
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -48,11 +49,9 @@ class Playtime(private val plugin: Toms3Core) : CommandExecutor {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
             // m cago en todo
             // que lio es esto con los premium en un servidor cracked wtf
-            val offlineplayer = Bukkit.getOfflinePlayers()
-                .firstOrNull { it.name.equals(targetUser, ignoreCase = true) }
-                ?: Bukkit.getOfflinePlayer(targetUser)
+            val offlineplayer = getOfflinePlayer(targetUser)
             if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L){
-                val mensaje = if (isSpanish) { minimessage.deserialize("<red>$targetUser nunca entró al servidor.</red>") } else { minimessage.deserialize("<red>$targetUser has never entered the server.</red>") }
+                val mensaje = if (isSpanish) { minimessage.deserialize("<red>$targetUser nunca entró al servidor o tiene un UUID premium.</red>") } else { minimessage.deserialize("<red>$targetUser has never entered the server or has a premium UUID.</red>") }
                 sender.sendMessage(mensaje)
                 return@Runnable
             }

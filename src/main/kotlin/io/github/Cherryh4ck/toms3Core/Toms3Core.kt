@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class Toms3Core : JavaPlugin() {
     val minimessage = MiniMessage.miniMessage()
-    val prefix = "<gold>[<red><bold>Toms3Core</bold></red>]"
+    val prefix = "<gold>[<red><bold>Toms3<white>Core</white></bold></red>]"
 
     override fun onEnable() {
         logger.info("---------------------")
