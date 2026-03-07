@@ -1,5 +1,5 @@
 name: Toms3Core
-version: '1.0-SNAPSHOT'
+version: '1.0'
 main: io.github.Cherryh4ck.toms3Core.Toms3Core
 api-version: '1.21'
 authors: [ Cherryh4ck ]
@@ -16,8 +16,6 @@ commands:
     description: Joke command.
     usage: /dupe
   joindate:
-    description: "Shows player's joindate"
+    description: Shows player's joindate
     usage: /joindate
-  jd:
-    description: "Shows player's joindate"
-    usage: /jd
+    aliases: jd
