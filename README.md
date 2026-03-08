@@ -3,7 +3,9 @@ Plugin mal hecho (mi primera vez) que debe ser únicamente usado para toms3.cc
 
 Comandos:
 - /tmcore
-- /tmcore illegals_test
+- /tmcore illegal_test
+- /tmcore get_player_by_uuid
+- /tmcore get_uuid_by_player
 - /joindate
 - /playtime
 
