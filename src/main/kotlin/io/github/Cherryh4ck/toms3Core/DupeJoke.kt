@@ -2,13 +2,18 @@ package io.github.Cherryh4ck.toms3Core
 
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
+import org.bukkit.potion.PotionEffect
+import org.bukkit.Sound
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
+import org.bukkit.potion.PotionEffectType
 
 class DupeJoke(private val plugin : Toms3Core) : TabExecutor {
     val minimessage = MiniMessage.miniMessage()
+    val drunkness = PotionEffect(PotionEffectType.NAUSEA, 30 * 20, 0, false, true, true)
+
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (sender is Player) {
@@ -28,6 +33,10 @@ class DupeJoke(private val plugin : Toms3Core) : TabExecutor {
             }, 20L)
             Bukkit.getScheduler().runTaskLater(plugin, Runnable {
                 sender.sendMessage("popbob » ur fucked, im coming")
+                val health = sender.health - 1.0
+                sender.damage(health)
+                sender.addPotionEffect(drunkness)
+                sender.playSound(sender.location, Sound.AMBIENT_CAVE, 2.0f, 0.5f)
             }, 50L)
 
             alreadyFallen.add(sender.uniqueId.toString())

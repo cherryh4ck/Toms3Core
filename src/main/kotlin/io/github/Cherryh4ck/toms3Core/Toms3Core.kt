@@ -7,6 +7,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
+import java.util.UUID
 
 class Toms3Core : JavaPlugin() {
     val minimessage = MiniMessage.miniMessage()
@@ -65,14 +66,14 @@ class Toms3Core : JavaPlugin() {
                 }
                 sender.sendMessage(mensaje)
             }
-            "uuid" -> {
+            "get_uuid_by_player" -> {
                 if (sender !is Player && args.size > 1) {
                     mensaje = minimessage.deserialize("$prefix <red>Debes especificar un jugador para usar este comando.</red>")
                     sender.sendMessage(mensaje)
                     return true
                 }
 
-                val targetUser = if (args.isEmpty()) {
+                val targetUser = if (args.size < 2) {
                     sender.name
                 }
                 else{
@@ -88,11 +89,31 @@ class Toms3Core : JavaPlugin() {
                 }
 
                 val uuid = offlineplayer.uniqueId
-                mensaje = minimessage.deserialize("$prefix <gold>El uuid de $targetUser es <click:copy_to_clipboard:$uuid>$uuid</click>.</gold>")
+                mensaje = minimessage.deserialize("$prefix <gold>El UUID de $targetUser es <bold><click:copy_to_clipboard:$uuid>$uuid</click></bold>.</gold>")
                 sender.sendMessage(mensaje)
             }
+            "get_player_by_uuid" -> {
+                if (args.size < 2) {
+                    mensaje = minimessage.deserialize("$prefix <red>Debes especificar la UUID de un jugador para usar este comando.</red>")
+                    sender.sendMessage(mensaje)
+                    return true
+                }
+
+                val uuidString = args[1]
+                val uuid: UUID = UUID.fromString(uuidString)
+
+                val offlineplayer = getOfflinePlayer(uuid)
+
+                if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L) {
+                    mensaje = minimessage.deserialize("$prefix <red>Este jugador nunca estuvo en el servidor o tiene un UUID premium.</red>")
+                    sender.sendMessage(mensaje)
+                }
+                else{
+                    mensaje = minimessage.deserialize("$prefix <gold>El usuario es <bold>${offlineplayer.name}</bold>.</gold>")
+                    sender.sendMessage(mensaje)
+                }
+            }
             else -> {
-                // por qué no uso senderror? pues ni idea xD
                 mensaje = minimessage.deserialize("$prefix <red>Ese comando no existe.</red>")
                 sender.sendMessage(mensaje)
             }
@@ -103,7 +124,7 @@ class Toms3Core : JavaPlugin() {
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String>? {
         val completions = mutableListOf<String>()
         if (args.size == 1) {
-            val subs = listOf("help", "reload", "illegal_test", "uuid")
+            val subs = listOf("help", "reload", "illegal_test", "get_uuid_by_player", "get_player_by_uuid")
             for (s in subs) {
                 if (s.startsWith(args[0].lowercase())) {
                     completions.add(s)
