@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.DurationUnit
 
 class Playtime(private val plugin: Toms3Core) : CommandExecutor {
     val minimessage = MiniMessage.miniMessage()
@@ -59,8 +60,9 @@ class Playtime(private val plugin: Toms3Core) : CommandExecutor {
             val statTicks = offlineplayer.getStatistic(org.bukkit.Statistic.PLAY_ONE_MINUTE).toLong()
             val ms = statTicks * 50
             val result = ms.milliseconds
+            val resultHs = "%.2f".format(result.toDouble(DurationUnit.HOURS))
 
-            val mensaje = if (isSpanish) { minimessage.deserialize("<gold>$targetUser tiene un tiempo de juego de <bold>$result</bold>.</gold>") } else { minimessage.deserialize("<gold>$targetUser has a playtime of <bold>$result</bold>.</gold>") }
+            val mensaje = if (isSpanish) { minimessage.deserialize("<gold>$targetUser tiene un tiempo de juego de <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>") } else { minimessage.deserialize("<gold>$targetUser has a playtime of <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>") }
             sender.sendMessage(mensaje)
         })
 

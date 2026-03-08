@@ -6,6 +6,7 @@ import org.bukkit.Bukkit.getOfflinePlayer
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.UUID
 
@@ -13,21 +14,27 @@ class Toms3Core : JavaPlugin() {
     val minimessage = MiniMessage.miniMessage()
     val prefix = "<gold>[<red><bold>Toms3<white>Core</white></bold></red>]"
 
+    var motd_general = config.getString("motd-general")
+    var motd_es = config.getString("motd-es")
+
     override fun onEnable() {
         saveDefaultConfig()
-
-        logger.info("---------------------")
-        logger.info("Core activado.")
-        logger.info("---------------------")
 
         val tmcore = getCommand("tmcore")
         tmcore?.setExecutor(this)
         tmcore?.tabCompleter = this
 
         getCommand("playtime")?.setExecutor(Playtime(this))
+        getCommand("pt")?.setExecutor(Playtime(this))
         getCommand("dupe")?.setExecutor(DupeJoke(this))
         getCommand("joindate")?.setExecutor(Joindate(this))
         getCommand("jd")?.setExecutor(Joindate(this))
+
+        server.pluginManager.registerEvents(PlayerJoinListener(this), this)
+
+        logger.info("---------------------")
+        logger.info("Core activado.")
+        logger.info("---------------------")
     }
 
     override fun onDisable() {
@@ -36,6 +43,12 @@ class Toms3Core : JavaPlugin() {
 
     fun sendError(message : String){
         logger.warning(message)
+    }
+
+    fun reloadPlugin(){
+        reloadConfig()
+        motd_general = config.getString("motd-general")
+        motd_es = config.getString("motd-es")
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
@@ -48,11 +61,11 @@ class Toms3Core : JavaPlugin() {
 
         when (args[0].lowercase()) {
             "help" -> {
-                mensaje = minimessage.deserialize("$prefix <gold>Comandos disponibles:<newline>- <gray>/tmcore</gray><newline>- <gray>/tmcore illegal_test</gray><newline>- <gray>/joindate</gray><newline>- <gray>/playtime</gray></gold>")
+                mensaje = minimessage.deserialize("$prefix <gold>Comandos disponibles:<newline>- <gray>/tmcore</gray><newline>- <gray>/tmcore get_player_by_uuid</gray><newline>- <gray>/tmcore get_uuid_by_player</gray><newline>- <gray>/tmcore illegal_test</gray><newline>- <gray>/joindate</gray><newline>- <gray>/playtime</gray><newline>- <gray>/dupe</gray></gold>")
                 sender.sendMessage(mensaje)
             }
             "reload" -> {
-                reloadConfig()
+                reloadPlugin()
                 mensaje = minimessage.deserialize("$prefix <gold>Plugin recargado.</gold>")
                 sender.sendMessage(mensaje)
             }

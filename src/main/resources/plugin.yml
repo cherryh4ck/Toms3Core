@@ -12,6 +12,7 @@ commands:
   playtime:
     description: Shows the playtime of a player.
     usage: /playtime [player]
+    aliases: pt
   dupe:
     description: Joke command.
     usage: /dupe
