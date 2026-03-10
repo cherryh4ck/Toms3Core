@@ -9,6 +9,7 @@ Comandos:
 - /tmcore get_uuid_by_player
 - /joindate (/jd)
 - /playtime
+- /dupe
 
 BUGS:
 - /joindate y /playtime no funcionan en jugadores con UUID premium si el servidor es mixto (uuids cracked y premium)
