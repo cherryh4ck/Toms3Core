@@ -30,6 +30,7 @@ class Toms3Core : JavaPlugin() {
         getCommand("jd")?.setExecutor(Joindate(this))
 
         server.pluginManager.registerEvents(PlayerJoinListener(this), this)
+        server.pluginManager.registerEvents(PlayerNetherRoofListener(this), this)
 
         logger.info("---------------------")
         logger.info("Core activado.")
@@ -53,7 +54,7 @@ class Toms3Core : JavaPlugin() {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         val mensaje : Component
         if(args.isEmpty()){
-            mensaje = minimessage.deserialize("<gold>$prefix Plugin corriendo - versión 1.0 (revisión n. 3)</gold>")
+            mensaje = minimessage.deserialize("<gold>$prefix Plugin corriendo - versión 1.0 (revisión n. 4)</gold>")
             sender.sendMessage(mensaje)
             return true
         }
