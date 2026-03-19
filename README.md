@@ -1,7 +1,7 @@
 # Toms3Core
 ## Core creado para toms3.cc
 ### Contiene funcionalidades únicas que pueden servir en distintos servidores anárquicos (IGUAL NO DEBERÍA SER USADO EN OTROS SERVIDORES). 
-[![Toms3](https://img.shields.io/badge/usado_en-toms3.cc-green)](toms3.cc) [![Discord](https://img.shields.io/discord/1466280177335013533?label=Discord&color=5865F2&logo=discord)](https://discord.gg/toms3)
+[![Toms3](https://img.shields.io/badge/usado_en-toms3.cc-green)](https://www.toms3.cc) [![Discord](https://img.shields.io/discord/1466280177335013533?label=Discord&color=5865F2&logo=discord)](https://discord.gg/toms3)
 ___
 
 ## Funcionalidades
