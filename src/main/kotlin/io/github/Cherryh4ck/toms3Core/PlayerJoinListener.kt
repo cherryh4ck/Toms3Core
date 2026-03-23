@@ -13,13 +13,24 @@ class PlayerJoinListener(private val plugin: Toms3Core) : Listener {
     fun onPlayerJoin(event: PlayerJoinEvent) {
         val player = event.player
         val playerLocale = player.locale().toString()
+        val hasPlayedBefore = player.hasPlayedBefore()
 
         Bukkit.getScheduler().runTaskLater(plugin, Runnable {
-            if (playerLocale.startsWith("es")){
-                player.sendMessage(plugin.minimessage.deserialize(plugin.motd_es.toString()))
+            if (hasPlayedBefore) {
+                if (playerLocale.startsWith("es")){
+                    player.sendMessage(plugin.minimessage.deserialize(plugin.motd_es.toString()))
+                }
+                else {
+                    player.sendMessage(plugin.minimessage.deserialize(plugin.motd_general.toString()))
+                }
             }
-            else {
-                player.sendMessage(plugin.minimessage.deserialize(plugin.motd_general.toString()))
+            else{
+                if (playerLocale.startsWith("es")){
+                    player.sendMessage(plugin.minimessage.deserialize(plugin.first_join_motd_es.toString()))
+                }
+                else {
+                    player.sendMessage(plugin.minimessage.deserialize(plugin.first_join_motd.toString()))
+                }
             }
         }, 20L)
     }

@@ -1,10 +1,16 @@
+# Discord Webhook URL
+# Solo usado para el "hall of shame" que notifica quienes usan /dupe
+discord-webhook: ""
+
+# First join MOTDs
+first-join-motd: ""
+first-join-motd-es: ""
+
+# MOTDs generales
+motd-general: ""
+motd-es: ""
+
 # Quienes cayeron en el comando /dupe
-# Igual, esto es una mierda
-# Ni siquiera se debería guardar aquí
 # TODO: Migrar a otro archivo
-
-motd-general: "<gray>welcome to toms3. macekill is now patched and all cpvp penalizations have been removed.</gray> <white>remember to join the discord using <click:open_url:discord.gg/toms3>discord.gg/toms3</click> (or press the link)"
-motd-es: "<gray>bienvenido a toms3. macekill ahora está parcheado y todas las penalizaciones en el cpvp fueron removidas.</gray> <white>recuerda unirte al discord usando <click:open_url:discord.gg/toms3>discord.gg/toms3</click> (o presiona el link)"
-
 fallen-for-dupe:
   - "popbob"

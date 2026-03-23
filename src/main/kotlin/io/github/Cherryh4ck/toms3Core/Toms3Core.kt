@@ -13,8 +13,12 @@ class Toms3Core : JavaPlugin() {
     val minimessage = MiniMessage.miniMessage()
     val prefix = "<gold>[<red><bold>Toms3<white>Core</white></bold></red>]"
 
+    var discordWebhook = config.getString("discord-webhook")
+
     var motd_general = config.getString("motd-general")
     var motd_es = config.getString("motd-es")
+    var first_join_motd = config.getString("first-join-motd")
+    var first_join_motd_es = config.getString("first-join-motd-es")
 
     override fun onEnable() {
         saveDefaultConfig()
@@ -47,14 +51,17 @@ class Toms3Core : JavaPlugin() {
 
     fun reloadPlugin(){
         reloadConfig()
+        discordWebhook = config.getString("discord-webhook")
         motd_general = config.getString("motd-general")
         motd_es = config.getString("motd-es")
+        first_join_motd = config.getString("first-join-motd")
+        first_join_motd_es = config.getString("first-join-motd-es")
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         val mensaje : Component
         if(args.isEmpty()){
-            mensaje = minimessage.deserialize("<gold>$prefix Plugin corriendo - versión 1.0 (revisión n. 4)</gold>")
+            mensaje = minimessage.deserialize("<gold>$prefix Plugin corriendo - versión 1.0 (revisión n. 5)</gold>")
             sender.sendMessage(mensaje)
             return true
         }
@@ -71,11 +78,11 @@ class Toms3Core : JavaPlugin() {
             }
             "illegal_test" -> {
                 // terminar
-                if (sender is Player) {
-                    mensaje = minimessage.deserialize("$prefix <red>popbob</red>")
+                mensaje = if (sender is Player) {
+                    minimessage.deserialize("$prefix <red>popbob</red>")
                 }
                 else{
-                    mensaje = minimessage.deserialize("$prefix <red>Debes ser un jugador para usar este comando.</red>")
+                    minimessage.deserialize("$prefix <red>Debes ser un jugador para usar este comando.</red>")
                 }
                 sender.sendMessage(mensaje)
             }

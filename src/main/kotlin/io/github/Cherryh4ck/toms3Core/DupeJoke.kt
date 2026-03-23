@@ -26,7 +26,12 @@ class DupeJoke(private val plugin : Toms3Core) : TabExecutor {
                 return true
             }
 
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
+                DiscordWebhook.sendDiscordWebhook(plugin.discordWebhook.toString(), "**${sender.name}** tried to use the /dupe command. what a fucking retard.")
+            })
+
             val joinMessage = if (isSpanish) { minimessage.deserialize("<gray>popbob se unió al servidor.</gray>") } else { minimessage.deserialize("<gray>popbob has joined the server.</gray>") }
+            val hallOfShameMessage = if (isSpanish) { minimessage.deserialize("<red>Ahora estás en la lista de jugadores lamentables.</red>") } else { minimessage.deserialize("<red>You have been added to the Hall of Shame.</red>") }
             sender.sendMessage(joinMessage)
             Bukkit.getScheduler().runTaskLater(plugin, Runnable {
                 sender.sendMessage("${sender.name} » popbob my coords are ${sender.x.toInt().toString()} ${sender.z.toInt().toString()} come get me please")
@@ -38,6 +43,9 @@ class DupeJoke(private val plugin : Toms3Core) : TabExecutor {
                 sender.addPotionEffect(drunkness)
                 sender.playSound(sender.location, Sound.AMBIENT_CAVE, 2.0f, 0.5f)
             }, 50L)
+            Bukkit.getScheduler().runTaskLater(plugin, Runnable {
+                sender.sendMessage(hallOfShameMessage)
+            }, 100L)
 
             alreadyFallen.add(sender.uniqueId.toString())
             plugin.config.set("fallen-for-dupe", alreadyFallen)
