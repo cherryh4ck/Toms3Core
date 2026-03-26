@@ -3,12 +3,30 @@
 discord-webhook: ""
 
 # First join MOTDs
+# TODO: Mejor formato
 first-join-motd: ""
 first-join-motd-es: ""
 
 # MOTDs generales
+# TODO: Mejor formato
 motd-general: ""
 motd-es: ""
+
+# Título mostrado al unirse al servidor
+title-message:
+  es: ""
+  en: ""
+
+# Anuncios mostrados en el servidor
+# announcements-timer va en segundos
+announcements-timer: 10
+announcements:
+  example:
+    es: "<gold>Ejemplo."
+    en: "<gold>Example."
+  example-two:
+    es: "<gold>Ejemplo dos."
+    en: "<gold>Example two."
 
 # Quienes cayeron en el comando /dupe
 # TODO: Migrar a otro archivo

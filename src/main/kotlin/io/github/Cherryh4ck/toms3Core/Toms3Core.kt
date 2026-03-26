@@ -2,6 +2,7 @@ package io.github.Cherryh4ck.toms3Core
 
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
+import org.bukkit.Bukkit
 import org.bukkit.Bukkit.getOfflinePlayer
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -19,6 +20,13 @@ class Toms3Core : JavaPlugin() {
     var motd_es = config.getString("motd-es")
     var first_join_motd = config.getString("first-join-motd")
     var first_join_motd_es = config.getString("first-join-motd-es")
+
+    var announcements_timer = config.getInt("announcements-timer")
+    var announcements_interval = (20 * announcements_timer).toLong()
+    var announcements = config.getConfigurationSection("announcements")
+
+    var title_announcement_en = config.getString("title-message.en")
+    var title_announcement_es = config.getString("title-message.es")
 
     override fun onEnable() {
         saveDefaultConfig()
@@ -39,6 +47,8 @@ class Toms3Core : JavaPlugin() {
         logger.info("---------------------")
         logger.info("Core activado.")
         logger.info("---------------------")
+
+        sendAnnouncements()
     }
 
     override fun onDisable() {
@@ -56,12 +66,42 @@ class Toms3Core : JavaPlugin() {
         motd_es = config.getString("motd-es")
         first_join_motd = config.getString("first-join-motd")
         first_join_motd_es = config.getString("first-join-motd-es")
+        announcements = config.getConfigurationSection("announcements")
+        announcements_timer = config.getInt("announcements-timer")
+        announcements_interval = (20 * announcements_timer).toLong()
+        title_announcement_en = config.getString("title-message.en")
+        title_announcement_es = config.getString("title-message.es")
+    }
+
+    fun sendAnnouncements(){
+        Bukkit.getScheduler().runTaskTimer(this, Runnable {
+            announcements?.let { announcement ->
+                val list = announcement.getKeys(false).toList()
+                if (list.isNotEmpty()) {
+                    val random = list.random()
+                    val path = "announcements.$random"
+                    val msgEn = config.getString("$path.en")?.let { input -> minimessage.deserialize(input) }
+                        ?: Component.empty()
+                    val msgEs = config.getString("$path.es")?.let { input -> minimessage.deserialize(input) }
+                        ?: Component.empty()
+
+                    for (player in Bukkit.getOnlinePlayers()) {
+                        val locale = player.locale().toString()
+                        if (locale.startsWith("es")) {
+                            player.sendMessage(msgEs)
+                        } else {
+                            player.sendMessage(msgEn)
+                        }
+                    }
+                }
+            }
+        }, 0L, announcements_interval)
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         val mensaje : Component
         if(args.isEmpty()){
-            mensaje = minimessage.deserialize("<gold>$prefix Plugin corriendo - versión 1.0 (revisión n. 5)</gold>")
+            mensaje = minimessage.deserialize("<gold>$prefix Plugin corriendo - versión ${this.pluginMeta.version} (actualización n. 6)</gold>")
             sender.sendMessage(mensaje)
             return true
         }
