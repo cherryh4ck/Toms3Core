@@ -1,6 +1,6 @@
 # Toms3Core
 ### Core creado para toms3.cc
-### Contiene funcionalidades únicas que pueden servir en distintos servidores anárquicos (NO DEBERÍA SER USADO EN OTROS SERVIDORES). 
+### Contiene funcionalidades únicas que pueden servir en distintos servidores anárquicos. 
 [![Toms3](https://img.shields.io/badge/usado_en-toms3.cc-green)](https://www.toms3.cc) [![Discord](https://img.shields.io/discord/1466280177335013533?label=Discord&color=5865F2&logo=discord)](https://discord.gg/toms3)
 ___
 
@@ -24,7 +24,7 @@ ___
 * /tmcore get_player_by_uuid
 * /tmcore get_uuid_by_player
 * /joindate (/jd)
-* /playtime (/jd)
+* /playtime (/pt)
 * /dupe
 ___
 
@@ -34,3 +34,7 @@ ___
 
 ## TODO
 * Implementar sistema de cache para joindate y playtime
+* Límite de contenedores (o tile entities) por chunk simplemente cancelando la acción del jugador (alternativa a AEF)
+* Announcer
+* Announcer de título al unirse
+* Cancelar redirects (?
