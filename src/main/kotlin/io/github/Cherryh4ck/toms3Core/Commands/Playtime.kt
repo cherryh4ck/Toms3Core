@@ -1,13 +1,13 @@
-package io.github.Cherryh4ck.toms3Core
+package io.github.Cherryh4ck.toms3Core.Commands
 
+import io.github.Cherryh4ck.toms3Core.Toms3Core
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
-import org.bukkit.Bukkit.getOfflinePlayer
-import org.bukkit.command.CommandExecutor
+import org.bukkit.Statistic
 import org.bukkit.command.Command
+import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.DurationUnit
 
@@ -50,14 +50,14 @@ class Playtime(private val plugin: Toms3Core) : CommandExecutor {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
             // m cago en todo
             // que lio es esto con los premium en un servidor cracked wtf
-            val offlineplayer = getOfflinePlayer(targetUser)
+            val offlineplayer = Bukkit.getOfflinePlayer(targetUser)
             if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L){
                 val mensaje = if (isSpanish) { minimessage.deserialize("<red>$targetUser nunca entró al servidor o tiene un UUID premium.</red>") } else { minimessage.deserialize("<red>$targetUser has never entered the server or has a premium UUID.</red>") }
                 sender.sendMessage(mensaje)
                 return@Runnable
             }
 
-            val statTicks = offlineplayer.getStatistic(org.bukkit.Statistic.PLAY_ONE_MINUTE).toLong()
+            val statTicks = offlineplayer.getStatistic(Statistic.PLAY_ONE_MINUTE).toLong()
             val ms = statTicks * 50
             val result = ms.milliseconds
             val resultHs = "%.2f".format(result.toDouble(DurationUnit.HOURS))

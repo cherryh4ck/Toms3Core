@@ -1,5 +1,6 @@
-package io.github.Cherryh4ck.toms3Core
+package io.github.Cherryh4ck.toms3Core.Listeners
 
+import io.github.Cherryh4ck.toms3Core.Toms3Core
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.World

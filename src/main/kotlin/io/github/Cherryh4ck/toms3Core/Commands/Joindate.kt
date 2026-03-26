@@ -1,14 +1,12 @@
-package io.github.Cherryh4ck.toms3Core
+package io.github.Cherryh4ck.toms3Core.Commands
 
+import io.github.Cherryh4ck.toms3Core.Toms3Core
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-
-import net.kyori.adventure.text.minimessage.MiniMessage
-import org.bukkit.Bukkit.getOfflinePlayer
-
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -49,7 +47,7 @@ class Joindate(private val plugin: Toms3Core) : CommandExecutor {
         }
 
         Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
-            val offlineplayer = getOfflinePlayer(targetUser)
+            val offlineplayer = Bukkit.getOfflinePlayer(targetUser)
 
             if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L) {
                 val message = if (isSpanish){
@@ -64,7 +62,11 @@ class Joindate(private val plugin: Toms3Core) : CommandExecutor {
             }
 
             val unixTime = offlineplayer.firstPlayed
-            val format = if (isSpanish) { SimpleDateFormat("dd/MM/yyyy HH:mm") } else { SimpleDateFormat("MM/dd/yyyy hh:mm a") }
+            val format = if (isSpanish) {
+                SimpleDateFormat("dd/MM/yyyy HH:mm")
+            } else {
+                SimpleDateFormat("MM/dd/yyyy hh:mm a")
+            }
             val result = format.format(Date(unixTime))
 
             val message = if (isSpanish){

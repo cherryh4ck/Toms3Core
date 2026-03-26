@@ -1,16 +1,18 @@
-package io.github.Cherryh4ck.toms3Core
+package io.github.Cherryh4ck.toms3Core.Commands
 
+import io.github.Cherryh4ck.toms3Core.DiscordWebhook
+import io.github.Cherryh4ck.toms3Core.Toms3Core
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
-import org.bukkit.potion.PotionEffect
 import org.bukkit.Sound
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
+import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-class DupeJoke(private val plugin : Toms3Core) : TabExecutor {
+class Dupe(private val plugin : Toms3Core) : TabExecutor {
     val minimessage = MiniMessage.miniMessage()
     val drunkness = PotionEffect(PotionEffectType.NAUSEA, 30 * 20, 0, false, true, true)
 

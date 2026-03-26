@@ -1,5 +1,6 @@
-package io.github.Cherryh4ck.toms3Core
+package io.github.Cherryh4ck.toms3Core.Listeners
 
+import io.github.Cherryh4ck.toms3Core.Toms3Core
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.title.Title
 import org.bukkit.Bukkit

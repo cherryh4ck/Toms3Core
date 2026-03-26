@@ -1,5 +1,10 @@
 package io.github.Cherryh4ck.toms3Core
 
+import io.github.Cherryh4ck.toms3Core.Commands.Dupe
+import io.github.Cherryh4ck.toms3Core.Commands.Joindate
+import io.github.Cherryh4ck.toms3Core.Commands.Playtime
+import io.github.Cherryh4ck.toms3Core.Listeners.PlayerJoinListener
+import io.github.Cherryh4ck.toms3Core.Listeners.PlayerNetherRoofListener
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
@@ -37,7 +42,7 @@ class Toms3Core : JavaPlugin() {
 
         getCommand("playtime")?.setExecutor(Playtime(this))
         getCommand("pt")?.setExecutor(Playtime(this))
-        getCommand("dupe")?.setExecutor(DupeJoke(this))
+        getCommand("dupe")?.setExecutor(Dupe(this))
         getCommand("joindate")?.setExecutor(Joindate(this))
         getCommand("jd")?.setExecutor(Joindate(this))
 
