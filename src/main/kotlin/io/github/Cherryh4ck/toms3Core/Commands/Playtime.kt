@@ -7,7 +7,9 @@ import org.bukkit.Statistic
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
+import java.io.File
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.DurationUnit
 
@@ -48,11 +50,19 @@ class Playtime(private val plugin: Toms3Core) : CommandExecutor {
         }
 
         Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
-            // m cago en todo
-            // que lio es esto con los premium en un servidor cracked wtf
-            val offlineplayer = Bukkit.getOfflinePlayer(targetUser)
+            val playerDataCache = File(plugin.playerDataPath, "${targetUser}.yml")
+            val offlineplayer = if (!playerDataCache.exists()) {
+                plugin.logger.info("No existe el archivo playerdata para $targetUser.")
+                Bukkit.getOfflinePlayer(targetUser)
+            }
+            else{
+                val config = YamlConfiguration.loadConfiguration(playerDataCache)
+                val uuid = java.util.UUID.fromString(config.getString("uuid"))
+                plugin.logger.info("Existe el archivo playerdata de $targetUser, UUID conseguido: ${uuid.toString()}")
+                Bukkit.getOfflinePlayer(uuid)
+            }
             if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L){
-                val mensaje = if (isSpanish) { minimessage.deserialize("<red>$targetUser nunca entró al servidor o tiene un UUID premium.</red>") } else { minimessage.deserialize("<red>$targetUser has never entered the server or has a premium UUID.</red>") }
+                val mensaje = if (isSpanish) { minimessage.deserialize("<red>$targetUser nunca entró al servidor o no está en el cache del servidor.</red>") } else { minimessage.deserialize("<red>$targetUser has never entered the server or is not in the server cache.</red>") }
                 sender.sendMessage(mensaje)
                 return@Runnable
             }
@@ -62,7 +72,7 @@ class Playtime(private val plugin: Toms3Core) : CommandExecutor {
             val result = ms.milliseconds
             val resultHs = "%.2f".format(result.toDouble(DurationUnit.HOURS))
 
-            val mensaje = if (isSpanish) { minimessage.deserialize("<gold>$targetUser tiene un tiempo de juego de <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>") } else { minimessage.deserialize("<gold>$targetUser has a playtime of <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>") }
+            val mensaje = if (isSpanish) { minimessage.deserialize("<gold><bold>$targetUser</bold> tiene un tiempo de juego de <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>") } else { minimessage.deserialize("<gold><bold>$targetUser</bold> has a playtime of <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>") }
             sender.sendMessage(mensaje)
         })
 

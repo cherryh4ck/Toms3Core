@@ -3,8 +3,10 @@ package io.github.Cherryh4ck.toms3Core
 import io.github.Cherryh4ck.toms3Core.Commands.Dupe
 import io.github.Cherryh4ck.toms3Core.Commands.Joindate
 import io.github.Cherryh4ck.toms3Core.Commands.Playtime
+import io.github.Cherryh4ck.toms3Core.Listeners.CachePlayerJoinListener
 import io.github.Cherryh4ck.toms3Core.Listeners.PlayerJoinListener
 import io.github.Cherryh4ck.toms3Core.Listeners.PlayerNetherRoofListener
+import io.github.Cherryh4ck.toms3Core.Listeners.TileEntityListener
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
@@ -13,28 +15,38 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
 import java.util.UUID
 
 class Toms3Core : JavaPlugin() {
     val minimessage = MiniMessage.miniMessage()
     val prefix = "<gold>[<red><bold>Toms3<white>Core</white></bold></red>]"
 
-    var discordWebhook = config.getString("discord-webhook")
+    var discordWebhook = config.getString("general.discord-webhook")
 
-    var motd_general = config.getString("motd-general")
-    var motd_es = config.getString("motd-es")
-    var first_join_motd = config.getString("first-join-motd")
-    var first_join_motd_es = config.getString("first-join-motd-es")
+    var tile_entities_limit = config.getInt("chunk-limits.tile-entities")
 
-    var announcements_timer = config.getInt("announcements-timer")
+    var motd_general = config.getString("misc.join-motd.general.en")
+    var motd_es = config.getString("misc.join-motd.general.es")
+
+    var first_join_motd = config.getString("misc.join-motd.first-join.en")
+    var first_join_motd_es = config.getString("misc.join-motd.first-join.es")
+
+    var title_announcement_en = config.getString("misc.join-title-message.en")
+    var title_announcement_es = config.getString("misc.join-title-message.es")
+
+    var announcements_timer = config.getInt("misc.announcements.timer")
     var announcements_interval = (20 * announcements_timer).toLong()
-    var announcements = config.getConfigurationSection("announcements")
-
-    var title_announcement_en = config.getString("title-message.en")
-    var title_announcement_es = config.getString("title-message.es")
+    var announcements = config.getConfigurationSection("misc.announcements.messages")
+    val playerDataPath = File(dataFolder, "playerdata")
 
     override fun onEnable() {
+        logger.info("---------------------")
         saveDefaultConfig()
+        if (!playerDataPath.exists()) {
+            logger.info("Playerdata creado.")
+            playerDataPath.mkdirs()
+        }
 
         val tmcore = getCommand("tmcore")
         tmcore?.setExecutor(this)
@@ -47,9 +59,10 @@ class Toms3Core : JavaPlugin() {
         getCommand("jd")?.setExecutor(Joindate(this))
 
         server.pluginManager.registerEvents(PlayerJoinListener(this), this)
+        server.pluginManager.registerEvents(CachePlayerJoinListener(this), this)
         server.pluginManager.registerEvents(PlayerNetherRoofListener(this), this)
+        server.pluginManager.registerEvents(TileEntityListener(this), this)
 
-        logger.info("---------------------")
         logger.info("Core activado.")
         logger.info("---------------------")
 
@@ -66,16 +79,17 @@ class Toms3Core : JavaPlugin() {
 
     fun reloadPlugin(){
         reloadConfig()
-        discordWebhook = config.getString("discord-webhook")
-        motd_general = config.getString("motd-general")
-        motd_es = config.getString("motd-es")
-        first_join_motd = config.getString("first-join-motd")
-        first_join_motd_es = config.getString("first-join-motd-es")
-        announcements = config.getConfigurationSection("announcements")
-        announcements_timer = config.getInt("announcements-timer")
+        discordWebhook = config.getString("general.discord-webhook")
+        tile_entities_limit = config.getInt("chunk-limits.tile-entities")
+        motd_general = config.getString("misc.join-motd.general.en")
+        motd_es = config.getString("misc.join-motd.general.es")
+        first_join_motd = config.getString("misc.join-motd.first-join.en")
+        first_join_motd_es = config.getString("misc.join-motd.first-join.es")
+        title_announcement_en = config.getString("misc.join-title-message.en")
+        title_announcement_es = config.getString("misc.join-title-message.es")
+        announcements_timer = config.getInt("misc.announcements.timer")
         announcements_interval = (20 * announcements_timer).toLong()
-        title_announcement_en = config.getString("title-message.en")
-        title_announcement_es = config.getString("title-message.es")
+        announcements = config.getConfigurationSection("misc.announcements.messages")
     }
 
     fun sendAnnouncements(){
@@ -84,7 +98,7 @@ class Toms3Core : JavaPlugin() {
                 val list = announcement.getKeys(false).toList()
                 if (list.isNotEmpty()) {
                     val random = list.random()
-                    val path = "announcements.$random"
+                    val path = "misc.announcements.messages.$random"
                     val msgEn = config.getString("$path.en")?.let { input -> minimessage.deserialize(input) }
                         ?: Component.empty()
                     val msgEs = config.getString("$path.es")?.let { input -> minimessage.deserialize(input) }

@@ -1,0 +1,41 @@
+package io.github.Cherryh4ck.toms3Core.Listeners
+
+import io.github.Cherryh4ck.toms3Core.Toms3Core
+import org.bukkit.Material
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.block.BlockPlaceEvent
+
+class TileEntityListener(private val plugin: Toms3Core) : Listener {
+    // This is only for shulkers and any class of chests
+    @EventHandler
+
+    fun onBlockPlace(event: BlockPlaceEvent) {
+        val block = event.block
+        val chunk = block.chunk
+
+        if (isATileEntity(block.type)){
+            val count = chunk.tileEntities.size
+            val maxCount = plugin.tile_entities_limit
+
+            if (count > maxCount){
+                event.isCancelled = true
+
+                val player = event.player
+                val isSpanish = event.player.locale().toString().startsWith("es")
+                if (isSpanish){
+                    player.sendMessage(plugin.minimessage.deserialize("<gold>${plugin.prefix} Las entidades de bloque están limitadas a $maxCount por chunk."))
+                }
+                else{
+                    player.sendMessage(plugin.minimessage.deserialize("<gold>${plugin.prefix} Tile entities are limited to $maxCount per chunk."))
+                }
+            }
+        }
+    }
+
+    fun isATileEntity(material: Material): Boolean {
+        return material.isBlock && material.name.contains("CHEST") ||
+                material.name.contains("SHULKER_BOX")
+
+    }
+}

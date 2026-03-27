@@ -1,32 +1,32 @@
-# Discord Webhook URL
-# Solo usado para el "hall of shame" que notifica quienes usan /dupe
-discord-webhook: ""
+# Configuración general
+general:
+  discord-webhook: ""
 
-# First join MOTDs
-# TODO: Mejor formato
-first-join-motd: ""
-first-join-motd-es: ""
+# Límite de bloques por chunk
+chunk-limits:
+  tile-entities: 250
 
-# MOTDs generales
-# TODO: Mejor formato
-motd-general: ""
-motd-es: ""
-
-# Título mostrado al unirse al servidor
-title-message:
-  es: ""
-  en: ""
-
-# Anuncios mostrados en el servidor
-# announcements-timer va en segundos
-announcements-timer: 10
-announcements:
-  example:
-    es: "<gold>Ejemplo."
-    en: "<gold>Example."
-  example-two:
-    es: "<gold>Ejemplo dos."
-    en: "<gold>Example two."
+# Otros
+misc:
+  join-motd:
+    first-join:
+      en: ""
+      es: ""
+    general:
+      en: ""
+      es: ""
+  join-title-message:
+    en: ""
+    es: ""
+  announcements:
+    timer: 10
+    messages:
+      example:
+        es: "<gold>Ejemplo."
+        en: "<gold>Example."
+      example-two:
+        es: "<gold>Ejemplo dos."
+        en: "<gold>Example two."
 
 # Quienes cayeron en el comando /dupe
 # TODO: Migrar a otro archivo

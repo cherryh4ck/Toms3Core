@@ -6,7 +6,9 @@ import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -47,14 +49,24 @@ class Joindate(private val plugin: Toms3Core) : CommandExecutor {
         }
 
         Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
-            val offlineplayer = Bukkit.getOfflinePlayer(targetUser)
+            val playerDataCache = File(plugin.playerDataPath, "${targetUser}.yml")
+            val offlineplayer = if (!playerDataCache.exists()) {
+                plugin.logger.info("No existe el archivo.")
+                Bukkit.getOfflinePlayer(targetUser)
+            }
+            else{
+                val config = YamlConfiguration.loadConfiguration(playerDataCache)
+                val uuid = java.util.UUID.fromString(config.getString("uuid"))
+                plugin.logger.info("Existe el archivo, valor conseguido: ${uuid.toString()}")
+                Bukkit.getOfflinePlayer(uuid)
+            }
 
             if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L) {
                 val message = if (isSpanish){
-                    minimessage.deserialize("<red>${offlineplayer.name} nunca entró al servidor o tiene un UUID premium.</red>")
+                    minimessage.deserialize("<red>${offlineplayer.name} nunca entró al servidor o no está en el cache del servidor.</red>")
                 }
                 else{
-                    minimessage.deserialize("<red>${offlineplayer.name} has never entered the server or has a premium UUID.</red>")
+                    minimessage.deserialize("<red>${offlineplayer.name} has never entered the server or is not in the server cache.</red>")
                 }
 
                 sender.sendMessage(message)
@@ -70,10 +82,10 @@ class Joindate(private val plugin: Toms3Core) : CommandExecutor {
             val result = format.format(Date(unixTime))
 
             val message = if (isSpanish){
-                minimessage.deserialize("<gold>${offlineplayer.name} se unió al servidor el <bold>${result}</bold>.</gold>")
+                minimessage.deserialize("<gold><bold>${offlineplayer.name}</bold> se unió al servidor el <bold>${result}</bold>.</gold>")
             }
             else{
-                minimessage.deserialize("<gold>${offlineplayer.name} joined the server on <bold>${result}</bold>.</gold>")
+                minimessage.deserialize("<gold><bold>${offlineplayer.name}</bold> joined the server on <bold>${result}</bold>.</gold>")
             }
 
             sender.sendMessage(message)
