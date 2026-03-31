@@ -1,0 +1,106 @@
+package io.github.Cherryh4ck.toms3Core.Commands
+
+import io.github.Cherryh4ck.toms3Core.Toms3Core
+import net.kyori.adventure.text.minimessage.MiniMessage
+import org.bukkit.Bukkit
+import org.bukkit.command.Command
+import org.bukkit.command.CommandExecutor
+import org.bukkit.command.CommandSender
+import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.entity.Player
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+
+class LastSeen(private val plugin : Toms3Core) : CommandExecutor {
+    val minimessage = MiniMessage.miniMessage()
+
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+        val targetUser : String
+        val userLocale : String
+        val isSpanish : Boolean
+
+        if (sender is Player){
+            userLocale = sender.locale().toString()
+            isSpanish = userLocale.startsWith("es")
+        }
+        else{
+            userLocale = "es"
+            isSpanish = true
+        }
+
+        if (args.isEmpty()){
+            val mensaje = if (isSpanish) { minimessage.deserialize("<red>No puedes usar este comando sin poner el nombre de un jugador.</red>") } else { minimessage.deserialize("<red>You cannot use this command without putting the name of a player.</red>") }
+            sender.sendMessage(mensaje)
+            return true
+        }
+        else {
+            targetUser = args[0]
+        }
+
+        if (targetUser.length !in 3..16) {
+            val mensaje = if (isSpanish) { minimessage.deserialize("<red>$targetUser no es un nombre de jugador válido.</red>") } else { minimessage.deserialize("<red>$targetUser is not a valid player name.</red>") }
+            sender.sendMessage(mensaje)
+            return true
+        }
+
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
+            val playerDataCache = File(plugin.playerDataPath, "${targetUser}.yml")
+            val player = Bukkit.getPlayerExact(targetUser)
+            if (!playerDataCache.exists()) {
+                val message = if (isSpanish){
+                    minimessage.deserialize("<red>${targetUser} nunca entró al servidor o no está en el cache del servidor.</red>")
+                }
+                else{
+                    minimessage.deserialize("<red>${targetUser} has never entered the server or is not in the server cache.</red>")
+                }
+
+                sender.sendMessage(message)
+                return@Runnable
+            }
+            else if (player != null && player.isConnected){
+                val message = if (isSpanish){
+                    minimessage.deserialize("<red>${targetUser} está conectado.</red>")
+                }
+                else{
+                    minimessage.deserialize("<red>${targetUser} is connected.</red>")
+                }
+
+                sender.sendMessage(message)
+                return@Runnable
+            }
+            val config = YamlConfiguration.loadConfiguration(playerDataCache)
+
+            val unixTime = config.getLong("last-seen") ?: 0
+            if (unixTime.toInt() != 0){
+                val format = if (isSpanish) {
+                    SimpleDateFormat("dd/MM/yyyy HH:mm")
+                } else {
+                    SimpleDateFormat("MM/dd/yyyy hh:mm a")
+                }
+                val result = format.format(Date(unixTime))
+
+                val message = if (isSpanish){
+                    minimessage.deserialize("<gold><bold>${targetUser}</bold> fue visto por última vez el <bold>${result}</bold>.</gold>")
+                }
+                else{
+                    minimessage.deserialize("<gold><bold>${targetUser}</bold> was last seen on <bold>${result}</bold>.</gold>")
+                }
+
+                sender.sendMessage(message)
+            }
+            else{
+                val message = if (isSpanish){
+                    minimessage.deserialize("<red>${targetUser} nunca entró al servidor o no está en el cache del servidor.</red>")
+                }
+                else{
+                    minimessage.deserialize("<red>${targetUser} has never entered the server or is not in the server cache.</red>")
+                }
+
+                sender.sendMessage(message)
+                return@Runnable
+            }
+        })
+        return true
+    }
+}

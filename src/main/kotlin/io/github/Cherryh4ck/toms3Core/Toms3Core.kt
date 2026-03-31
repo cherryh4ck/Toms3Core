@@ -2,9 +2,11 @@ package io.github.Cherryh4ck.toms3Core
 
 import io.github.Cherryh4ck.toms3Core.Commands.Dupe
 import io.github.Cherryh4ck.toms3Core.Commands.Joindate
+import io.github.Cherryh4ck.toms3Core.Commands.LastSeen
 import io.github.Cherryh4ck.toms3Core.Commands.Playtime
 import io.github.Cherryh4ck.toms3Core.Listeners.CachePlayerJoinListener
 import io.github.Cherryh4ck.toms3Core.Listeners.PlayerJoinListener
+import io.github.Cherryh4ck.toms3Core.Listeners.PlayerLeaveListener
 import io.github.Cherryh4ck.toms3Core.Listeners.PlayerNetherRoofListener
 import io.github.Cherryh4ck.toms3Core.Listeners.TileEntityListener
 import net.kyori.adventure.text.Component
@@ -57,8 +59,11 @@ class Toms3Core : JavaPlugin() {
         getCommand("dupe")?.setExecutor(Dupe(this))
         getCommand("joindate")?.setExecutor(Joindate(this))
         getCommand("jd")?.setExecutor(Joindate(this))
+        getCommand("lastseen")?.setExecutor(LastSeen(this))
+        getCommand("ls")?.setExecutor(LastSeen(this))
 
         server.pluginManager.registerEvents(PlayerJoinListener(this), this)
+        server.pluginManager.registerEvents(PlayerLeaveListener(this), this)
         server.pluginManager.registerEvents(CachePlayerJoinListener(this), this)
         server.pluginManager.registerEvents(PlayerNetherRoofListener(this), this)
         server.pluginManager.registerEvents(TileEntityListener(this), this)
@@ -120,14 +125,14 @@ class Toms3Core : JavaPlugin() {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         val mensaje : Component
         if(args.isEmpty()){
-            mensaje = minimessage.deserialize("<gold>$prefix Plugin corriendo - versión ${this.pluginMeta.version} (actualización n. 6)</gold>")
+            mensaje = minimessage.deserialize("<gold>$prefix Plugin corriendo - versión ${this.pluginMeta.version} (actualización n. 7)</gold>")
             sender.sendMessage(mensaje)
             return true
         }
 
         when (args[0].lowercase()) {
             "help" -> {
-                mensaje = minimessage.deserialize("$prefix <gold>Comandos disponibles:<newline>- <gray>/tmcore</gray><newline>- <gray>/tmcore get_player_by_uuid</gray><newline>- <gray>/tmcore get_uuid_by_player</gray><newline>- <gray>/tmcore illegal_test</gray><newline>- <gray>/joindate</gray><newline>- <gray>/playtime</gray><newline>- <gray>/dupe</gray></gold>")
+                mensaje = minimessage.deserialize("$prefix <gold>Comandos disponibles:<newline>- <gray>/tmcore</gray><newline>- <gray>/tmcore get_player_by_uuid</gray><newline>- <gray>/tmcore get_uuid_by_player</gray><newline>- <gray>/tmcore illegal_test</gray><newline>- <gray>/joindate</gray><newline>- <gray>/playtime</gray><newline>- <gray>/lastseen</gray><newline>- <gray>/dupe</gray></gold>")
                 sender.sendMessage(mensaje)
             }
             "reload" -> {

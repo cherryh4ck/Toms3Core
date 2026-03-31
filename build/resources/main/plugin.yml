@@ -20,3 +20,7 @@ commands:
     description: Shows player's joindate
     usage: /joindate
     aliases: jd
+  lastseen:
+    description: Shows player's last seen date.
+    usage: /lastseen
+    aliases: ls
