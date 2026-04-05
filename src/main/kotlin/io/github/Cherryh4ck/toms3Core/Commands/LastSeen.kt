@@ -4,15 +4,15 @@ import io.github.Cherryh4ck.toms3Core.Toms3Core
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.command.TabExecutor
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class LastSeen(private val plugin : Toms3Core) : CommandExecutor {
+class LastSeen(private val plugin : Toms3Core) : TabExecutor {
     val minimessage = MiniMessage.miniMessage()
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
@@ -25,7 +25,6 @@ class LastSeen(private val plugin : Toms3Core) : CommandExecutor {
             isSpanish = userLocale.startsWith("es")
         }
         else{
-            userLocale = "es"
             isSpanish = true
         }
 
@@ -60,10 +59,10 @@ class LastSeen(private val plugin : Toms3Core) : CommandExecutor {
             }
             else if (player != null && player.isConnected){
                 val message = if (isSpanish){
-                    minimessage.deserialize("<red>${targetUser} está conectado.</red>")
+                    minimessage.deserialize("<red>No puedes usar este comando porque ${targetUser} está conectado.</red>")
                 }
                 else{
-                    minimessage.deserialize("<red>${targetUser} is connected.</red>")
+                    minimessage.deserialize("<red>You cannot use this command because ${targetUser} is connected.</red>")
                 }
 
                 sender.sendMessage(message)
@@ -71,7 +70,7 @@ class LastSeen(private val plugin : Toms3Core) : CommandExecutor {
             }
             val config = YamlConfiguration.loadConfiguration(playerDataCache)
 
-            val unixTime = config.getLong("last-seen") ?: 0
+            val unixTime = config.getLong("last-seen")
             if (unixTime.toInt() != 0){
                 val format = if (isSpanish) {
                     SimpleDateFormat("dd/MM/yyyy HH:mm")
@@ -102,5 +101,16 @@ class LastSeen(private val plugin : Toms3Core) : CommandExecutor {
             }
         })
         return true
+    }
+
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String>? {
+        return if (args.size == 1){
+            Bukkit.getOnlinePlayers()
+                .map { it.name }
+                .filter { it.startsWith(args[0], ignoreCase = true) }
+        }
+        else{
+            emptyList()
+        }
     }
 }

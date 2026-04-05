@@ -16,12 +16,11 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
     val minimessage = MiniMessage.miniMessage()
     val drunkness = PotionEffect(PotionEffectType.NAUSEA, 30 * 20, 0, false, true, true)
 
-
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (sender is Player) {
             val locale = sender.locale().toString()
             val isSpanish = locale.startsWith("es") // le isspanish
-            val alreadyFallen = plugin.config.getStringList("fallen-for-dupe") ?: mutableListOf()
+            val alreadyFallen = plugin.config.getStringList("fallen-for-dupe")
 
             if (alreadyFallen.contains(sender.uniqueId.toString())) {
                 if (isSpanish) { sender.sendMessage(minimessage.deserialize("<red>No seas idiota, newfag.</red>")) } else { sender.sendMessage(minimessage.deserialize("<red>Don't be an idiot, newfag.</red>")) }

@@ -24,3 +24,6 @@ commands:
     description: Shows player's last seen date.
     usage: /lastseen
     aliases: ls
+  vote:
+    description: Vote redirection, no actual use.
+    usage: /vote

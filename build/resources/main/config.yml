@@ -1,12 +1,19 @@
-# Configuración general
+# General Configuration
 general:
+  prefix: "<gold>[<red><bold>Toms3<gray>Core</gray></bold></red>]"
   discord-webhook: ""
 
-# Límite de bloques por chunk
+# Chunk Block Limits
 chunk-limits:
   tile-entities: 250
 
-# Otros
+illegals:
+  prevent-use:
+    - SPAWN_EGG
+  prevent-place:
+    - IDK
+
+# Other
 misc:
   join-motd:
     first-join:
@@ -28,7 +35,8 @@ misc:
         es: "<gold>Ejemplo dos."
         en: "<gold>Example two."
 
-# Quienes cayeron en el comando /dupe
-# TODO: Migrar a otro archivo
+config-version: 1
+
+# :trollface:
 fallen-for-dupe:
   - "popbob"

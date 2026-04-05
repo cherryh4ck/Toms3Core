@@ -5,15 +5,15 @@ import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.Statistic
 import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.command.TabExecutor
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import java.io.File
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.DurationUnit
 
-class Playtime(private val plugin: Toms3Core) : CommandExecutor {
+class Playtime(private val plugin: Toms3Core) : TabExecutor {
     val minimessage = MiniMessage.miniMessage()
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
@@ -32,7 +32,6 @@ class Playtime(private val plugin: Toms3Core) : CommandExecutor {
             }
         }
         else{
-            userLocale = "es"
             isSpanish = true
             if (args.isEmpty()){
                 plugin.sendError("No puedes ejecutar este comando sin poner el nombre de un jugador.")
@@ -77,5 +76,16 @@ class Playtime(private val plugin: Toms3Core) : CommandExecutor {
         })
 
         return true
+    }
+
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String>? {
+        return if (args.size == 1){
+            Bukkit.getOnlinePlayers()
+                .map { it.name }
+                .filter { it.startsWith(args[0], ignoreCase = true) }
+        }
+        else{
+            emptyList()
+        }
     }
 }
