@@ -10,7 +10,7 @@ import io.github.Cherryh4ck.toms3Core.Listeners.PlayerInteractIllegalListener
 import io.github.Cherryh4ck.toms3Core.Listeners.PlayerJoinListener
 import io.github.Cherryh4ck.toms3Core.Listeners.PlayerLeaveListener
 import io.github.Cherryh4ck.toms3Core.Listeners.PlayerNetherRoofListener
-import io.github.Cherryh4ck.toms3Core.Listeners.TileEntityListener
+import io.github.Cherryh4ck.toms3Core.Listeners.BlockPlaceListener
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
@@ -29,6 +29,9 @@ class Toms3Core : JavaPlugin() {
     var discordWebhook = config.getString("general.discord-webhook")
 
     var tile_entities_limit = config.getInt("chunk-limits.tile-entities")
+
+    var illegals_prevent_use = config.getStringList("illegals.prevent-use").map { it.uppercase() }
+    var illegals_prevent_place = config.getStringList("illegals.prevent-place").map { it.uppercase() }
 
     var motd_general = config.getString("misc.join-motd.general.en")
     var motd_es = config.getString("misc.join-motd.general.es")
@@ -69,7 +72,7 @@ class Toms3Core : JavaPlugin() {
         server.pluginManager.registerEvents(PlayerLeaveListener(this), this)
         server.pluginManager.registerEvents(CachePlayerJoinListener(this), this)
         server.pluginManager.registerEvents(PlayerNetherRoofListener(this), this)
-        server.pluginManager.registerEvents(TileEntityListener(this), this)
+        server.pluginManager.registerEvents(BlockPlaceListener(this), this)
         server.pluginManager.registerEvents(PlayerInteractIllegalListener(this), this)
 
         logger.info("Core activado.")
@@ -91,6 +94,8 @@ class Toms3Core : JavaPlugin() {
         prefix = config.getString("general.prefix")
         discordWebhook = config.getString("general.discord-webhook")
         tile_entities_limit = config.getInt("chunk-limits.tile-entities")
+        illegals_prevent_use = config.getStringList("illegals.prevent-use").map { it.uppercase() }
+        illegals_prevent_place = config.getStringList("illegals.prevent-place").map { it.uppercase() }
         motd_general = config.getString("misc.join-motd.general.en")
         motd_es = config.getString("misc.join-motd.general.es")
         first_join_motd = config.getString("misc.join-motd.first-join.en")

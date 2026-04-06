@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockPlaceEvent
 
-class TileEntityListener(private val plugin: Toms3Core) : Listener {
+class BlockPlaceListener(private val plugin: Toms3Core) : Listener {
     // This is only for shulkers and any class of chests
     @EventHandler
 
@@ -30,6 +30,11 @@ class TileEntityListener(private val plugin: Toms3Core) : Listener {
                     player.sendMessage(plugin.minimessage.deserialize("<gold>${plugin.prefix} Tile entities are limited to $maxCount per chunk."))
                 }
             }
+            return
+        }
+
+        if (plugin.illegals_prevent_place.contains(block.type.name)){
+            event.isCancelled = true
         }
     }
 

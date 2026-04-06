@@ -5,13 +5,14 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockDispenseEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.ItemStack
 
 class PlayerInteractIllegalListener(private val plugin: Toms3Core) : Listener {
     @EventHandler
     fun onPlayerInteract(event: PlayerInteractEvent) {
-        val item = event.item
+        val item = event.item ?: return
 
-        if (item != null && item.type.name.contains("SPAWN_EGG")) {
+        if (isIllegal(item)) {
             event.isCancelled = true
         }
     }
@@ -20,8 +21,14 @@ class PlayerInteractIllegalListener(private val plugin: Toms3Core) : Listener {
     fun onDispense(event: BlockDispenseEvent) {
         val item = event.item
 
-        if (item.type.name.contains("SPAWN_EGG")){
+        if (isIllegal(item)) {
             event.isCancelled = true
+        }
+    }
+
+    fun isIllegal(item: ItemStack) : Boolean {
+        return plugin.illegals_prevent_use.any { forbidden ->
+            item.type.name.contains(forbidden)
         }
     }
 }
