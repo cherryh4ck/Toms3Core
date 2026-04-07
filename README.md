@@ -13,8 +13,9 @@ ___
 * MOTD personalizable al entrar al servidor
 * MOTD personalizable al entrar al servidor por primera vez
 * Sistema de anuncios (chat y título)
-* Sistema anti-ilegales básico
-* Sistema de límite de tile entities por chunk básico
+* Sistema anti-ilegales 
+* Sistema de límite de tile entities por chunk
+* Traducción al español y al inglés
 * Previene el acceso al techo del Nether sin matar al jugador
 * Parche para el "vclip exploit", usado para entrar y viajar debajo de la bedrock en el nether
 ___
