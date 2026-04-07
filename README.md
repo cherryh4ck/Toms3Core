@@ -5,13 +5,16 @@
 ___
 
 ## Funcionalidades
-* Comando de joindate
-* Comando de playtime
-* Comandos troll para los newfags (por ej: /dupe)
+* Comandos de utilidad como joindate, playtime, lastseen y vote
+* Comandos troll para los newfags (por el momento solamente /dupe)
+* Comandos para buscar jugador por UUID o viceversa (solo administradores)
+* Sistema de caché para soportar UUIDs mixtos (premium y no-premium)
 * Conexión a una webhook de Discord para loggear quienes caen en los comandos troll
-* Buscar jugador por UUID o viceversa (solo administradores)
 * MOTD personalizable al entrar al servidor
 * MOTD personalizable al entrar al servidor por primera vez
+* Sistema de anuncios (chat y título)
+* Sistema anti-ilegales básico
+* Sistema de límite de tile entities por chunk básico
 * Previene el acceso al techo del Nether sin matar al jugador
 * Parche para el "vclip exploit", usado para entrar y viajar debajo de la bedrock en el nether
 ___
@@ -20,21 +23,20 @@ ___
 * /tmcore
 * /tmcore reload
 * /tmcore help
-* /tmcore illegal_test
+* /tmcore illegal_test (sin terminar)
 * /tmcore get_player_by_uuid
 * /tmcore get_uuid_by_player
+* /tmcore migrate_fallen_dupe (debug)
 * /joindate (/jd)
 * /playtime (/pt)
+* /lastseen (/ls)
+* /vote
 * /dupe
 ___
 
 ## BUGS
-* /joindate y /playtime no funcionan en jugadores con UUID premium si el servidor es mixto (uuids cracked y premium)
+* ?
 ___
 
 ## TODO
-* Implementar sistema de cache para joindate y playtime
-* Límite de contenedores (o tile entities) por chunk simplemente cancelando la acción del jugador (alternativa a AEF)
-* Announcer
-* Announcer de título al unirse
-* Cancelar redirects (?
+* ?
