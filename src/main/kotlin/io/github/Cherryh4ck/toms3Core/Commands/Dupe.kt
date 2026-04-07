@@ -8,9 +8,11 @@ import org.bukkit.Sound
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import java.io.File
 
 class Dupe(private val plugin : Toms3Core) : TabExecutor {
     val minimessage = MiniMessage.miniMessage()
@@ -20,9 +22,11 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
         if (sender is Player) {
             val locale = sender.locale().toString()
             val isSpanish = locale.startsWith("es") // le isspanish
-            val alreadyFallen = plugin.config.getStringList("fallen-for-dupe")
+            val playerDataCache = File(plugin.playerDataPath, "${sender.name}.yml")
+            val config = YamlConfiguration.loadConfiguration(playerDataCache)
+            val alreadyFallen = config.getBoolean("fallen-for-dupe")
 
-            if (alreadyFallen.contains(sender.uniqueId.toString())) {
+            if (alreadyFallen) {
                 if (isSpanish) { sender.sendMessage(minimessage.deserialize("<red>No seas idiota, newfag.</red>")) } else { sender.sendMessage(minimessage.deserialize("<red>Don't be an idiot, newfag.</red>")) }
                 return true
             }
@@ -48,9 +52,14 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
                 sender.sendMessage(hallOfShameMessage)
             }, 100L)
 
-            alreadyFallen.add(sender.uniqueId.toString())
-            plugin.config.set("fallen-for-dupe", alreadyFallen)
-            plugin.saveConfig()
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
+                config.set("fallen-for-dupe", true)
+                try {
+                    config.save(playerDataCache)
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            })
         }
         else{
             plugin.sendError("Debes ser un jugador para ejecutar este comando.")

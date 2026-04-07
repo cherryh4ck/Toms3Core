@@ -17,6 +17,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Bukkit.getOfflinePlayer
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
@@ -210,9 +211,34 @@ class Toms3Core : JavaPlugin() {
                     sender.sendMessage(mensaje)
                 }
             }
+            "migrate_fallen_dupe" -> {
+                val dupeList = config.getStringList("fallen-for-dupe")
+                val dupeListLength = dupeList.size
+                if (dupeListLength > 0){
+                    sender.sendMessage(minimessage.deserialize("$prefix <green>$dupeListLength usuarios conseguidos.</red>"))
+                    sender.sendMessage(minimessage.deserialize("$prefix <green>Comenzando migración, por favor mire la consola para ver el progreso.</red>"))
+                    Bukkit.getScheduler().runTaskAsynchronously(this, Runnable {
+                        for ((index, user) in dupeList.withIndex()) {
+                            val offlinePlayer = getOfflinePlayer(user)
+                            val playerData = File(playerDataPath, "${offlinePlayer.name}.yml")
+                            val config = YamlConfiguration.loadConfiguration(playerData)
+                            config.set("fallen-for-dupe", true)
+                            try {
+                                config.save(playerData)
+                                logger.info("[$index/$dupeListLength] ${offlinePlayer.name} migrado a ${playerData.path}]")
+                            } catch (ex: Exception) {
+                                ex.printStackTrace()
+                            }
+                        }
+                    })
+                }
+                else{
+                    mensaje = minimessage.deserialize("$prefix <red>No hay usuarios que migrar.</red>")
+                    sender.sendMessage(mensaje)
+                }
+            }
             else -> {
-                mensaje = minimessage.deserialize("$prefix <red>Ese comando no existe.</red>")
-                sender.sendMessage(mensaje)
+                sender.sendMessage(minimessage.deserialize("$prefix <red>Ese comando no existe.</red>"))
             }
         }
         return true
@@ -221,7 +247,7 @@ class Toms3Core : JavaPlugin() {
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String>? {
         val completions = mutableListOf<String>()
         if (args.size == 1) {
-            val subs = listOf("help", "reload", "illegal_test", "get_uuid_by_player", "get_player_by_uuid")
+            val subs = listOf("help", "reload", "illegal_test", "get_uuid_by_player", "get_player_by_uuid", "migrate_fallen_dupe")
             for (s in subs) {
                 if (s.startsWith(args[0].lowercase())) {
                     completions.add(s)
