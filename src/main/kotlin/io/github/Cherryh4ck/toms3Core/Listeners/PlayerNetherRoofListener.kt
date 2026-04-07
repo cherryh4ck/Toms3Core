@@ -9,7 +9,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerMoveEvent
 
 class PlayerNetherRoofListener(private val plugin: Toms3Core) : Listener {
-    // Cheap patch for vclip travel exploit
+    // Cheap patch for VClip travel exploit
     // also prevents players from being killed by the void damage thing on the nether roof
     @EventHandler
 

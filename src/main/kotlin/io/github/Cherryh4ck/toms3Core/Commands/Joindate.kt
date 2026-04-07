@@ -15,6 +15,11 @@ import java.util.Date
 class Joindate(private val plugin: Toms3Core) : TabExecutor {
     val minimessage = MiniMessage.miniMessage()
 
+    fun validateUsername(username: String): Boolean {
+        val regex = Regex(plugin.usernameValidationRegex)
+        return regex.matches(username)
+    }
+
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         val targetUser : String
         val userLocale : String
@@ -41,7 +46,7 @@ class Joindate(private val plugin: Toms3Core) : TabExecutor {
             }
         }
 
-        if (targetUser.length !in 3..16) {
+        if (!validateUsername(targetUser)) {
             val mensaje = if (isSpanish) { minimessage.deserialize("<red>$targetUser no es un nombre de jugador válido.</red>") } else { minimessage.deserialize("<red>$targetUser is not a valid player name.</red>") }
             sender.sendMessage(mensaje)
             return true
@@ -81,10 +86,20 @@ class Joindate(private val plugin: Toms3Core) : TabExecutor {
             val result = format.format(Date(unixTime))
 
             val message = if (isSpanish){
-                minimessage.deserialize("<gold><bold>${offlineplayer.name}</bold> se unió al servidor el <bold>${result}</bold>.</gold>")
+                if (offlineplayer.name != sender.name){
+                    minimessage.deserialize("<gold><bold>${offlineplayer.name}</bold> se unió al servidor el <bold>${result}</bold>.</gold>")
+                }
+                else{
+                    minimessage.deserialize("<gold>Te uniste al servidor el <bold>${result}</bold>.</gold>")
+                }
             }
             else{
-                minimessage.deserialize("<gold><bold>${offlineplayer.name}</bold> joined the server on <bold>${result}</bold>.</gold>")
+                if (offlineplayer.name != sender.name){
+                    minimessage.deserialize("<gold><bold>${offlineplayer.name}</bold> joined the server on <bold>${result}</bold>.</gold>")
+                }
+                else{
+                    minimessage.deserialize("<gold>You joined the server on <bold>${result}</bold>.</gold>")
+                }
             }
 
             sender.sendMessage(message)

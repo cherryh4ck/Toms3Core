@@ -3,10 +3,15 @@ general:
   prefix: "<gold>[<red><bold>Toms3<gray>Core</gray></bold></red>]"
   discord-webhook: ""
 
+# Configuration of commands
+commands:
+  username-validation-regex: "^[a-zA-Z0-9_]{3,16}$"
+
 # Chunk Block Limits
 chunk-limits:
   tile-entities: 250
 
+# Anti illegals system
 illegals:
   prevent-use:
     - SPAWN_EGG

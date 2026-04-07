@@ -15,6 +15,11 @@ import java.util.Date
 class LastSeen(private val plugin : Toms3Core) : TabExecutor {
     val minimessage = MiniMessage.miniMessage()
 
+    fun validateUsername(username: String): Boolean {
+        val regex = Regex(plugin.usernameValidationRegex)
+        return regex.matches(username)
+    }
+
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         val targetUser : String
         val userLocale : String
@@ -37,7 +42,7 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
             targetUser = args[0]
         }
 
-        if (targetUser.length !in 3..16) {
+        if (!validateUsername(targetUser)) {
             val mensaje = if (isSpanish) { minimessage.deserialize("<red>$targetUser no es un nombre de jugador válido.</red>") } else { minimessage.deserialize("<red>$targetUser is not a valid player name.</red>") }
             sender.sendMessage(mensaje)
             return true

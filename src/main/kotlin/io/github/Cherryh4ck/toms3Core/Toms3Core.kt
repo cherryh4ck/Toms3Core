@@ -28,6 +28,8 @@ class Toms3Core : JavaPlugin() {
     var prefix = config.getString("general.prefix")
     var discordWebhook = config.getString("general.discord-webhook")
 
+    var usernameValidationRegex = config.getString("username-validation-regex") ?: "^[a-zA-Z0-9_]{3,16}\$"
+
     var tile_entities_limit = config.getInt("chunk-limits.tile-entities")
 
     var illegals_prevent_use = config.getStringList("illegals.prevent-use").map { it.uppercase() }

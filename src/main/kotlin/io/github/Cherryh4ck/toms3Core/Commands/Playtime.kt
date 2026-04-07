@@ -16,6 +16,11 @@ import kotlin.time.DurationUnit
 class Playtime(private val plugin: Toms3Core) : TabExecutor {
     val minimessage = MiniMessage.miniMessage()
 
+    fun validateUsername(username: String): Boolean {
+        val regex = Regex(plugin.usernameValidationRegex)
+        return regex.matches(username)
+    }
+
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // no .yaml porqe tengo paja
         val targetUser : String
@@ -42,7 +47,7 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
             }
         }
 
-        if (targetUser.length !in 3..16) {
+        if (!validateUsername(targetUser)) {
             val mensaje = if (isSpanish) { minimessage.deserialize("<red>$targetUser no es un nombre de jugador válido.</red>") } else { minimessage.deserialize("<red>$targetUser is not a valid player name.</red>") }
             sender.sendMessage(mensaje)
             return true
@@ -71,7 +76,22 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
             val result = ms.milliseconds
             val resultHs = "%.2f".format(result.toDouble(DurationUnit.HOURS))
 
-            val mensaje = if (isSpanish) { minimessage.deserialize("<gold><bold>$targetUser</bold> tiene un tiempo de juego de <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>") } else { minimessage.deserialize("<gold><bold>$targetUser</bold> has a playtime of <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>") }
+            val mensaje = if (isSpanish) {
+                if (offlineplayer.name != sender.name){
+                    minimessage.deserialize("<gold><bold>$targetUser</bold> tiene un tiempo de juego de <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
+                }
+                else{
+                    minimessage.deserialize("<gold>Tienes un tiempo de juego de <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
+                }
+            }
+            else {
+                if (offlineplayer.name != sender.name){
+                    minimessage.deserialize("<gold><bold>$targetUser</bold> has a playtime of <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
+                }
+                else{
+                    minimessage.deserialize("<gold>You have a playtime of <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
+                }
+            }
             sender.sendMessage(mensaje)
         })
 
