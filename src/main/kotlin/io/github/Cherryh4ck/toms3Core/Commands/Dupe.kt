@@ -4,6 +4,7 @@ import io.github.Cherryh4ck.toms3Core.DiscordWebhook
 import io.github.Cherryh4ck.toms3Core.Toms3Core
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.Sound
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -17,6 +18,7 @@ import java.io.File
 class Dupe(private val plugin : Toms3Core) : TabExecutor {
     val minimessage = MiniMessage.miniMessage()
     val drunkness = PotionEffect(PotionEffectType.NAUSEA, 30 * 20, 0, false, true, true)
+    val darkness = PotionEffect(PotionEffectType.DARKNESS, 60 * 20, 0, false, true, true)
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (sender is Player) {
@@ -46,10 +48,25 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
                 val health = sender.health - 1.0
                 sender.damage(health)
                 sender.addPotionEffect(drunkness)
+                sender.addPotionEffect(darkness)
                 sender.playSound(sender.location, Sound.AMBIENT_CAVE, 2.0f, 0.5f)
+                sender.playSound(sender.location, Sound.ITEM_TOTEM_USE, 2.0f, 0.5f)
             }, 50L)
             Bukkit.getScheduler().runTaskLater(plugin, Runnable {
+                val world = Bukkit.getWorld(sender.world.name)
+                val location = Location(world, sender.location.x, sender.location.y, sender.location.z)
+                world?.strikeLightning(location)
                 sender.sendMessage(hallOfShameMessage)
+                sender.playSound(sender.location, Sound.ENTITY_WITHER_SPAWN, 2.0f, 0.15f)
+                Bukkit.getOnlinePlayers().forEach { player ->
+                    val locale = player.locale().toString()
+                    if (locale.startsWith("es")) {
+                        player.sendMessage(minimessage.deserialize("<gray>${sender.name} fue agregado a la <light_purple>lista de jugadores miserables</light_purple>."))
+                    }
+                    else{
+                        player.sendMessage(minimessage.deserialize("<gray>${sender.name} has been added to the <light_purple>Hall of Shame</light_purple>."))
+                    }
+                }
             }, 100L)
 
             Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {

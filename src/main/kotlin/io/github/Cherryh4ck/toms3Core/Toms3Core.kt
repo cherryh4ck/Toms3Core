@@ -215,21 +215,23 @@ class Toms3Core : JavaPlugin() {
                 val dupeList = config.getStringList("fallen-for-dupe")
                 val dupeListLength = dupeList.size
                 if (dupeListLength > 0){
-                    sender.sendMessage(minimessage.deserialize("$prefix <green>$dupeListLength usuarios conseguidos.</red>"))
-                    sender.sendMessage(minimessage.deserialize("$prefix <green>Comenzando migración, por favor mire la consola para ver el progreso.</red>"))
+                    sender.sendMessage(minimessage.deserialize("$prefix <green>$dupeListLength usuarios conseguidos."))
+                    sender.sendMessage(minimessage.deserialize("$prefix <green>Comenzando migración, por favor mire la consola para ver el progreso."))
                     Bukkit.getScheduler().runTaskAsynchronously(this, Runnable {
                         for ((index, user) in dupeList.withIndex()) {
-                            val offlinePlayer = getOfflinePlayer(user)
+                            val uuid: UUID = UUID.fromString(user)
+                            val offlinePlayer = getOfflinePlayer(uuid)
                             val playerData = File(playerDataPath, "${offlinePlayer.name}.yml")
                             val config = YamlConfiguration.loadConfiguration(playerData)
                             config.set("fallen-for-dupe", true)
                             try {
                                 config.save(playerData)
-                                logger.info("[$index/$dupeListLength] ${offlinePlayer.name} migrado a ${playerData.path}]")
+                                logger.info("[${index + 1}/$dupeListLength] ${offlinePlayer.name} migrado a ${playerData.path}")
                             } catch (ex: Exception) {
                                 ex.printStackTrace()
                             }
                         }
+                        sender.sendMessage(minimessage.deserialize("$prefix <green>Finalizado."))
                     })
                 }
                 else{
