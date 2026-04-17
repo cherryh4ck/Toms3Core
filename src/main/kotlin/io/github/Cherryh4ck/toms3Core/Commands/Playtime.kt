@@ -22,7 +22,6 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        // no .yaml porqe tengo paja
         val targetUser : String
         val userLocale : String
         val isSpanish : Boolean
@@ -56,13 +55,13 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
             val playerDataCache = File(plugin.playerDataPath, "${targetUser}.yml")
             val offlineplayer = if (!playerDataCache.exists()) {
-                plugin.logger.info("No existe el archivo playerdata para $targetUser.")
+                plugin.logger.info("$targetUser UUID file doesn't exist.")
                 Bukkit.getOfflinePlayer(targetUser)
             }
             else{
                 val config = YamlConfiguration.loadConfiguration(playerDataCache)
                 val uuid = java.util.UUID.fromString(config.getString("uuid"))
-                plugin.logger.info("Existe el archivo playerdata de $targetUser, UUID conseguido: ${uuid.toString()}")
+                plugin.logger.info("UUID file found: ${uuid.toString()}")
                 Bukkit.getOfflinePlayer(uuid)
             }
             if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L){

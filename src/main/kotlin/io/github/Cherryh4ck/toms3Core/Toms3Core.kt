@@ -24,6 +24,10 @@ import java.io.File
 import java.util.UUID
 
 class Toms3Core : JavaPlugin() {
+    // -- IMPORTANT --
+    val configVersion = 2
+    // -- IMPORTANT --
+
     val minimessage = MiniMessage.miniMessage()
 
     var prefix = config.getString("general.prefix")
@@ -54,7 +58,7 @@ class Toms3Core : JavaPlugin() {
         logger.info("---------------------")
         saveDefaultConfig()
         if (!playerDataPath.exists()) {
-            logger.info("Playerdata creado.")
+            logger.info("Playerdata folder created.")
             playerDataPath.mkdirs()
         }
 
@@ -78,9 +82,10 @@ class Toms3Core : JavaPlugin() {
         server.pluginManager.registerEvents(BlockPlaceListener(this), this)
         server.pluginManager.registerEvents(PlayerInteractIllegalListener(this), this)
 
-        logger.info("Core activado.")
+        logger.info("Core activated.")
         logger.info("---------------------")
 
+        isConfigUpdated()
         sendAnnouncements()
     }
 
@@ -108,6 +113,13 @@ class Toms3Core : JavaPlugin() {
         announcements_timer = config.getInt("misc.announcements.timer")
         announcements_interval = (20 * announcements_timer).toLong()
         announcements = config.getConfigurationSection("misc.announcements.messages")
+    }
+
+    fun isConfigUpdated(){
+        val getConfigVersion = config.getInt("config-version")
+        if (configVersion != getConfigVersion) {
+            logger.warning("Config is outdated. Please check your config!!!")
+        }
     }
 
     fun sendAnnouncements(){
@@ -138,19 +150,20 @@ class Toms3Core : JavaPlugin() {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         val mensaje : Component
         if(args.isEmpty()){
-            mensaje = minimessage.deserialize("<gold>$prefix Plugin corriendo - versión ${this.pluginMeta.version} (actualización n. 8)</gold>")
+            mensaje = minimessage.deserialize("<gold>$prefix version ${this.pluginMeta.version} (update n. 9)</gold>")
             sender.sendMessage(mensaje)
             return true
         }
 
         when (args[0].lowercase()) {
             "help" -> {
-                mensaje = minimessage.deserialize("$prefix <gold>Comandos disponibles:<newline>- <gray>/tmcore</gray><newline>- <gray>/tmcore get_player_by_uuid</gray><newline>- <gray>/tmcore get_uuid_by_player</gray><newline>- <gray>/tmcore illegal_test</gray><newline>- <gray>/joindate</gray><newline>- <gray>/playtime</gray><newline>- <gray>/lastseen</gray><newline>- <gray>/dupe</gray><newline>- <gray>/vote</gray></gold>")
+                mensaje = minimessage.deserialize("$prefix <gold>Available commands:<newline>- <gray>/tmcore</gray><newline>- <gray>/tmcore get_player_by_uuid</gray><newline>- <gray>/tmcore get_uuid_by_player</gray><newline>- <gray>/tmcore illegal_test</gray><newline>- <gray>/joindate</gray><newline>- <gray>/playtime</gray><newline>- <gray>/lastseen</gray><newline>- <gray>/dupe</gray><newline>- <gray>/vote</gray></gold>")
                 sender.sendMessage(mensaje)
             }
             "reload" -> {
                 reloadPlugin()
-                mensaje = minimessage.deserialize("$prefix <gold>Plugin recargado.</gold>")
+                isConfigUpdated()
+                mensaje = minimessage.deserialize("$prefix <gold>Plugin reloaded.</gold>")
                 sender.sendMessage(mensaje)
             }
             "illegal_test" -> {
@@ -160,13 +173,14 @@ class Toms3Core : JavaPlugin() {
                     minimessage.deserialize("$prefix <red>popbob</red>")
                 }
                 else{
-                    minimessage.deserialize("$prefix <red>Debes ser un jugador para usar este comando.</red>")
+                    minimessage.deserialize("$prefix <red>You need to be a player to use this command.</red>")
                 }
                 sender.sendMessage(mensaje)
             }
+            // TODO: USAR SISTEMA DE CACHÉ
             "get_uuid_by_player" -> {
                 if (sender !is Player && args.size > 1) {
-                    mensaje = minimessage.deserialize("$prefix <red>Debes especificar un jugador para usar este comando.</red>")
+                    mensaje = minimessage.deserialize("$prefix <red>You need to specify a player to use this command.</red>")
                     sender.sendMessage(mensaje)
                     return true
                 }
@@ -190,6 +204,7 @@ class Toms3Core : JavaPlugin() {
                 mensaje = minimessage.deserialize("$prefix <gold>El UUID de $targetUser es <bold><click:copy_to_clipboard:$uuid>$uuid</click></bold>.</gold>")
                 sender.sendMessage(mensaje)
             }
+            // TODO: USAR SISTEMA DE CACHÉ
             "get_player_by_uuid" -> {
                 if (args.size < 2) {
                     mensaje = minimessage.deserialize("$prefix <red>Debes especificar la UUID de un jugador para usar este comando.</red>")
@@ -240,7 +255,7 @@ class Toms3Core : JavaPlugin() {
                 }
             }
             else -> {
-                sender.sendMessage(minimessage.deserialize("$prefix <red>Ese comando no existe.</red>"))
+                sender.sendMessage(minimessage.deserialize("$prefix <red>That command is not available.</red>"))
             }
         }
         return true

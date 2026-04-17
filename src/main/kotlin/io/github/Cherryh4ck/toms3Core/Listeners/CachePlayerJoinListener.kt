@@ -23,7 +23,7 @@ class CachePlayerJoinListener(private val plugin: Toms3Core) : Listener {
                 config.set("uuid", player.uniqueId.toString())
                 try {
                     config.save(playerData)
-                    plugin.logger.info("UUID creado y actualizado para ${player.name}.")
+                    plugin.logger.info("UUID file created or updated for ${player.name}.")
                 } catch (ex: Exception) {
                     ex.printStackTrace()
                 }
