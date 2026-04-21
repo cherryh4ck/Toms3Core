@@ -12,9 +12,9 @@ class Vote(private val plugin : Toms3Core) : TabExecutor {
             val locale = sender.locale().toString()
             val isSpanish = locale.startsWith("es")
             val message = if (isSpanish) {
-                plugin.minimessage.deserialize("<gold>Puedes votarnos yendo a <click:open_url:https://vote.toms3.cc><bold>vote.toms3.cc</bold></click>.<newline>Recuerda que votar no da recompensas, pero ayuda a la visibilidad del servidor.")
+                plugin.minimessage.deserialize("<gold>${plugin.prefix} Puedes votarnos yendo a <click:open_url:https://vote.toms3.cc><bold>vote.toms3.cc</bold></click>.<newline>Recuerda que votar no da recompensas, pero ayuda a la visibilidad del servidor.")
             } else {
-                plugin.minimessage.deserialize("<gold>You can vote us by going to <click:open_url:https://vote.toms3.cc><bold>vote.toms3.cc</bold></click>.<newline>Remember that voting doesn't give any rewards, but helps the visibility of the server.")
+                plugin.minimessage.deserialize("<gold>${plugin.prefix} You can vote us by going to <click:open_url:https://vote.toms3.cc><bold>vote.toms3.cc</bold></click>.<newline>Remember that voting doesn't give any rewards, but helps the visibility of the server.")
             }
             sender.sendMessage(message)
         }

@@ -47,7 +47,12 @@ class Joindate(private val plugin: Toms3Core) : TabExecutor {
         }
 
         if (!validateUsername(targetUser)) {
-            val mensaje = if (isSpanish) { minimessage.deserialize("<red>$targetUser no es un nombre de jugador válido.</red>") } else { minimessage.deserialize("<red>$targetUser is not a valid player name.</red>") }
+            val mensaje = if (isSpanish) {
+                minimessage.deserialize("${plugin.prefix} <red>$targetUser no es un nombre de jugador válido.</red>")
+            }
+            else {
+                minimessage.deserialize("${plugin.prefix} <red>$targetUser is not a valid player name.</red>")
+            }
             sender.sendMessage(mensaje)
             return true
         }
@@ -67,10 +72,10 @@ class Joindate(private val plugin: Toms3Core) : TabExecutor {
 
             if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L) {
                 val message = if (isSpanish){
-                    minimessage.deserialize("<red>${offlineplayer.name} nunca entró al servidor o no está en el cache del servidor.</red>")
+                    minimessage.deserialize("${plugin.prefix} <red>${offlineplayer.name} nunca entró al servidor o no está en el cache del servidor.</red>")
                 }
                 else{
-                    minimessage.deserialize("<red>${offlineplayer.name} has never entered the server or is not in the server cache.</red>")
+                    minimessage.deserialize("${plugin.prefix} <red>${offlineplayer.name} has never entered the server or is not in the server cache.</red>")
                 }
 
                 sender.sendMessage(message)
@@ -87,18 +92,18 @@ class Joindate(private val plugin: Toms3Core) : TabExecutor {
 
             val message = if (isSpanish){
                 if (offlineplayer.name != sender.name){
-                    minimessage.deserialize("<gold><bold>${offlineplayer.name}</bold> se unió al servidor el <bold>${result}</bold>.</gold>")
+                    minimessage.deserialize("<gold>${plugin.prefix} <bold>${offlineplayer.name}</bold> se unió al servidor el <bold>${result}</bold>.</gold>")
                 }
                 else{
-                    minimessage.deserialize("<gold>Te uniste al servidor el <bold>${result}</bold>.</gold>")
+                    minimessage.deserialize("<gold>${plugin.prefix} Te uniste al servidor el <bold>${result}</bold>.</gold>")
                 }
             }
             else{
                 if (offlineplayer.name != sender.name){
-                    minimessage.deserialize("<gold><bold>${offlineplayer.name}</bold> joined the server on <bold>${result}</bold>.</gold>")
+                    minimessage.deserialize("<gold>${plugin.prefix} <bold>${offlineplayer.name}</bold> joined the server on <bold>${result}</bold>.</gold>")
                 }
                 else{
-                    minimessage.deserialize("<gold>You joined the server on <bold>${result}</bold>.</gold>")
+                    minimessage.deserialize("<gold>${plugin.prefix} You joined the server on <bold>${result}</bold>.</gold>")
                 }
             }
 

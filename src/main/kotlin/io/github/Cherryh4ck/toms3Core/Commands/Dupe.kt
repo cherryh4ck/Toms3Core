@@ -19,6 +19,7 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
     val minimessage = MiniMessage.miniMessage()
     val drunkness = PotionEffect(PotionEffectType.NAUSEA, 30 * 20, 0, false, true, true)
     val darkness = PotionEffect(PotionEffectType.DARKNESS, 60 * 20, 0, false, true, true)
+    val poison = PotionEffect(PotionEffectType.POISON, 120 * 20, 2, false, true, true)
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (sender is Player) {
@@ -29,7 +30,12 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
             val alreadyFallen = config.getBoolean("fallen-for-dupe")
 
             if (alreadyFallen) {
-                if (isSpanish) { sender.sendMessage(minimessage.deserialize("<red>No seas idiota, newfag.</red>")) } else { sender.sendMessage(minimessage.deserialize("<red>Don't be an idiot, newfag.</red>")) }
+                if (isSpanish) {
+                    sender.sendMessage(minimessage.deserialize("${plugin.prefix} <red>No seas idiota, newfag.</red>"))
+                }
+                else {
+                    sender.sendMessage(minimessage.deserialize("${plugin.prefix} <red>Don't be an idiot, newfag.</red>"))
+                }
                 return true
             }
 
@@ -49,6 +55,7 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
                 sender.damage(health)
                 sender.addPotionEffect(drunkness)
                 sender.addPotionEffect(darkness)
+                sender.addPotionEffect(poison)
                 sender.playSound(sender.location, Sound.AMBIENT_CAVE, 2.0f, 0.5f)
                 sender.playSound(sender.location, Sound.ITEM_TOTEM_USE, 2.0f, 0.5f)
             }, 50L)

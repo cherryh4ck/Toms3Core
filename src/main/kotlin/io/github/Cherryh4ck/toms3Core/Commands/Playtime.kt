@@ -47,7 +47,12 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
         }
 
         if (!validateUsername(targetUser)) {
-            val mensaje = if (isSpanish) { minimessage.deserialize("<red>$targetUser no es un nombre de jugador válido.</red>") } else { minimessage.deserialize("<red>$targetUser is not a valid player name.</red>") }
+            val mensaje = if (isSpanish) {
+                minimessage.deserialize("${plugin.prefix} <red>$targetUser no es un nombre de jugador válido.</red>")
+            }
+            else {
+                minimessage.deserialize("${plugin.prefix} <red>$targetUser is not a valid player name.</red>")
+            }
             sender.sendMessage(mensaje)
             return true
         }
@@ -65,7 +70,12 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
                 Bukkit.getOfflinePlayer(uuid)
             }
             if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L){
-                val mensaje = if (isSpanish) { minimessage.deserialize("<red>$targetUser nunca entró al servidor o no está en el cache del servidor.</red>") } else { minimessage.deserialize("<red>$targetUser has never entered the server or is not in the server cache.</red>") }
+                val mensaje = if (isSpanish) {
+                    minimessage.deserialize("${plugin.prefix} <red>$targetUser nunca entró al servidor o no está en el cache del servidor.</red>")
+                }
+                else {
+                    minimessage.deserialize("${plugin.prefix} <red>$targetUser has never entered the server or is not in the server cache.</red>")
+                }
                 sender.sendMessage(mensaje)
                 return@Runnable
             }
@@ -77,18 +87,18 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
 
             val mensaje = if (isSpanish) {
                 if (offlineplayer.name != sender.name){
-                    minimessage.deserialize("<gold><bold>$targetUser</bold> tiene un tiempo de juego de <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
+                    minimessage.deserialize("<gold>${plugin.prefix} <bold>$targetUser</bold> tiene un tiempo de juego de <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
                 }
                 else{
-                    minimessage.deserialize("<gold>Tienes un tiempo de juego de <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
+                    minimessage.deserialize("<gold>${plugin.prefix} Tienes un tiempo de juego de <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
                 }
             }
             else {
                 if (offlineplayer.name != sender.name){
-                    minimessage.deserialize("<gold><bold>$targetUser</bold> has a playtime of <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
+                    minimessage.deserialize("<gold>${plugin.prefix} <bold>$targetUser</bold> has a playtime of <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
                 }
                 else{
-                    minimessage.deserialize("<gold>You have a playtime of <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
+                    minimessage.deserialize("<gold>${plugin.prefix} You have a playtime of <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
                 }
             }
             sender.sendMessage(mensaje)
