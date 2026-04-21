@@ -38,7 +38,7 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
         else{
             isSpanish = true
             if (args.isEmpty()){
-                plugin.sendError("No puedes ejecutar este comando sin poner el nombre de un jugador.")
+                plugin.sendError("You need to specify a player to use this command.")
                 return true
             }
             else {
@@ -55,7 +55,7 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
             val playerDataCache = File(plugin.playerDataPath, "${targetUser}.yml")
             val offlineplayer = if (!playerDataCache.exists()) {
-                plugin.logger.info("$targetUser UUID file doesn't exist.")
+                plugin.logger.info("$targetUser's UUID file doesn't exist.")
                 Bukkit.getOfflinePlayer(targetUser)
             }
             else{

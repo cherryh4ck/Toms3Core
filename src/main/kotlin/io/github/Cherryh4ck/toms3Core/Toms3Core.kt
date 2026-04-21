@@ -118,7 +118,7 @@ class Toms3Core : JavaPlugin() {
     fun isConfigUpdated(){
         val getConfigVersion = config.getInt("config-version")
         if (configVersion != getConfigVersion) {
-            logger.warning("Config is outdated. Please check your config!!!")
+            logger.warning("Config is outdated, which means that a few things are missing. Please check your config to ensure the plugin works correctly!!!")
         }
     }
 
@@ -150,7 +150,7 @@ class Toms3Core : JavaPlugin() {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         val mensaje : Component
         if(args.isEmpty()){
-            mensaje = minimessage.deserialize("<gold>$prefix version ${this.pluginMeta.version} (update n. 9)</gold>")
+            mensaje = minimessage.deserialize("<gold>$prefix version ${this.pluginMeta.version} (build 9a)</gold>")
             sender.sendMessage(mensaje)
             return true
         }
@@ -193,14 +193,14 @@ class Toms3Core : JavaPlugin() {
                 Bukkit.getScheduler().runTaskAsynchronously(this, Runnable {
                     val playerDataCache = File(playerDataPath, "${targetUser}.yml")
                     val offlineplayer = if (!playerDataCache.exists()) {
-                        logger.info("$targetUser UUID file doesn't exist.")
-                        Bukkit.getOfflinePlayer(targetUser)
+                        logger.info("$targetUser's UUID file doesn't exist.")
+                        getOfflinePlayer(targetUser)
                     }
                     else{
                         val config = YamlConfiguration.loadConfiguration(playerDataCache)
                         val uuid = java.util.UUID.fromString(config.getString("uuid"))
                         logger.info("UUID file found: ${uuid.toString()}")
-                        Bukkit.getOfflinePlayer(uuid)
+                        getOfflinePlayer(uuid)
                     }
 
                     if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L) {
@@ -212,7 +212,7 @@ class Toms3Core : JavaPlugin() {
                     val uuid = offlineplayer.uniqueId
                     val mensaje = minimessage.deserialize("$prefix <gold>$targetUser's UUID is <bold><click:copy_to_clipboard:$uuid>$uuid</click></bold>.</gold>")
                     sender.sendMessage(mensaje)
-                });
+                })
             }
             "get_player_by_uuid" -> {
                 if (args.size < 2) {
@@ -227,11 +227,11 @@ class Toms3Core : JavaPlugin() {
                 val offlineplayer = getOfflinePlayer(uuid)
 
                 if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L) {
-                    mensaje = minimessage.deserialize("$prefix <red>Este jugador nunca estuvo en el servidor o tiene un UUID premium.</red>")
+                    mensaje = minimessage.deserialize("$prefix <red>This player has never entered the server or is not in the server cache.</red>")
                     sender.sendMessage(mensaje)
                 }
                 else{
-                    mensaje = minimessage.deserialize("$prefix <gold>El usuario es <bold>${offlineplayer.name}</bold>.</gold>")
+                    mensaje = minimessage.deserialize("$prefix <gold>The user is <bold>${offlineplayer.name}</bold>.</gold>")
                     sender.sendMessage(mensaje)
                 }
             }

@@ -35,7 +35,7 @@ class PlayerNetherRoofListener(private val plugin: Toms3Core) : Listener {
                 else{
                     player.sendMessage(plugin.minimessage.deserialize("<gold>${plugin.prefix} Nether Roof is currently disabled."))
                 }
-                plugin.sendError("${player.name} intentó acceder al techo del Nether.")
+                plugin.sendError("${player.name} tried to access Nether Roof.")
             }
             else if (to.y < 0 && player.inventory.chestplate?.type == Material.ELYTRA){
                 val loc = Location(world, to.x, 7.0, to.z)
@@ -46,7 +46,7 @@ class PlayerNetherRoofListener(private val plugin: Toms3Core) : Listener {
                 else{
                     player.sendMessage(plugin.minimessage.deserialize("<gold>${plugin.prefix} This travel exploit is currently disabled."))
                 }
-                plugin.sendError("${player.name} intentó ejecutar el vclip exploit.")
+                plugin.sendError("${player.name} tried to execute the VClip exploit.")
             }
         }
     }

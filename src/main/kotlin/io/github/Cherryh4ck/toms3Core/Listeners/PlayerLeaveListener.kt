@@ -7,8 +7,6 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
 import java.io.File
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 class PlayerLeaveListener(private val plugin : Toms3Core) : Listener {
     @EventHandler
@@ -22,7 +20,7 @@ class PlayerLeaveListener(private val plugin : Toms3Core) : Listener {
             config.set("last-seen", now)
             try {
                 config.save(playerData)
-                plugin.logger.info("Last seen actualizado para ${player.name}.")
+                plugin.logger.info("Last seen date updated for ${player.name}.")
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }

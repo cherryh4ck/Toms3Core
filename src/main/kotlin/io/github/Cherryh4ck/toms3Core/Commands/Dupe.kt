@@ -79,7 +79,7 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
             })
         }
         else{
-            plugin.sendError("Debes ser un jugador para ejecutar este comando.")
+            plugin.sendError("You must be a player to execute this command.")
         }
         return true
     }

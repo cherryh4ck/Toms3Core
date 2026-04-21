@@ -20,10 +20,15 @@ class CachePlayerJoinListener(private val plugin: Toms3Core) : Listener {
             val getUuid = config.getString("uuid")
 
             if (getUuid == null || getUuid != player.uniqueId.toString()) {
+                if (getUuid != null) {
+                    plugin.logger.info("UUID file updated for ${player.name}.")
+                }
+                else{
+                    plugin.logger.info("UUID file created for ${player.name}.")
+                }
                 config.set("uuid", player.uniqueId.toString())
                 try {
                     config.save(playerData)
-                    plugin.logger.info("UUID file created or updated for ${player.name}.")
                 } catch (ex: Exception) {
                     ex.printStackTrace()
                 }
