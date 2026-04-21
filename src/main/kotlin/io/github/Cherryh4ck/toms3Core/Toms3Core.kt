@@ -198,9 +198,16 @@ class Toms3Core : JavaPlugin() {
                     }
                     else{
                         val config = YamlConfiguration.loadConfiguration(playerDataCache)
-                        val uuid = java.util.UUID.fromString(config.getString("uuid"))
-                        logger.info("UUID file found: ${uuid.toString()}")
-                        getOfflinePlayer(uuid)
+                        val configUuid = config.getString("uuid")
+                        if (configUuid == null) {
+                            logger.info("UUID value is null.")
+                            getOfflinePlayer(targetUser)
+                        }
+                        else{
+                            val uuid = java.util.UUID.fromString(configUuid)
+                            logger.info("UUID file found: ${uuid.toString()}")
+                            getOfflinePlayer(uuid)
+                        }
                     }
 
                     if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L) {

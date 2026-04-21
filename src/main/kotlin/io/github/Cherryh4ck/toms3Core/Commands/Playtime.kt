@@ -65,9 +65,16 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
             }
             else{
                 val config = YamlConfiguration.loadConfiguration(playerDataCache)
-                val uuid = java.util.UUID.fromString(config.getString("uuid"))
-                plugin.logger.info("UUID file found: ${uuid.toString()}")
-                Bukkit.getOfflinePlayer(uuid)
+                val configUuid = config.getString("uuid")
+                if (configUuid == null) {
+                    plugin.logger.info("UUID value is null.")
+                    Bukkit.getOfflinePlayer(targetUser)
+                }
+                else{
+                    val uuid = java.util.UUID.fromString(configUuid)
+                    plugin.logger.info("UUID file found: ${uuid.toString()}")
+                    Bukkit.getOfflinePlayer(uuid)
+                }
             }
             if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L){
                 val mensaje = if (isSpanish) {
