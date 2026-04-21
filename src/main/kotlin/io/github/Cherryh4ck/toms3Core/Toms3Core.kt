@@ -177,9 +177,8 @@ class Toms3Core : JavaPlugin() {
                 }
                 sender.sendMessage(mensaje)
             }
-            // TODO: USAR SISTEMA DE CACHÉ
             "get_uuid_by_player" -> {
-                if (sender !is Player && args.size > 1) {
+                if (sender !is Player && args.size < 2) {
                     mensaje = minimessage.deserialize("$prefix <red>You need to specify a player to use this command.</red>")
                     sender.sendMessage(mensaje)
                     return true
@@ -191,23 +190,33 @@ class Toms3Core : JavaPlugin() {
                 else{
                     args[1]
                 }
+                Bukkit.getScheduler().runTaskAsynchronously(this, Runnable {
+                    val playerDataCache = File(playerDataPath, "${targetUser}.yml")
+                    val offlineplayer = if (!playerDataCache.exists()) {
+                        logger.info("$targetUser UUID file doesn't exist.")
+                        Bukkit.getOfflinePlayer(targetUser)
+                    }
+                    else{
+                        val config = YamlConfiguration.loadConfiguration(playerDataCache)
+                        val uuid = java.util.UUID.fromString(config.getString("uuid"))
+                        logger.info("UUID file found: ${uuid.toString()}")
+                        Bukkit.getOfflinePlayer(uuid)
+                    }
 
-                val offlineplayer = getOfflinePlayer(targetUser)
+                    if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L) {
+                        val mensaje = minimessage.deserialize("$prefix <red>This player has never entered the server or is not in the server cache.</red>")
+                        sender.sendMessage(mensaje)
+                        return@Runnable
+                    }
 
-                if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L) {
-                    mensaje = minimessage.deserialize("$prefix <red>Este jugador nunca estuvo en el servidor o tiene un UUID premium.</red>")
+                    val uuid = offlineplayer.uniqueId
+                    val mensaje = minimessage.deserialize("$prefix <gold>$targetUser's UUID is <bold><click:copy_to_clipboard:$uuid>$uuid</click></bold>.</gold>")
                     sender.sendMessage(mensaje)
-                    return true
-                }
-
-                val uuid = offlineplayer.uniqueId
-                mensaje = minimessage.deserialize("$prefix <gold>El UUID de $targetUser es <bold><click:copy_to_clipboard:$uuid>$uuid</click></bold>.</gold>")
-                sender.sendMessage(mensaje)
+                });
             }
-            // TODO: USAR SISTEMA DE CACHÉ
             "get_player_by_uuid" -> {
                 if (args.size < 2) {
-                    mensaje = minimessage.deserialize("$prefix <red>Debes especificar la UUID de un jugador para usar este comando.</red>")
+                    mensaje = minimessage.deserialize("$prefix <red>You need to specify an UUID to use this command.</red>")
                     sender.sendMessage(mensaje)
                     return true
                 }
