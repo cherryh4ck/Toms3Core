@@ -39,9 +39,11 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
                 return true
             }
 
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
-                DiscordWebhook.sendDiscordWebhook(plugin.discordWebhook.toString(), "**${sender.name}** tried to use the /dupe command. what a fucking retard.")
-            })
+            if (plugin.discordWebhook.toString().isNotEmpty()){
+                Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
+                    DiscordWebhook.sendDiscordWebhook(plugin.discordWebhook.toString(), "**${sender.name}** tried to use the /dupe command. what a fucking retard.")
+                })
+            }
 
             val joinMessage = if (isSpanish) { minimessage.deserialize("<gray>popbob se unió al servidor.</gray>") } else { minimessage.deserialize("<gray>popbob has joined the server.</gray>") }
             val hallOfShameMessage = if (isSpanish) { minimessage.deserialize("<red>Ahora estás en la lista de jugadores lamentables.</red>") } else { minimessage.deserialize("<red>You have been added to the Hall of Shame.</red>") }

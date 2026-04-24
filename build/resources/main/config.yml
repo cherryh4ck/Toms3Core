@@ -1,6 +1,9 @@
 # General Configuration
 general:
+  # Plugin prefix, practically used in every single command
   prefix: "<gold>[<red><bold>Toms3<gray>Core</gray></bold></red>]"
+  # Discord Webhook for /dupe
+  # Set it empty to disable
   discord-webhook: ""
 
 # Configuration of commands
