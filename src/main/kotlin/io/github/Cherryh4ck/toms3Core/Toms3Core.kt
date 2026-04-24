@@ -19,6 +19,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
+import org.bukkit.event.HandlerList
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import java.util.UUID
@@ -32,6 +33,9 @@ class Toms3Core : JavaPlugin() {
 
     var prefix = config.getString("general.prefix")
     var discordWebhook = config.getString("general.discord-webhook")
+
+    var illegals_enable = config.getBoolean("illegals.enable")
+    var chunklimits_enable = config.getBoolean("chunk-limits.enable")
 
     var usernameValidationRegex = config.getString("username-validation-regex") ?: "^[a-zA-Z0-9_]{3,16}\$"
 
@@ -80,7 +84,8 @@ class Toms3Core : JavaPlugin() {
         server.pluginManager.registerEvents(CachePlayerJoinListener(this), this)
         server.pluginManager.registerEvents(PlayerNetherRoofListener(this), this)
         server.pluginManager.registerEvents(BlockPlaceListener(this), this)
-        server.pluginManager.registerEvents(PlayerInteractIllegalListener(this), this)
+
+        hookListeners()
 
         logger.info("Core activated.")
         logger.info("---------------------")
@@ -97,10 +102,26 @@ class Toms3Core : JavaPlugin() {
         logger.warning(message)
     }
 
+    private val listeners = mapOf(
+        "illegals.enable" to PlayerInteractIllegalListener(this)
+    )
+
+    fun hookListeners(){
+        listeners.forEach { (path, listener) ->
+            HandlerList.unregisterAll(listener)
+            if (config.getBoolean(path, false)) {
+                server.pluginManager.registerEvents(listener, this)
+                logger.info("Hooked listener: $path")
+            }
+        }
+    }
+
     fun reloadPlugin(){
         reloadConfig()
         prefix = config.getString("general.prefix")
         discordWebhook = config.getString("general.discord-webhook")
+        illegals_enable = config.getBoolean("illegals.enable")
+        chunklimits_enable = config.getBoolean("chunk-limits.enable")
         tile_entities_limit = config.getInt("chunk-limits.tile-entities")
         illegals_prevent_use = config.getStringList("illegals.prevent-use").map { it.uppercase() }
         illegals_prevent_place = config.getStringList("illegals.prevent-place").map { it.uppercase() }
@@ -113,6 +134,7 @@ class Toms3Core : JavaPlugin() {
         announcements_timer = config.getInt("misc.announcements.timer")
         announcements_interval = (20 * announcements_timer).toLong()
         announcements = config.getConfigurationSection("misc.announcements.messages")
+        hookListeners()
     }
 
     fun isConfigUpdated(){
@@ -204,7 +226,7 @@ class Toms3Core : JavaPlugin() {
                             getOfflinePlayer(targetUser)
                         }
                         else{
-                            val uuid = java.util.UUID.fromString(configUuid)
+                            val uuid = UUID.fromString(configUuid)
                             logger.info("UUID file found: ${uuid.toString()}")
                             getOfflinePlayer(uuid)
                         }

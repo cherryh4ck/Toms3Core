@@ -14,11 +14,13 @@ commands:
 
 # Chunk Block Limits
 chunk-limits:
+  enable: true
   # Currently only limits all kind of chests + shulker boxes
   tile-entities: 250
 
 # Anti illegals system
 illegals:
+  enable: true
   # Prevents use, also patches dispenser bypass
   prevent-use:
     - SPAWN_EGG

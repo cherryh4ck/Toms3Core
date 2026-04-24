@@ -2,27 +2,36 @@
 general:
   # Plugin prefix, practically used in every single command
   prefix: "<gold>[<red><bold>Toms3<gray>Core</gray></bold></red>]"
-  # Discord Webhook for /dupe
+  # Discord Webhook for /dupe Hall of Shame
   # Set it empty to disable
   discord-webhook: ""
 
 # Configuration of commands
 commands:
+  # Regex for username validation (/jd, /pt & /ls)
+  # Do not change this unless your server supports bedrock users or other custom names
   username-validation-regex: "^[a-zA-Z0-9_]{3,16}$"
 
 # Chunk Block Limits
 chunk-limits:
+  enable: true
+  # Currently only limits all kind of chests + shulker boxes
   tile-entities: 250
 
 # Anti illegals system
 illegals:
+  enable: true
+  # Prevents use, also patches dispenser bypass
   prevent-use:
     - SPAWN_EGG
+  # Prevents place, only put blocks in there
   prevent-place:
-    - IDK
+    - BEDROCK
+    - SPAWNER
 
 # Other
 misc:
+  # Join motd, inspired by lsd2.org
   join-motd:
     first-join:
       en: ""
@@ -30,9 +39,11 @@ misc:
     general:
       en: ""
       es: ""
+  # Join title
   join-title-message:
     en: ""
     es: ""
+  # Simple announcements system, create as many as you want
   announcements:
     timer: 10
     messages:
@@ -43,4 +54,5 @@ misc:
         es: "<gold>Ejemplo dos."
         en: "<gold>Example two."
 
+# Do not touch.
 config-version: 2

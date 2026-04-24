@@ -14,7 +14,7 @@ class BlockPlaceListener(private val plugin: Toms3Core) : Listener {
         val block = event.block
         val chunk = block.chunk
 
-        if (isATileEntity(block.type)){
+        if (isATileEntity(block.type) && plugin.chunklimits_enable){
             val count = chunk.tileEntities.size
             val maxCount = plugin.tile_entities_limit
 
@@ -33,7 +33,7 @@ class BlockPlaceListener(private val plugin: Toms3Core) : Listener {
             return
         }
 
-        if (plugin.illegals_prevent_place.contains(block.type.name)){
+        if (plugin.illegals_prevent_place.contains(block.type.name) && plugin.illegals_enable){
             event.isCancelled = true
         }
     }
