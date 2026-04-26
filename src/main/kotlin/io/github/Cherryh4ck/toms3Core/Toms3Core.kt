@@ -37,7 +37,7 @@ class Toms3Core : JavaPlugin() {
     var illegals_enable = config.getBoolean("illegals.enable")
     var chunklimits_enable = config.getBoolean("chunk-limits.enable")
 
-    var usernameValidationRegex = config.getString("username-validation-regex") ?: "^[a-zA-Z0-9_]{3,16}\$"
+    var usernameValidationRegex = config.getString("commands.username-validation-regex") ?: "^[a-zA-Z0-9_]{3,16}\$"
 
     var tile_entities_limit = config.getInt("chunk-limits.tile-entities")
 
