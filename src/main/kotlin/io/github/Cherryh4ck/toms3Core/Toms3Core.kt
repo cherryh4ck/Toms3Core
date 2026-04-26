@@ -31,6 +31,8 @@ class Toms3Core : JavaPlugin() {
 
     val minimessage = MiniMessage.miniMessage()
 
+    // ** config.yml configuration ** //
+
     var prefix = config.getString("general.prefix")
     var discordWebhook = config.getString("general.discord-webhook")
 
@@ -38,6 +40,8 @@ class Toms3Core : JavaPlugin() {
     var chunklimits_enable = config.getBoolean("chunk-limits.enable")
 
     var usernameValidationRegex = config.getString("commands.username-validation-regex") ?: "^[a-zA-Z0-9_]{3,16}\$"
+
+    var dupe_webhook_message = config.getString("commands.dupe.discord-webhook-message")
 
     var tile_entities_limit = config.getInt("chunk-limits.tile-entities")
 
@@ -120,6 +124,8 @@ class Toms3Core : JavaPlugin() {
         reloadConfig()
         prefix = config.getString("general.prefix")
         discordWebhook = config.getString("general.discord-webhook")
+        usernameValidationRegex = config.getString("commands.username-validation-regex") ?: "^[a-zA-Z0-9_]{3,16}\$"
+        dupe_webhook_message = config.getString("commands.dupe.discord-webhook-message")
         illegals_enable = config.getBoolean("illegals.enable")
         chunklimits_enable = config.getBoolean("chunk-limits.enable")
         tile_entities_limit = config.getInt("chunk-limits.tile-entities")

@@ -41,7 +41,8 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
 
             if (plugin.discordWebhook.toString().isNotEmpty()){
                 Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
-                    DiscordWebhook.sendDiscordWebhook(plugin.discordWebhook.toString(), "**${sender.name}** tried to use the /dupe command. what a fucking retard.")
+                    val message = plugin.dupe_webhook_message.toString().replace("%username%", sender.name)
+                    DiscordWebhook.sendDiscordWebhook(plugin.discordWebhook.toString(), message)
                 })
             }
 
