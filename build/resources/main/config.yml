@@ -5,12 +5,22 @@ general:
   # Discord Webhook for /dupe Hall of Shame
   # Set it empty to disable
   discord-webhook: ""
+  # Spanish translations
+  # THIS IS ONLY FOR toms3.cc, MOST MESSAGES CANNOT BE CUSTOMIZED!!!
+  # This will be removed soon and replaced with locale-based messages.
+  enable-spanish-translation: false
 
-# Configuration of commands
+# Configuration of custom commands + messages
 commands:
   # Regex for username validation (/jd, /pt & /ls)
-  # Do not change this unless your server supports bedrock users or other custom names
+  # Do not change unless your server supports bedrock users or other custom names
   username-validation-regex: "^[a-zA-Z0-9_]{3,16}$"
+  # Troll Dupe command (/dupe)
+  # le popbob coming for you!!!1111
+  dupe:
+    # Message sent to the discord webhook
+    discord-webhook-message: "%username% is probably missing a lot of neurons"
+
 
 # Chunk Block Limits
 chunk-limits:
@@ -29,30 +39,46 @@ illegals:
     - BEDROCK
     - SPAWNER
 
+# Patches
+patches:
+  nether:
+    # Set it to false if you want to disable the listener completely
+    enable: true
+    # Blocks nether roof from being accessed. Players get teleported seven blocks below.
+    block-nether-roof:
+      enable: true
+    # Blocks players from going below bedrock if they use an elytra.
+    patch-vclip-exploit:
+      # Modes: STRICT & ELYTRA
+      # STRICT: Prevents players from going below bedrock
+      # ELYTRA: Same as above, but only if they have an elytra equipped (Make sure your server has a decent anti-cheat, otherwise it can be bypassed!)
+      mode: ELYTRA
+      enable: true
+
 # Other
 misc:
   # Join motd, inspired by lsd2.org
   join-motd:
     first-join:
-      en: ""
-      es: ""
+      en: "Welcome to the server!"
+      es: "¡Bienvenido al servidor!"
     general:
-      en: ""
-      es: ""
+      en: "Welcome back to the server!"
+      es: "¡Bienvenido devuelta al servidor!"
   # Join title
   join-title-message:
-    en: ""
-    es: ""
+    en: "Welcome"
+    es: "Bienvenido"
   # Simple announcements system, create as many as you want
   announcements:
     timer: 10
     messages:
       example:
-        es: "<gold>Ejemplo."
         en: "<gold>Example."
+        es: "<gold>Ejemplo."
       example-two:
-        es: "<gold>Ejemplo dos."
         en: "<gold>Example two."
+        es: "<gold>Ejemplo dos."
 
 # Do not touch.
-config-version: 2
+config-version: 3

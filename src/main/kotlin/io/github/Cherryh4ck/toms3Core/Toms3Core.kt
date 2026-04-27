@@ -26,13 +26,14 @@ import java.util.UUID
 
 class Toms3Core : JavaPlugin() {
     // -- IMPORTANT --
-    val configVersion = 2
+    val configVersion = 3
     // -- IMPORTANT --
 
     val minimessage = MiniMessage.miniMessage()
 
     // ** config.yml configuration ** //
 
+    // ** general config ** //
     var prefix = config.getString("general.prefix")
     var discordWebhook = config.getString("general.discord-webhook")
 
@@ -47,6 +48,10 @@ class Toms3Core : JavaPlugin() {
 
     var illegals_prevent_use = config.getStringList("illegals.prevent-use").map { it.uppercase() }
     var illegals_prevent_place = config.getStringList("illegals.prevent-place").map { it.uppercase() }
+
+    var block_nether_roof = config.getBoolean("patches.nether.block-nether-roof.enable")
+    var patch_vclip_exploit_mode = config.getString("patches.patch-vclip-exploit.mode")
+    var patch_vclip_exploit = config.getBoolean("patches.patch-vclip-exploit.enable")
 
     var motd_general = config.getString("misc.join-motd.general.en")
     var motd_es = config.getString("misc.join-motd.general.es")
@@ -86,7 +91,6 @@ class Toms3Core : JavaPlugin() {
         server.pluginManager.registerEvents(PlayerJoinListener(this), this)
         server.pluginManager.registerEvents(PlayerLeaveListener(this), this)
         server.pluginManager.registerEvents(CachePlayerJoinListener(this), this)
-        server.pluginManager.registerEvents(PlayerNetherRoofListener(this), this)
         server.pluginManager.registerEvents(BlockPlaceListener(this), this)
 
         hookListeners()
@@ -107,7 +111,8 @@ class Toms3Core : JavaPlugin() {
     }
 
     private val listeners = mapOf(
-        "illegals.enable" to PlayerInteractIllegalListener(this)
+        "illegals.enable" to PlayerInteractIllegalListener(this),
+        "patches.nether.enable" to PlayerNetherRoofListener(this)
     )
 
     fun hookListeners(){
@@ -131,6 +136,9 @@ class Toms3Core : JavaPlugin() {
         tile_entities_limit = config.getInt("chunk-limits.tile-entities")
         illegals_prevent_use = config.getStringList("illegals.prevent-use").map { it.uppercase() }
         illegals_prevent_place = config.getStringList("illegals.prevent-place").map { it.uppercase() }
+        block_nether_roof = config.getBoolean("patches.nether.block-nether-roof.enable")
+        patch_vclip_exploit_mode = config.getString("patches.patch-vclip-exploit.mode")
+        patch_vclip_exploit = config.getBoolean("patches.patch-vclip-exploit.enable")
         motd_general = config.getString("misc.join-motd.general.en")
         motd_es = config.getString("misc.join-motd.general.es")
         first_join_motd = config.getString("misc.join-motd.first-join.en")
