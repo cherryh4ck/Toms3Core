@@ -186,7 +186,7 @@ class Toms3Core : JavaPlugin() {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         val mensaje : Component
         if(args.isEmpty()){
-            mensaje = minimessage.deserialize("<gold>$prefix version ${this.pluginMeta.version} (build 9a)</gold>")
+            mensaje = minimessage.deserialize("<gold>$prefix version ${this.pluginMeta.version} (build 10)</gold>")
             sender.sendMessage(mensaje)
             return true
         }

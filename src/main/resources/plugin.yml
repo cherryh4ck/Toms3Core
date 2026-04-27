@@ -1,5 +1,5 @@
 name: Toms3Core
-version: '1.0'
+version: '1.0b10'
 main: io.github.Cherryh4ck.toms3Core.Toms3Core
 api-version: '1.21'
 authors: [ Cherryh4ck ]
