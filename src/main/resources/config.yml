@@ -7,7 +7,7 @@ general:
   discord-webhook: ""
   # Spanish translations
   # THIS IS ONLY FOR toms3.cc, MOST MESSAGES CANNOT BE CUSTOMIZED!!!
-  # This will be removed soon.
+  # This will be removed soon and replaced with locale-based messages.
   enable-spanish-translation: false
 
 # Configuration of custom commands + messages
@@ -38,6 +38,22 @@ illegals:
   prevent-place:
     - BEDROCK
     - SPAWNER
+
+# Patches
+patches:
+  nether:
+    # Set it to false if you want to disable the listener completely
+    enable: true
+    # Blocks nether roof from being accessed. Players get teleported seven blocks below.
+    block-nether-roof:
+      enable: true
+    # Blocks players from going below bedrock if they use an elytra.
+    patch-vclip-exploit:
+      # Modes: STRICT & ELYTRA
+      # STRICT: Prevents players from going below bedrock
+      # ELYTRA: Same as above, but only if they have an elytra equipped (Make sure your server has a decent anti-cheat, otherwise it can be bypassed!)
+      mode: ELYTRA
+      enable: true
 
 # Other
 misc:
