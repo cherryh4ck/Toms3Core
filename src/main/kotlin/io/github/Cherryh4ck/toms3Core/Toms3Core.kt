@@ -50,8 +50,8 @@ class Toms3Core : JavaPlugin() {
     var illegals_prevent_place = config.getStringList("illegals.prevent-place").map { it.uppercase() }
 
     var block_nether_roof = config.getBoolean("patches.nether.block-nether-roof.enable")
-    var patch_vclip_exploit_mode = config.getString("patches.patch-vclip-exploit.mode")
-    var patch_vclip_exploit = config.getBoolean("patches.patch-vclip-exploit.enable")
+    var patch_vclip_exploit_mode = config.getString("patches.nether.patch-vclip-exploit.mode")
+    var patch_vclip_exploit = config.getBoolean("patches.nether.patch-vclip-exploit.enable")
 
     var motd_general = config.getString("misc.join-motd.general.en")
     var motd_es = config.getString("misc.join-motd.general.es")
@@ -137,8 +137,8 @@ class Toms3Core : JavaPlugin() {
         illegals_prevent_use = config.getStringList("illegals.prevent-use").map { it.uppercase() }
         illegals_prevent_place = config.getStringList("illegals.prevent-place").map { it.uppercase() }
         block_nether_roof = config.getBoolean("patches.nether.block-nether-roof.enable")
-        patch_vclip_exploit_mode = config.getString("patches.patch-vclip-exploit.mode")
-        patch_vclip_exploit = config.getBoolean("patches.patch-vclip-exploit.enable")
+        patch_vclip_exploit_mode = config.getString("patches.nether.patch-vclip-exploit.mode")
+        patch_vclip_exploit = config.getBoolean("patches.nether.patch-vclip-exploit.enable")
         motd_general = config.getString("misc.join-motd.general.en")
         motd_es = config.getString("misc.join-motd.general.es")
         first_join_motd = config.getString("misc.join-motd.first-join.en")

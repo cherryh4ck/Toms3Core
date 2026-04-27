@@ -37,16 +37,21 @@ class PlayerNetherRoofListener(private val plugin: Toms3Core) : Listener {
                 }
                 plugin.sendError("${player.name} tried to access Nether Roof.")
             }
-            else if (to.y < 0 && ((player.inventory.chestplate?.type == Material.ELYTRA && plugin.patch_vclip_exploit_mode == "ELYTRA") || (plugin.patch_vclip_exploit_mode == "STRICT")) ){
-                val loc = Location(world, to.x, 7.0, to.z)
-                player.teleport(loc)
-                if (playerLocale.startsWith("es")){
-                    player.sendMessage(plugin.minimessage.deserialize("<gold>${plugin.prefix} No se pueden usar las elytras debajo de la bedrock debido a un exploit."))
+            else if (to.y < 0 && plugin.patch_vclip_exploit) {
+                val isElytraEnabled = player.inventory.chestplate?.type == Material.ELYTRA && plugin.patch_vclip_exploit_mode == "ELYTRA"
+                val isStrictEnabled = plugin.patch_vclip_exploit_mode == "STRICT"
+
+                if (isElytraEnabled || isStrictEnabled){
+                    val loc = Location(world, to.x, 7.0, to.z)
+                    player.teleport(loc)
+                    if (playerLocale.startsWith("es")){
+                        player.sendMessage(plugin.minimessage.deserialize("<gold>${plugin.prefix} No se pueden usar las elytras debajo de la bedrock debido a un exploit."))
+                    }
+                    else{
+                        player.sendMessage(plugin.minimessage.deserialize("<gold>${plugin.prefix} This travel exploit is currently disabled."))
+                    }
+                    plugin.sendError("${player.name} tried to execute the VClip exploit.")
                 }
-                else{
-                    player.sendMessage(plugin.minimessage.deserialize("<gold>${plugin.prefix} This travel exploit is currently disabled."))
-                }
-                plugin.sendError("${player.name} tried to execute the VClip exploit.")
             }
         }
     }
