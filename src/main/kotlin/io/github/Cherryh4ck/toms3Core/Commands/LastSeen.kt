@@ -34,7 +34,12 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
         }
 
         if (args.isEmpty()){
-            val mensaje = if (isSpanish) { minimessage.deserialize("<red>No puedes usar este comando sin poner el nombre de un jugador.</red>") } else { minimessage.deserialize("<red>You cannot use this command without putting the name of a player.</red>") }
+            val mensaje = if (isSpanish) {
+                minimessage.deserialize("${plugin.prefix} <red>No puedes usar este comando sin poner el nombre de un jugador.</red>")
+            }
+            else {
+                minimessage.deserialize("${plugin.prefix} <red>You cannot use this command without putting the name of a player.</red>")
+            }
             sender.sendMessage(mensaje)
             return true
         }
@@ -43,7 +48,12 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
         }
 
         if (!validateUsername(targetUser)) {
-            val mensaje = if (isSpanish) { minimessage.deserialize("<red>$targetUser no es un nombre de jugador válido.</red>") } else { minimessage.deserialize("<red>$targetUser is not a valid player name.</red>") }
+            val mensaje = if (isSpanish) {
+                minimessage.deserialize("${plugin.prefix} <red>$targetUser no es un nombre de jugador válido.</red>")
+            }
+            else {
+                minimessage.deserialize("${plugin.prefix} <red>$targetUser is not a valid player name.</red>")
+            }
             sender.sendMessage(mensaje)
             return true
         }
@@ -53,10 +63,10 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
             val player = Bukkit.getPlayerExact(targetUser)
             if (!playerDataCache.exists()) {
                 val message = if (isSpanish){
-                    minimessage.deserialize("<red>${targetUser} nunca entró al servidor o no está en el cache del servidor.</red>")
+                    minimessage.deserialize("${plugin.prefix} <red>${targetUser} nunca entró al servidor o no está en el cache del servidor.</red>")
                 }
                 else{
-                    minimessage.deserialize("<red>${targetUser} has never entered the server or is not in the server cache.</red>")
+                    minimessage.deserialize("${plugin.prefix} <red>${targetUser} has never entered the server or is not in the server cache.</red>")
                 }
 
                 sender.sendMessage(message)
@@ -64,10 +74,10 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
             }
             else if (player != null && player.isConnected){
                 val message = if (isSpanish){
-                    minimessage.deserialize("<red>No puedes usar este comando porque ${targetUser} está conectado.</red>")
+                    minimessage.deserialize("${plugin.prefix} <red>No puedes usar este comando porque ${targetUser} está conectado.</red>")
                 }
                 else{
-                    minimessage.deserialize("<red>You cannot use this command because ${targetUser} is connected.</red>")
+                    minimessage.deserialize("${plugin.prefix} <red>You cannot use this command because ${targetUser} is connected.</red>")
                 }
 
                 sender.sendMessage(message)
@@ -85,20 +95,20 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
                 val result = format.format(Date(unixTime))
 
                 val message = if (isSpanish){
-                    minimessage.deserialize("<gold><bold>${targetUser}</bold> fue visto por última vez el <bold>${result}</bold>.</gold>")
+                    minimessage.deserialize("${plugin.prefix} <gold><bold>${targetUser}</bold> fue visto por última vez el <bold>${result}</bold>.</gold>")
                 }
                 else{
-                    minimessage.deserialize("<gold><bold>${targetUser}</bold> was last seen on <bold>${result}</bold>.</gold>")
+                    minimessage.deserialize("${plugin.prefix} <gold><bold>${targetUser}</bold> was last seen on <bold>${result}</bold>.</gold>")
                 }
 
                 sender.sendMessage(message)
             }
             else{
                 val message = if (isSpanish){
-                    minimessage.deserialize("<red>${targetUser} nunca entró al servidor o no está en el cache del servidor.</red>")
+                    minimessage.deserialize("${plugin.prefix} <red>${targetUser} nunca entró al servidor o no está en el cache del servidor.</red>")
                 }
                 else{
-                    minimessage.deserialize("<red>${targetUser} has never entered the server or is not in the server cache.</red>")
+                    minimessage.deserialize("${plugin.prefix} <red>${targetUser} has never entered the server or is not in the server cache.</red>")
                 }
 
                 sender.sendMessage(message)
