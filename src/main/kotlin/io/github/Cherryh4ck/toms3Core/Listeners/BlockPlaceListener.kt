@@ -40,7 +40,10 @@ class BlockPlaceListener(private val plugin: Toms3Core) : Listener {
 
     fun isATileEntity(material: Material): Boolean {
         return material.isBlock && material.name.contains("CHEST") ||
-                material.name.contains("SHULKER_BOX")
-
+                material.name.contains("SHULKER_BOX") ||
+                material.name.contains("DISPENSER") ||
+                material.name.contains("FURNACE") ||
+                material.name.contains("BARREL") ||
+                material.name.contains("DROPPER")
     }
 }
