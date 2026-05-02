@@ -26,7 +26,12 @@ commands:
 chunk-limits:
   enable: true
   # Currently only limits all kind of chests + shulker boxes
-  tile-entities: 250
+  tile-entities:
+    # Logs when the tile entity limit is exceeded (includes name, coords, world & region name)
+    # Useful to log any possible chunk bans, but it may be really annoying
+    # Recommended to be set to false
+    log: false
+    entity-limit: 250
 
 # Anti illegals system
 illegals:
@@ -81,4 +86,4 @@ misc:
         es: "<gold>Ejemplo dos."
 
 # Do not touch.
-config-version: 3
+config-version: 4

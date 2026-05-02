@@ -26,7 +26,7 @@ import java.util.UUID
 
 class Toms3Core : JavaPlugin() {
     // -- IMPORTANT --
-    val configVersion = 3
+    val configVersion = 4
     // -- IMPORTANT --
 
     val minimessage = MiniMessage.miniMessage()
@@ -44,7 +44,8 @@ class Toms3Core : JavaPlugin() {
 
     var dupe_webhook_message = config.getString("commands.dupe.discord-webhook-message")
 
-    var tile_entities_limit = config.getInt("chunk-limits.tile-entities")
+    var tile_entities_limit = config.getInt("chunk-limits.tile-entities.entity-limit")
+    var tile_entities_log = config.getBoolean("chunk-limits.tile-entities.log")
 
     var illegals_prevent_use = config.getStringList("illegals.prevent-use").map { it.uppercase() }
     var illegals_prevent_place = config.getStringList("illegals.prevent-place").map { it.uppercase() }
@@ -133,7 +134,8 @@ class Toms3Core : JavaPlugin() {
         dupe_webhook_message = config.getString("commands.dupe.discord-webhook-message")
         illegals_enable = config.getBoolean("illegals.enable")
         chunklimits_enable = config.getBoolean("chunk-limits.enable")
-        tile_entities_limit = config.getInt("chunk-limits.tile-entities")
+        tile_entities_limit = config.getInt("chunk-limits.tile-entities.entity-limit")
+        tile_entities_log = config.getBoolean("chunk-limits.tile-entities.log")
         illegals_prevent_use = config.getStringList("illegals.prevent-use").map { it.uppercase() }
         illegals_prevent_place = config.getStringList("illegals.prevent-place").map { it.uppercase() }
         block_nether_roof = config.getBoolean("patches.nether.block-nether-roof.enable")

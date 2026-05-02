@@ -23,6 +23,15 @@ class BlockPlaceListener(private val plugin: Toms3Core) : Listener {
 
                 val player = event.player
 
+                if (plugin.tile_entities_log){
+                    val chunkX = chunk.x
+                    val chunkZ = chunk.z
+                    val regionX = chunkX shr 5
+                    val regionZ = chunkZ shr 5
+                    val chunkFileName = "r.$regionX.$regionZ.mca"
+                    plugin.logToConsole("<yellow>Tile entity limit exceeded by ${player.name} at X: ${block.location.block.x} Y: ${block.location.block.y} Z: ${block.location.block.z} (World: ${chunk.world.name}) (Chunk: $chunkFileName)")
+                }
+
                 val isSpanish = event.player.locale().toString().startsWith("es")
                 if (isSpanish){
                     player.sendMessage(plugin.minimessage.deserialize("<gold>${plugin.prefix} Las entidades de bloque están limitadas a $maxCount por chunk."))
