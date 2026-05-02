@@ -20,7 +20,7 @@ class PlayerLeaveListener(private val plugin : Toms3Core) : Listener {
             config.set("last-seen", now)
             try {
                 config.save(playerData)
-                plugin.logger.info("Last seen date updated for ${player.name}.")
+                plugin.logToConsole("<green>Last seen date updated for ${player.name}.")
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }

@@ -22,6 +22,7 @@ class BlockPlaceListener(private val plugin: Toms3Core) : Listener {
                 event.isCancelled = true
 
                 val player = event.player
+
                 val isSpanish = event.player.locale().toString().startsWith("es")
                 if (isSpanish){
                     player.sendMessage(plugin.minimessage.deserialize("<gold>${plugin.prefix} Las entidades de bloque están limitadas a $maxCount por chunk."))

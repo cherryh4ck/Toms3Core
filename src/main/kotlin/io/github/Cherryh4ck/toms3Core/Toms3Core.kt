@@ -106,8 +106,8 @@ class Toms3Core : JavaPlugin() {
         // Plugin shutdown logic
     }
 
-    fun sendError(message : String){
-        logger.warning(message)
+    fun logToConsole(message: String) {
+        Bukkit.getConsoleSender().sendMessage(minimessage.deserialize("$prefix $message"))
     }
 
     private val listeners = mapOf(
@@ -120,7 +120,7 @@ class Toms3Core : JavaPlugin() {
             HandlerList.unregisterAll(listener)
             if (config.getBoolean(path, false)) {
                 server.pluginManager.registerEvents(listener, this)
-                logger.info("Hooked listener: $path")
+                logToConsole("<yellow>Hooked listener: <green>$path")
             }
         }
     }
@@ -229,19 +229,19 @@ class Toms3Core : JavaPlugin() {
                 Bukkit.getScheduler().runTaskAsynchronously(this, Runnable {
                     val playerDataCache = File(playerDataPath, "${targetUser}.yml")
                     val offlineplayer = if (!playerDataCache.exists()) {
-                        logger.info("$targetUser's UUID file doesn't exist.")
+                        logToConsole("<red>$targetUser's UUID file doesn't exist.")
                         getOfflinePlayer(targetUser)
                     }
                     else{
                         val config = YamlConfiguration.loadConfiguration(playerDataCache)
                         val configUuid = config.getString("uuid")
                         if (configUuid == null) {
-                            logger.info("UUID value is null.")
+                            logToConsole("<yellow>UUID value is null.")
                             getOfflinePlayer(targetUser)
                         }
                         else{
                             val uuid = UUID.fromString(configUuid)
-                            logger.info("UUID file found: ${uuid.toString()}")
+                            logToConsole("<green>UUID file found: ${uuid.toString()}")
                             getOfflinePlayer(uuid)
                         }
                     }

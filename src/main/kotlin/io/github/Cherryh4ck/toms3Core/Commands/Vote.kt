@@ -19,7 +19,7 @@ class Vote(private val plugin : Toms3Core) : TabExecutor {
             sender.sendMessage(message)
         }
         else{
-            plugin.sendError("You must be a player to use this command.")
+            plugin.logToConsole("<red>You must be a player to use this command.")
         }
         return true
     }
