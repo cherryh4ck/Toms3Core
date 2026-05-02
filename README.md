@@ -6,7 +6,7 @@ ___
 ## Features
 * Utility commands like joindate, playtime, lastseen and vote
 * Troll commands with Discord webhook connection (currently only /dupe)
-* Utility admin comamnds
+* Utility admin commands
 * Cache system to support mixted UUIDs (premium and no-premium)
 * MOTD when entering the server
 * MOTD when entering the server for the first time
