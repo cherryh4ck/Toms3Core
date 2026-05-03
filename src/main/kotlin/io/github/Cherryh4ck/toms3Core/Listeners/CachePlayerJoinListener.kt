@@ -14,7 +14,7 @@ class CachePlayerJoinListener(private val plugin: Toms3Core) : Listener {
     fun onPlayerJoin(event: PlayerJoinEvent){
         val player = event.player
         Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
-            val playerData = File(plugin.playerDataPath, "${player.name}.yml")
+            val playerData = File(plugin.playerDataPath, "${player.name.lowercase()}.yml")
             val config = YamlConfiguration.loadConfiguration(playerData)
 
             val getUuid = config.getString("uuid")

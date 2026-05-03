@@ -59,7 +59,7 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
         }
 
         Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
-            val playerDataCache = File(plugin.playerDataPath, "${targetUser}.yml")
+            val playerDataCache = File(plugin.playerDataPath, "${targetUser.lowercase()}.yml")
             val player = Bukkit.getPlayerExact(targetUser)
             if (!playerDataCache.exists()) {
                 val message = if (isSpanish && plugin.spanish_enabled){

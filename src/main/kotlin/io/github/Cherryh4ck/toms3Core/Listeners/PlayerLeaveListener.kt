@@ -14,7 +14,7 @@ class PlayerLeaveListener(private val plugin : Toms3Core) : Listener {
     fun onPlayerQuit(event: PlayerQuitEvent){
         val player = event.player
         Bukkit.getScheduler().runTaskAsynchronously(plugin, Runnable {
-            val playerData = File(plugin.playerDataPath, "${player.name}.yml")
+            val playerData = File(plugin.playerDataPath, "${player.name.lowercase()}.yml")
             val config = YamlConfiguration.loadConfiguration(playerData)
             val now = System.currentTimeMillis()
             config.set("last-seen", now)

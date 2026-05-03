@@ -241,7 +241,7 @@ class Toms3Core : JavaPlugin() {
                     args[1]
                 }
                 Bukkit.getScheduler().runTaskAsynchronously(this, Runnable {
-                    val playerDataCache = File(playerDataPath, "${targetUser}.yml")
+                    val playerDataCache = File(playerDataPath, "${targetUser.lowercase()}.yml")
                     val offlineplayer = if (!playerDataCache.exists()) {
                         logToConsole("<red>$targetUser's UUID file doesn't exist.")
                         getOfflinePlayer(targetUser)
@@ -292,6 +292,28 @@ class Toms3Core : JavaPlugin() {
                     sender.sendMessage(mensaje)
                 }
             }
+            "normalize_playerdata_names" -> {
+                val files = playerDataPath.listFiles { _, name -> name.endsWith(".yml") } ?: emptyArray()
+                val total = files.size
+                if (total > 0) {
+                    sender.sendMessage(minimessage.deserialize("$prefix <green>Normalizando $total archivos..."))
+                    Bukkit.getScheduler().runTaskAsynchronously(this, Runnable {
+                        for ((index, file) in files.withIndex()) {
+                            val originalName = file.name
+                            val lowercaseName = originalName.lowercase()
+                            if (originalName != lowercaseName) {
+                                val targetFile = File(playerDataPath, lowercaseName)
+                                if (file.renameTo(targetFile)) {
+                                    logger.info("[${index + 1}/$total] Renombrado: $originalName -> $lowercaseName")
+                                } else {
+                                    logger.warning("No se pudo renombrar: $originalName")
+                                }
+                            }
+                        }
+                        sender.sendMessage(minimessage.deserialize("$prefix <green>Normalización finalizada."))
+                    })
+                }
+            }
             /*"migrate_fallen_dupe" -> {
                 val dupeList = config.getStringList("fallen-for-dupe")
                 val dupeListLength = dupeList.size
@@ -330,7 +352,7 @@ class Toms3Core : JavaPlugin() {
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String>? {
         val completions = mutableListOf<String>()
         if (args.size == 1) {
-            val subs = listOf("help", "reload", "get_uuid_by_player", "get_player_by_uuid")
+            val subs = listOf("help", "reload", "get_uuid_by_player", "get_player_by_uuid", "normalize_playerdata_names")
             for (s in subs) {
                 if (s.startsWith(args[0].lowercase())) {
                     completions.add(s)

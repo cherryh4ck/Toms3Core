@@ -25,7 +25,7 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
         if (sender is Player) {
             val locale = sender.locale().toString()
             val isSpanish = locale.startsWith("es") // le isspanish
-            val playerDataCache = File(plugin.playerDataPath, "${sender.name}.yml")
+            val playerDataCache = File(plugin.playerDataPath, "${sender.name.lowercase()}.yml")
             val config = YamlConfiguration.loadConfiguration(playerDataCache)
             val alreadyFallen = config.getBoolean("fallen-for-dupe")
 
