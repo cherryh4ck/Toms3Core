@@ -34,7 +34,7 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
         }
 
         if (args.isEmpty()){
-            val mensaje = if (isSpanish) {
+            val mensaje = if (isSpanish && plugin.spanish_enabled) {
                 minimessage.deserialize("${plugin.prefix} <red>No puedes usar este comando sin poner el nombre de un jugador.</red>")
             }
             else {
@@ -48,7 +48,7 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
         }
 
         if (!validateUsername(targetUser)) {
-            val mensaje = if (isSpanish) {
+            val mensaje = if (isSpanish && plugin.spanish_enabled) {
                 minimessage.deserialize("${plugin.prefix} <red>$targetUser no es un nombre de jugador válido.</red>")
             }
             else {
@@ -62,7 +62,7 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
             val playerDataCache = File(plugin.playerDataPath, "${targetUser}.yml")
             val player = Bukkit.getPlayerExact(targetUser)
             if (!playerDataCache.exists()) {
-                val message = if (isSpanish){
+                val message = if (isSpanish && plugin.spanish_enabled){
                     minimessage.deserialize("${plugin.prefix} <red>${targetUser} nunca entró al servidor o no está en el cache del servidor.</red>")
                 }
                 else{
@@ -73,7 +73,7 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
                 return@Runnable
             }
             else if (player != null && player.isConnected){
-                val message = if (isSpanish){
+                val message = if (isSpanish && plugin.spanish_enabled){
                     minimessage.deserialize("${plugin.prefix} <red>No puedes usar este comando porque ${targetUser} está conectado.</red>")
                 }
                 else{
@@ -87,14 +87,14 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
 
             val unixTime = config.getLong("last-seen")
             if (unixTime.toInt() != 0){
-                val format = if (isSpanish) {
+                val format = if (isSpanish && plugin.spanish_enabled) {
                     SimpleDateFormat("dd/MM/yyyy HH:mm")
                 } else {
                     SimpleDateFormat("MM/dd/yyyy hh:mm a")
                 }
                 val result = format.format(Date(unixTime))
 
-                val message = if (isSpanish){
+                val message = if (isSpanish && plugin.spanish_enabled){
                     minimessage.deserialize("${plugin.prefix} <gold><bold>${targetUser}</bold> fue visto por última vez el <bold>${result}</bold>.</gold>")
                 }
                 else{
@@ -104,7 +104,7 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
                 sender.sendMessage(message)
             }
             else{
-                val message = if (isSpanish){
+                val message = if (isSpanish && plugin.spanish_enabled){
                     minimessage.deserialize("${plugin.prefix} <red>${targetUser} nunca entró al servidor o no está en el cache del servidor.</red>")
                 }
                 else{

@@ -25,7 +25,6 @@ commands:
 # Chunk Block Limits
 chunk-limits:
   enable: true
-  # Currently only limits all kind of chests + shulker boxes
   tile-entities:
     # Logs when the tile entity limit is exceeded (includes name, coords, world & region name)
     # Useful to log any possible chunk bans, but it may be really annoying

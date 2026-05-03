@@ -30,7 +30,7 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
             val alreadyFallen = config.getBoolean("fallen-for-dupe")
 
             if (alreadyFallen) {
-                if (isSpanish) {
+                if (isSpanish && plugin.spanish_enabled) {
                     sender.sendMessage(minimessage.deserialize("${plugin.prefix} <red>No seas idiota, newfag.</red>"))
                 }
                 else {
@@ -46,8 +46,8 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
                 })
             }
 
-            val joinMessage = if (isSpanish) { minimessage.deserialize("<gray>popbob se unió al servidor.</gray>") } else { minimessage.deserialize("<gray>popbob has joined the server.</gray>") }
-            val hallOfShameMessage = if (isSpanish) { minimessage.deserialize("<red>Ahora estás en la lista de jugadores lamentables.</red>") } else { minimessage.deserialize("<red>You have been added to the Hall of Shame.</red>") }
+            val joinMessage = if (isSpanish && plugin.spanish_enabled) { minimessage.deserialize("<gray>popbob se unió al servidor.</gray>") } else { minimessage.deserialize("<gray>popbob has joined the server.</gray>") }
+            val hallOfShameMessage = if (isSpanish && plugin.spanish_enabled) { minimessage.deserialize("<red>Ahora estás en la lista de jugadores lamentables.</red>") } else { minimessage.deserialize("<red>You have been added to the Hall of Shame.</red>") }
             sender.sendMessage(joinMessage)
             Bukkit.getScheduler().runTaskLater(plugin, Runnable {
                 sender.sendMessage("${sender.name} » popbob my coords are ${sender.x.toInt().toString()} ${sender.z.toInt().toString()} come get me please")
@@ -70,7 +70,7 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
                 sender.playSound(sender.location, Sound.ENTITY_WITHER_SPAWN, 2.0f, 0.15f)
                 Bukkit.getOnlinePlayers().forEach { player ->
                     val locale = player.locale().toString()
-                    if (locale.startsWith("es")) {
+                    if (locale.startsWith("es") && plugin.spanish_enabled) {
                         player.sendMessage(minimessage.deserialize("<gray>${sender.name} fue agregado a la <light_purple>lista de jugadores miserables</light_purple>."))
                     }
                     else{

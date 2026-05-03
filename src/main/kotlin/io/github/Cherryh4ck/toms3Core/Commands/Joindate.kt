@@ -47,7 +47,7 @@ class Joindate(private val plugin: Toms3Core) : TabExecutor {
         }
 
         if (!validateUsername(targetUser)) {
-            val mensaje = if (isSpanish) {
+            val mensaje = if (isSpanish && plugin.spanish_enabled) {
                 minimessage.deserialize("${plugin.prefix} <red>$targetUser no es un nombre de jugador válido.</red>")
             }
             else {
@@ -78,7 +78,7 @@ class Joindate(private val plugin: Toms3Core) : TabExecutor {
             }
 
             if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L) {
-                val message = if (isSpanish){
+                val message = if (isSpanish && plugin.spanish_enabled){
                     minimessage.deserialize("${plugin.prefix} <red>${offlineplayer.name} nunca entró al servidor o no está en el cache del servidor.</red>")
                 }
                 else{
@@ -90,14 +90,14 @@ class Joindate(private val plugin: Toms3Core) : TabExecutor {
             }
 
             val unixTime = offlineplayer.firstPlayed
-            val format = if (isSpanish) {
+            val format = if (isSpanish && plugin.spanish_enabled) {
                 SimpleDateFormat("dd/MM/yyyy HH:mm")
             } else {
                 SimpleDateFormat("MM/dd/yyyy hh:mm a")
             }
             val result = format.format(Date(unixTime))
 
-            val message = if (isSpanish){
+            val message = if (isSpanish && plugin.spanish_enabled){
                 if (offlineplayer.name != sender.name){
                     minimessage.deserialize("<gold>${plugin.prefix} <bold>${offlineplayer.name}</bold> se unió al servidor el <bold>${result}</bold>.</gold>")
                 }

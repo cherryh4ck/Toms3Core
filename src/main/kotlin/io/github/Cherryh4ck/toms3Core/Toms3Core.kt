@@ -36,6 +36,7 @@ class Toms3Core : JavaPlugin() {
     // ** general config ** //
     var prefix = config.getString("general.prefix")
     var discordWebhook = config.getString("general.discord-webhook")
+    var spanish_enabled = config.getBoolean("general.enable-spanish-translation")
 
     var illegals_enable = config.getBoolean("illegals.enable")
     var chunklimits_enable = config.getBoolean("chunk-limits.enable")
@@ -130,6 +131,7 @@ class Toms3Core : JavaPlugin() {
         reloadConfig()
         prefix = config.getString("general.prefix")
         discordWebhook = config.getString("general.discord-webhook")
+        spanish_enabled = config.getBoolean("general.enable-spanish-translation")
         usernameValidationRegex = config.getString("commands.username-validation-regex") ?: "^[a-zA-Z0-9_]{3,16}\$"
         dupe_webhook_message = config.getString("commands.dupe.discord-webhook-message")
         illegals_enable = config.getBoolean("illegals.enable")
@@ -174,7 +176,7 @@ class Toms3Core : JavaPlugin() {
 
                     for (player in Bukkit.getOnlinePlayers()) {
                         val locale = player.locale().toString()
-                        if (locale.startsWith("es")) {
+                        if (locale.startsWith("es") && spanish_enabled) {
                             player.sendMessage(msgEs)
                         } else {
                             player.sendMessage(msgEn)

@@ -33,7 +33,7 @@ class BlockPlaceListener(private val plugin: Toms3Core) : Listener {
                 }
 
                 val isSpanish = event.player.locale().toString().startsWith("es")
-                if (isSpanish){
+                if (isSpanish && plugin.spanish_enabled){
                     player.sendMessage(plugin.minimessage.deserialize("<gold>${plugin.prefix} Las entidades de bloque están limitadas a $maxCount por chunk."))
                 }
                 else{

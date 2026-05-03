@@ -20,7 +20,7 @@ class PlayerJoinListener(private val plugin: Toms3Core) : Listener {
 
         Bukkit.getScheduler().runTaskLater(plugin, Runnable {
             if (hasPlayedBefore) {
-                if (playerLocale.startsWith("es")){
+                if (playerLocale.startsWith("es") && plugin.spanish_enabled){
                     player.sendMessage(plugin.minimessage.deserialize(plugin.motd_es.toString()))
                     player.showTitle(Title.title(plugin.minimessage.deserialize(plugin.title_announcement_es.toString()), Component.empty()))
                 }

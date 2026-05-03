@@ -29,7 +29,7 @@ class PlayerNetherRoofListener(private val plugin: Toms3Core) : Listener {
             if (to.y > 127 && plugin.block_nether_roof){
                 val loc = Location(world, to.x, 120.0, to.z)
                 player.teleport(loc)
-                if (playerLocale.startsWith("es")){
+                if (playerLocale.startsWith("es") && plugin.spanish_enabled){
                     player.sendMessage(plugin.minimessage.deserialize("<gold>${plugin.prefix} El techo del Nether está deshabilitado."))
                 }
                 else{
@@ -44,7 +44,7 @@ class PlayerNetherRoofListener(private val plugin: Toms3Core) : Listener {
                 if (isElytraEnabled || isStrictEnabled){
                     val loc = Location(world, to.x, 7.0, to.z)
                     player.teleport(loc)
-                    if (playerLocale.startsWith("es")){
+                    if (playerLocale.startsWith("es") && plugin.spanish_enabled){
                         player.sendMessage(plugin.minimessage.deserialize("<gold>${plugin.prefix} No se pueden usar las elytras debajo de la bedrock debido a un exploit."))
                     }
                     else{

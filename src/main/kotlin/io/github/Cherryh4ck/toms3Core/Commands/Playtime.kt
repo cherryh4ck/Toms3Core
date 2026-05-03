@@ -47,7 +47,7 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
         }
 
         if (!validateUsername(targetUser)) {
-            val mensaje = if (isSpanish) {
+            val mensaje = if (isSpanish && plugin.spanish_enabled) {
                 minimessage.deserialize("${plugin.prefix} <red>$targetUser no es un nombre de jugador válido.</red>")
             }
             else {
@@ -77,7 +77,7 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
                 }
             }
             if (!offlineplayer.isOnline && offlineplayer.firstPlayed == 0L){
-                val mensaje = if (isSpanish) {
+                val mensaje = if (isSpanish && plugin.spanish_enabled) {
                     minimessage.deserialize("${plugin.prefix} <red>$targetUser nunca entró al servidor o no está en el cache del servidor.</red>")
                 }
                 else {
@@ -92,7 +92,7 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
             val result = ms.milliseconds
             val resultHs = "%.2f".format(result.toDouble(DurationUnit.HOURS))
 
-            val mensaje = if (isSpanish) {
+            val mensaje = if (isSpanish && plugin.spanish_enabled) {
                 if (offlineplayer.name != sender.name){
                     minimessage.deserialize("<gold>${plugin.prefix} <bold>$targetUser</bold> tiene un tiempo de juego de <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
                 }
