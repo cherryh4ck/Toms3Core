@@ -218,24 +218,13 @@ class Toms3Core : JavaPlugin() {
 
         when (args[0].lowercase()) {
             "help" -> {
-                mensaje = minimessage.deserialize("$prefix <gold>Available commands:<newline>- <gray>/tmcore</gray><newline>- <gray>/tmcore get_player_by_uuid</gray><newline>- <gray>/tmcore get_uuid_by_player</gray><newline>- <gray>/tmcore illegal_test</gray><newline>- <gray>/joindate</gray><newline>- <gray>/playtime</gray><newline>- <gray>/lastseen</gray><newline>- <gray>/dupe</gray><newline>- <gray>/vote</gray></gold>")
+                mensaje = minimessage.deserialize("$prefix <gold>Available commands:<newline>- <gray>/tmcore</gray><newline>- <gray>/tmcore get_player_by_uuid</gray><newline>- <gray>/tmcore get_uuid_by_player</gray><newline>- <gray>/joindate</gray><newline>- <gray>/playtime</gray><newline>- <gray>/lastseen</gray><newline>- <gray>/dupe</gray><newline>- <gray>/vote</gray></gold>")
                 sender.sendMessage(mensaje)
             }
             "reload" -> {
                 reloadPlugin()
                 isConfigUpdated()
                 mensaje = minimessage.deserialize("$prefix <gold>Plugin reloaded.</gold>")
-                sender.sendMessage(mensaje)
-            }
-            "illegal_test" -> {
-                // terminar
-                // ok, nunca lo voy a terminar, soy un vago.
-                mensaje = if (sender is Player) {
-                    minimessage.deserialize("$prefix <red>popbob</red>")
-                }
-                else{
-                    minimessage.deserialize("$prefix <red>You need to be a player to use this command.</red>")
-                }
                 sender.sendMessage(mensaje)
             }
             "get_uuid_by_player" -> {
@@ -341,7 +330,7 @@ class Toms3Core : JavaPlugin() {
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String>? {
         val completions = mutableListOf<String>()
         if (args.size == 1) {
-            val subs = listOf("help", "reload", "illegal_test", "get_uuid_by_player", "get_player_by_uuid", "migrate_fallen_dupe")
+            val subs = listOf("help", "reload", "get_uuid_by_player", "get_player_by_uuid", "migrate_fallen_dupe")
             for (s in subs) {
                 if (s.startsWith(args[0].lowercase())) {
                     completions.add(s)
