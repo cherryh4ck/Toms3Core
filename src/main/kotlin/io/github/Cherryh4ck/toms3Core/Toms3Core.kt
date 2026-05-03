@@ -172,7 +172,7 @@ class Toms3Core : JavaPlugin() {
     fun isConfigUpdated(){
         val getConfigVersion = config.getInt("config-version")
         if (configVersion != getConfigVersion) {
-            logger.warning("Config is outdated, which means that a few things are missing. Please check your config to ensure the plugin works correctly!!!")
+            logToConsole("<yellow>Config is outdated, which means that a few things are missing. To ensure everything works fine, please redo your config.")
         }
     }
 
