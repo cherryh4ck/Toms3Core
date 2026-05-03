@@ -292,7 +292,7 @@ class Toms3Core : JavaPlugin() {
                     sender.sendMessage(mensaje)
                 }
             }
-            "migrate_fallen_dupe" -> {
+            /*"migrate_fallen_dupe" -> {
                 val dupeList = config.getStringList("fallen-for-dupe")
                 val dupeListLength = dupeList.size
                 if (dupeListLength > 0){
@@ -319,7 +319,7 @@ class Toms3Core : JavaPlugin() {
                     mensaje = minimessage.deserialize("$prefix <red>No hay usuarios que migrar.</red>")
                     sender.sendMessage(mensaje)
                 }
-            }
+            }*/
             else -> {
                 sender.sendMessage(minimessage.deserialize("$prefix <red>That command is not available.</red>"))
             }
@@ -330,7 +330,7 @@ class Toms3Core : JavaPlugin() {
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String>? {
         val completions = mutableListOf<String>()
         if (args.size == 1) {
-            val subs = listOf("help", "reload", "get_uuid_by_player", "get_player_by_uuid", "migrate_fallen_dupe")
+            val subs = listOf("help", "reload", "get_uuid_by_player", "get_player_by_uuid")
             for (s in subs) {
                 if (s.startsWith(args[0].lowercase())) {
                     completions.add(s)
