@@ -65,7 +65,8 @@ patches:
       mode: ELYTRA
       enable: true
 
-# Other
+# Miscellaneous
+# Has support for the 'enable-spanish-translation' setting
 misc:
   # Join motd, inspired by lsd2.org
   join-motd:
@@ -80,7 +81,10 @@ misc:
     en: "Welcome"
     es: "Bienvenido"
   # Simple announcements system, create as many as you want
+  # Selection is purely random and repeated announcements can appear again.
   announcements:
+    enable: true
+    # Time in seconds
     timer: 10
     messages:
       example:

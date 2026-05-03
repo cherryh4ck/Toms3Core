@@ -21,6 +21,7 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.event.HandlerList
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.scheduler.BukkitTask
 import java.io.File
 import java.util.UUID
 
@@ -67,6 +68,7 @@ class Toms3Core : JavaPlugin() {
     var title_announcement_en = config.getString("misc.join-title-message.en")
     var title_announcement_es = config.getString("misc.join-title-message.es")
 
+    var announcements_enabled = config.getBoolean("misc.announcements.enable")
     var announcements_timer = config.getInt("misc.announcements.timer")
     var announcements_interval = (20 * announcements_timer).toLong()
     var announcements = config.getConfigurationSection("misc.announcements.messages")
@@ -154,10 +156,17 @@ class Toms3Core : JavaPlugin() {
         first_join_motd_es = config.getString("misc.join-motd.first-join.es")
         title_announcement_en = config.getString("misc.join-title-message.en")
         title_announcement_es = config.getString("misc.join-title-message.es")
+        announcements_enabled = config.getBoolean("misc.announcements.enable")
         announcements_timer = config.getInt("misc.announcements.timer")
         announcements_interval = (20 * announcements_timer).toLong()
         announcements = config.getConfigurationSection("misc.announcements.messages")
+
         hookListeners()
+        stopAnnouncements()
+        if (announcements_enabled){
+            sendAnnouncements()
+            logToConsole("<green>Announcements restarted.")
+        }
     }
 
     fun isConfigUpdated(){
@@ -167,8 +176,10 @@ class Toms3Core : JavaPlugin() {
         }
     }
 
+    private var announcementsTask: BukkitTask? = null
     fun sendAnnouncements(){
-        Bukkit.getScheduler().runTaskTimer(this, Runnable {
+        announcementsTask?.cancel()
+        announcementsTask = Bukkit.getScheduler().runTaskTimer(this, Runnable {
             announcements?.let { announcement ->
                 val list = announcement.getKeys(false).toList()
                 if (list.isNotEmpty()) {
@@ -190,6 +201,11 @@ class Toms3Core : JavaPlugin() {
                 }
             }
         }, 0L, announcements_interval)
+    }
+
+    fun stopAnnouncements(){
+        announcementsTask?.cancel()
+        announcementsTask = null
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
