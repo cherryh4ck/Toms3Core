@@ -20,6 +20,12 @@ commands:
   dupe:
     # Message sent to the discord webhook
     discord-webhook-message: "%username% is probably missing a lot of neurons"
+  # Vote command (/vote)
+  # Has no actual use.
+  vote:
+    message:
+      en: "You can vote the server via: <b>url</b>"
+      es: "Puedes votar por el servidor entrando a: <b>url</b>"
 
 
 # Chunk Block Limits

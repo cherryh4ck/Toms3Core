@@ -45,6 +45,9 @@ class Toms3Core : JavaPlugin() {
 
     var dupe_webhook_message = config.getString("commands.dupe.discord-webhook-message")
 
+    var vote_message_en = config.getString("commands.vote.message.en")
+    var vote_message_es = config.getString("commands.vote.message.es")
+
     var tile_entities_limit = config.getInt("chunk-limits.tile-entities.entity-limit")
     var tile_entities_log = config.getBoolean("chunk-limits.tile-entities.log")
 
@@ -134,6 +137,8 @@ class Toms3Core : JavaPlugin() {
         spanish_enabled = config.getBoolean("general.enable-spanish-translation")
         usernameValidationRegex = config.getString("commands.username-validation-regex") ?: "^[a-zA-Z0-9_]{3,16}\$"
         dupe_webhook_message = config.getString("commands.dupe.discord-webhook-message")
+        vote_message_en = config.getString("commands.vote.message.en")
+        vote_message_es = config.getString("commands.vote.message.es")
         illegals_enable = config.getBoolean("illegals.enable")
         chunklimits_enable = config.getBoolean("chunk-limits.enable")
         tile_entities_limit = config.getInt("chunk-limits.tile-entities.entity-limit")
