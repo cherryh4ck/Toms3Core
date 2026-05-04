@@ -94,7 +94,7 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
 
             val mensaje = if (isSpanish && plugin.spanish_enabled) {
                 if (offlineplayer.name != sender.name){
-                    minimessage.deserialize("<gold>${plugin.prefix} <bold>$targetUser</bold> tiene un tiempo de juego de <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
+                    minimessage.deserialize("<gold>${plugin.prefix} <bold>${offlineplayer.name}</bold> tiene un tiempo de juego de <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
                 }
                 else{
                     minimessage.deserialize("<gold>${plugin.prefix} Tienes un tiempo de juego de <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
@@ -102,7 +102,7 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
             }
             else {
                 if (offlineplayer.name != sender.name){
-                    minimessage.deserialize("<gold>${plugin.prefix} <bold>$targetUser</bold> has a playtime of <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
+                    minimessage.deserialize("<gold>${plugin.prefix} <bold>${offlineplayer.name}</bold> has a playtime of <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
                 }
                 else{
                     minimessage.deserialize("<gold>${plugin.prefix} You have a playtime of <bold>$result</bold> (<bold>${resultHs}hs</bold>).</gold>")
