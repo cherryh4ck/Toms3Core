@@ -3,7 +3,7 @@ version: '1.0b11'
 main: io.github.Cherryh4ck.toms3Core.Toms3Core
 api-version: '1.21'
 authors: [ Cherryh4ck ]
-description: Plugin específico para Toms3
+description: Core for anarchy servers
 commands:
   tmcore:
     description: Toms3Core main command.
