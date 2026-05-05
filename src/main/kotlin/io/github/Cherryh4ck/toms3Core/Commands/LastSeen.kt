@@ -86,6 +86,17 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
             val config = YamlConfiguration.loadConfiguration(playerDataCache)
 
             val unixTime = config.getLong("last-seen")
+            val configUuid = config.getString("uuid")
+            val username : String
+            if (configUuid == null) {
+                plugin.logToConsole("<yellow>UUID value is null.")
+                username = targetUser
+            }
+            else{
+                val uuid = java.util.UUID.fromString(configUuid)
+                username = Bukkit.getOfflinePlayer(uuid).name.toString()
+                plugin.logToConsole("<green>UUID file found: ${uuid.toString()}")
+            }
             if (unixTime.toInt() != 0){
                 val format = if (isSpanish && plugin.spanish_enabled) {
                     SimpleDateFormat("dd/MM/yyyy HH:mm")
@@ -95,10 +106,10 @@ class LastSeen(private val plugin : Toms3Core) : TabExecutor {
                 val result = format.format(Date(unixTime))
 
                 val message = if (isSpanish && plugin.spanish_enabled){
-                    minimessage.deserialize("${plugin.prefix} <gold><bold>${targetUser}</bold> fue visto por última vez el <bold>${result}</bold>.</gold>")
+                    minimessage.deserialize("${plugin.prefix} <gold><bold>${username}</bold> fue visto por última vez el <bold>${result}</bold>.</gold>")
                 }
                 else{
-                    minimessage.deserialize("${plugin.prefix} <gold><bold>${targetUser}</bold> was last seen on <bold>${result}</bold>.</gold>")
+                    minimessage.deserialize("${plugin.prefix} <gold><bold>${username}</bold> was last seen on <bold>${result}</bold>.</gold>")
                 }
 
                 sender.sendMessage(message)
