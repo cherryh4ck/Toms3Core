@@ -28,7 +28,7 @@ import java.util.UUID
 
 class Toms3Core : JavaPlugin() {
     // -- IMPORTANT --
-    val configVersion = 5
+    val configVersion = 6
     // -- IMPORTANT --
 
     val minimessage = MiniMessage.miniMessage()
@@ -220,7 +220,7 @@ class Toms3Core : JavaPlugin() {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         val mensaje : Component
         if(args.isEmpty()){
-            mensaje = minimessage.deserialize("<gold>$prefix version ${this.pluginMeta.version} (build 11)</gold>")
+            mensaje = minimessage.deserialize("<gold>$prefix version ${this.pluginMeta.version} (build 12)</gold>")
             sender.sendMessage(mensaje)
             return true
         }
