@@ -68,7 +68,9 @@ class Dupe(private val plugin : Toms3Core) : TabExecutor {
                 world?.strikeLightning(location)
                 sender.sendMessage(hallOfShameMessage)
                 sender.playSound(sender.location, Sound.ENTITY_WITHER_SPAWN, 2.0f, 0.15f)
-                Bukkit.getOnlinePlayers().forEach { player ->
+                Bukkit.getOnlinePlayers()
+                    .filter { it != sender }
+                    .forEach { player ->
                     val locale = player.locale().toString()
                     if (locale.startsWith("es") && plugin.spanish_enabled) {
                         player.sendMessage(minimessage.deserialize("<gray>${sender.name} fue agregado a la <light_purple>lista de jugadores miserables</light_purple>."))
