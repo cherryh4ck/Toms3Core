@@ -60,14 +60,14 @@ class Toms3Core : JavaPlugin() {
     var patch_vclip_exploit_mode = config.getString("patches.nether.patch-vclip-exploit.mode")
     var patch_vclip_exploit = config.getBoolean("patches.nether.patch-vclip-exploit.enable")
 
-    var motd_general = config.getString("misc.join-motd.general.en")
-    var motd_es = config.getString("misc.join-motd.general.es")
+    var motd_general = config.getString("misc.join-events.join-motd.general.en")
+    var motd_es = config.getString("misc.join-events.join-motd.general.es")
 
-    var first_join_motd = config.getString("misc.join-motd.first-join.en")
-    var first_join_motd_es = config.getString("misc.join-motd.first-join.es")
+    var first_join_motd = config.getString("misc.join-events.join-motd.first-join.en")
+    var first_join_motd_es = config.getString("misc.join-events.join-motd.first-join.es")
 
-    var title_announcement_en = config.getString("misc.join-title-message.en")
-    var title_announcement_es = config.getString("misc.join-title-message.es")
+    var title_announcement_en = config.getString("misc.join-events.join-title-message.en")
+    var title_announcement_es = config.getString("misc.join-events.join-title-message.es")
 
     var announcements_enabled = config.getBoolean("misc.announcements.enable")
     var announcements_timer = config.getInt("misc.announcements.timer")
@@ -96,7 +96,6 @@ class Toms3Core : JavaPlugin() {
         getCommand("ls")?.setExecutor(LastSeen(this))
         getCommand("vote")?.setExecutor(Vote(this))
 
-        server.pluginManager.registerEvents(PlayerJoinListener(this), this)
         server.pluginManager.registerEvents(PlayerLeaveListener(this), this)
         server.pluginManager.registerEvents(CachePlayerJoinListener(this), this)
         server.pluginManager.registerEvents(BlockPlaceListener(this), this)
@@ -105,8 +104,6 @@ class Toms3Core : JavaPlugin() {
 
         logger.info("Core activated.")
         logger.info("---------------------")
-
-        logger.info(cache_system_logging_enabled.toString())
 
         isConfigUpdated()
         sendAnnouncements()
@@ -122,7 +119,8 @@ class Toms3Core : JavaPlugin() {
 
     private val listeners = mapOf(
         "illegals.enable" to PlayerInteractIllegalListener(this),
-        "patches.nether.enable" to PlayerNetherRoofListener(this)
+        "patches.nether.enable" to PlayerNetherRoofListener(this),
+        "misc.join-events.enable" to PlayerJoinListener(this)
     )
 
     fun hookListeners(){
@@ -154,12 +152,12 @@ class Toms3Core : JavaPlugin() {
         block_nether_roof = config.getBoolean("patches.nether.block-nether-roof.enable")
         patch_vclip_exploit_mode = config.getString("patches.nether.patch-vclip-exploit.mode")
         patch_vclip_exploit = config.getBoolean("patches.nether.patch-vclip-exploit.enable")
-        motd_general = config.getString("misc.join-motd.general.en")
-        motd_es = config.getString("misc.join-motd.general.es")
-        first_join_motd = config.getString("misc.join-motd.first-join.en")
-        first_join_motd_es = config.getString("misc.join-motd.first-join.es")
-        title_announcement_en = config.getString("misc.join-title-message.en")
-        title_announcement_es = config.getString("misc.join-title-message.es")
+        motd_general = config.getString("misc.join-events.join-motd.general.en")
+        motd_es = config.getString("misc.join-events.join-motd.general.es")
+        first_join_motd = config.getString("misc.join-events.join-motd.first-join.en")
+        first_join_motd_es = config.getString("misc.join-events.join-motd.first-join.es")
+        title_announcement_en = config.getString("misc.join-events.join-title-message.en")
+        title_announcement_es = config.getString("misc.join-events.join-title-message.es")
         announcements_enabled = config.getBoolean("misc.announcements.enable")
         announcements_timer = config.getInt("misc.announcements.timer")
         announcements_interval = (20 * announcements_timer).toLong()

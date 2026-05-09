@@ -72,18 +72,21 @@ patches:
 # Miscellaneous
 # Has support for the 'enable-spanish-translation' setting
 misc:
-  # Join motd, inspired by lsd2.org
-  join-motd:
-    first-join:
-      en: "Welcome to the server!"
-      es: "¡Bienvenido al servidor!"
-    general:
-      en: "Welcome back to the server!"
-      es: "¡Bienvenido devuelta al servidor!"
-  # Join title
-  join-title-message:
-    en: "Welcome"
-    es: "Bienvenido"
+  # Join events which include a motd and title message
+  join-events:
+    enable: true
+    # Join motd, inspired by lsd2.org
+    join-motd:
+      first-join:
+        en: "Welcome to the server!"
+        es: "¡Bienvenido al servidor!"
+      general:
+        en: "Welcome back to the server!"
+        es: "¡Bienvenido devuelta al servidor!"
+    # Join title
+    join-title-message:
+      en: "Welcome"
+      es: "Bienvenido"
   # Simple announcements system, create as many as you want
   # Selection is purely random and repeated announcements can appear again.
   announcements:
