@@ -81,6 +81,8 @@ class Toms3Core : JavaPlugin() {
     override fun onEnable() {
         logger.info("---------------------")
         saveDefaultConfig()
+        reloadConfig()
+
         if (!playerDataPath.exists()) {
             logger.info("Playerdata folder created.")
             playerDataPath.mkdirs()
