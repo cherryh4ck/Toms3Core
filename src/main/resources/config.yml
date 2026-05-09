@@ -9,6 +9,10 @@ general:
   # THIS IS ONLY FOR toms3.cc, MOST MESSAGES CANNOT BE CUSTOMIZED!!!
   # This will be removed soon and replaced with locale-based messages.
   enable-spanish-translation: false
+  # Enable cache system logging (logs playerdata creation & last seen updates)
+  # Can be annoying if you have a lot of players, so be careful
+  # By default, this is set to true
+  enable-cache-system-logging: true
 
 # Configuration of custom commands + messages
 commands:

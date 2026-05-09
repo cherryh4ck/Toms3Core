@@ -38,6 +38,7 @@ class Toms3Core : JavaPlugin() {
     var prefix = config.getString("general.prefix")
     var discordWebhook = config.getString("general.discord-webhook")
     var spanish_enabled = config.getBoolean("general.enable-spanish-translation")
+    var cache_system_logging_enabled = config.getBoolean("general.enable-cache-system-logging")
 
     var illegals_enable = config.getBoolean("illegals.enable")
     var chunklimits_enable = config.getBoolean("chunk-limits.enable")
@@ -105,6 +106,8 @@ class Toms3Core : JavaPlugin() {
         logger.info("Core activated.")
         logger.info("---------------------")
 
+        logger.info(cache_system_logging_enabled.toString())
+
         isConfigUpdated()
         sendAnnouncements()
     }
@@ -137,6 +140,7 @@ class Toms3Core : JavaPlugin() {
         prefix = config.getString("general.prefix")
         discordWebhook = config.getString("general.discord-webhook")
         spanish_enabled = config.getBoolean("general.enable-spanish-translation")
+        cache_system_logging_enabled = config.getBoolean("general.enable-cache-system-logging")
         usernameValidationRegex = config.getString("commands.username-validation-regex") ?: "^[a-zA-Z0-9_]{3,16}\$"
         dupe_webhook_message = config.getString("commands.dupe.discord-webhook-message")
         vote_message_en = config.getString("commands.vote.message.en")
