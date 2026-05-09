@@ -11,6 +11,7 @@ import io.github.Cherryh4ck.toms3Core.Listeners.PlayerJoinListener
 import io.github.Cherryh4ck.toms3Core.Listeners.PlayerLeaveListener
 import io.github.Cherryh4ck.toms3Core.Listeners.PlayerNetherRoofListener
 import io.github.Cherryh4ck.toms3Core.Listeners.BlockPlaceListener
+import io.github.Cherryh4ck.toms3Core.Listeners.OPCommandBlacklistListener
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
@@ -49,6 +50,8 @@ class Toms3Core : JavaPlugin() {
 
     var vote_message_en = config.getString("commands.vote.message.en")
     var vote_message_es = config.getString("commands.vote.message.es")
+
+    var op_blacklisted_commands = config.getStringList("utilities.op-command-blacklist.blacklisted-commands")
 
     var tile_entities_limit = config.getInt("chunk-limits.tile-entities.entity-limit")
     var tile_entities_log = config.getBoolean("chunk-limits.tile-entities.log")
@@ -120,7 +123,8 @@ class Toms3Core : JavaPlugin() {
     private val listeners = mapOf(
         "illegals.enable" to PlayerInteractIllegalListener(this),
         "patches.nether.enable" to PlayerNetherRoofListener(this),
-        "misc.join-events.enable" to PlayerJoinListener(this)
+        "misc.join-events.enable" to PlayerJoinListener(this),
+        "utilities.op-command-blacklist.enable" to OPCommandBlacklistListener(this)
     )
 
     fun hookListeners(){
@@ -143,6 +147,7 @@ class Toms3Core : JavaPlugin() {
         dupe_webhook_message = config.getString("commands.dupe.discord-webhook-message")
         vote_message_en = config.getString("commands.vote.message.en")
         vote_message_es = config.getString("commands.vote.message.es")
+        op_blacklisted_commands = config.getStringList("utilities.op-command-blacklist.blacklisted-commands")
         illegals_enable = config.getBoolean("illegals.enable")
         chunklimits_enable = config.getBoolean("chunk-limits.enable")
         tile_entities_limit = config.getInt("chunk-limits.tile-entities.entity-limit")

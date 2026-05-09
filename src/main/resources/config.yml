@@ -31,6 +31,16 @@ commands:
       en: "You can vote the server via: <b>url</b>"
       es: "Puedes votar por el servidor entrando a: <b>url</b>"
 
+# Utilities that may be useful
+utilities:
+  # Prevents operators from using certain commands
+  # Can be useful when needed
+  op-command-blacklist:
+    enable: false
+    blacklisted-commands:
+      - "ban"
+      - "minecraft:ban"
+
 
 # Chunk Block Limits
 chunk-limits:
