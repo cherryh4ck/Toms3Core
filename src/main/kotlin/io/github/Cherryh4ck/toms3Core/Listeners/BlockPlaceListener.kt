@@ -48,12 +48,17 @@ class BlockPlaceListener(private val plugin: Toms3Core) : Listener {
         }
     }
 
+    private val TILE_ENTITIES = setOf(
+        Material.CHEST, Material.ENDER_CHEST, Material.TRAPPED_CHEST,
+        Material.BARREL, Material.COPPER_CHEST, Material.DISPENSER,
+        Material.DROPPER, Material.HOPPER, Material.FURNACE,
+        Material.BLAST_FURNACE, Material.SMOKER, Material.BEACON,
+        Material.ENCHANTING_TABLE
+    )
     fun isATileEntity(material: Material): Boolean {
-        return material.isBlock && material.name.contains("CHEST") ||
-                material.name.contains("SHULKER_BOX") ||
-                material.name.contains("DISPENSER") ||
-                material.name.contains("FURNACE") ||
-                material.name.contains("BARREL") ||
-                material.name.contains("DROPPER")
+        if (!material.isBlock) return false
+
+        return material in TILE_ENTITIES || material.name.contains("SHULKER_BOX")
+                || material.name.contains("SIGN")
     }
 }
