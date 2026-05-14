@@ -11,7 +11,9 @@
     <img src="https://img.shields.io/discord/1466280177335013533?label=Discord&color=5865F2&logo=discord&logoColor=white%22%20alt=%22Discord%22" alt="Discord">
   </a>
 </p>
+
 ## Features
+
 * Utility commands like joindate, playtime, lastseen and vote
 * Troll commands with Discord webhook connection (currently only /dupe)
 * Utility admin commands
