@@ -1,6 +1,16 @@
 # Toms3Core
 ### Anarchy core created for toms3.cc
-[![Toms3](https://img.shields.io/badge/used_in-toms3.cc-green)](https://www.toms3.cc) [![Discord](https://img.shields.io/discord/1466280177335013533?label=Discord&color=5865F2&logo=discord)](https://discord.gg/toms3)
+<p align="center">
+  <a href="https://modrinth.com/plugin/toms3core">
+    <img src="https://img.shields.io/modrinth/v/toms3core?logo=modrinth&label=Modrinth&color=00AF5C">
+  </a>
+  <a href="https://www.spigotmc.org/resources/toms3core.134802/">
+    <img src="https://img.shields.io/badge/SpigotMC-Toms3Core-orange?logo=spigotmc&logoColor=white">
+  </a>
+  <a href="https://discord.gg/xX9c3xnZqq">
+    <img src="https://img.shields.io/discord/1466280177335013533?label=Discord&color=5865F2&logo=discord&logoColor=white%22%20alt=%22Discord%22" alt="Discord">
+  </a>
+</p>
 ___
 
 ## Features
