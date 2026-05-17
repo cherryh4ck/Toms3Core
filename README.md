@@ -22,13 +22,13 @@
 * MOTD when entering the server for the first time
 * Announcer system (title and chat messages)
 * Anti-illegals system
-* Tile entity per chunk limit system
+* Tile entity per chunk limit system with logging system
 * English and spanish support (hardcoded)
 * Prevents players from entering the Nether Roof without killing them
 * Fixes the "vclip exploit", used to enter and travel under the bedrock in the Nether
 ___
 
-## Comandos
+## Commands
 * /tmcore
 * /tmcore reload
 * /tmcore help
@@ -41,11 +41,3 @@ ___
 * /lastseen (/ls)
 * /vote
 * /dupe
-___
-
-## BUGS
-* ?
-___
-
-## TODO
-* ?
