@@ -229,7 +229,7 @@ class Toms3Core : JavaPlugin() {
 
         when (args[0].lowercase()) {
             "help" -> {
-                mensaje = minimessage.deserialize("$prefix <gold>Available commands:<newline>- <gray>/tmcore</gray><newline>- <gray>/tmcore get_player_by_uuid</gray><newline>- <gray>/tmcore get_uuid_by_player</gray><newline>- <gray>/joindate</gray><newline>- <gray>/playtime</gray><newline>- <gray>/lastseen</gray><newline>- <gray>/dupe</gray><newline>- <gray>/vote</gray></gold>")
+                mensaje = minimessage.deserialize("$prefix <gold>Available commands:<newline>- <gray>/tmcore</gray><newline>- <gray>/tmcore get_player_by_uuid</gray><newline>- <gray>/tmcore get_uuid_by_player</gray><newline>- <gray>/joindate</gray><newline>- <gray>/playtime</gray><newline>- <gray>/lastseen</gray><newline>- <gray>/dupe</gray><newline>- <gray>/vote</gray><newline>- <gray>/seed</gray></gold>")
                 sender.sendMessage(mensaje)
             }
             "reload" -> {
