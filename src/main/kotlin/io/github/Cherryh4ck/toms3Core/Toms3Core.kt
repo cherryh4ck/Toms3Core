@@ -4,6 +4,7 @@ import io.github.Cherryh4ck.toms3Core.Commands.Dupe
 import io.github.Cherryh4ck.toms3Core.Commands.Joindate
 import io.github.Cherryh4ck.toms3Core.Commands.LastSeen
 import io.github.Cherryh4ck.toms3Core.Commands.Playtime
+import io.github.Cherryh4ck.toms3Core.Commands.Seed
 import io.github.Cherryh4ck.toms3Core.Commands.Vote
 import io.github.Cherryh4ck.toms3Core.Listeners.CachePlayerJoinListener
 import io.github.Cherryh4ck.toms3Core.Listeners.PlayerInteractIllegalListener
@@ -100,6 +101,7 @@ class Toms3Core : JavaPlugin() {
         getCommand("lastseen")?.setExecutor(LastSeen(this))
         getCommand("ls")?.setExecutor(LastSeen(this))
         getCommand("vote")?.setExecutor(Vote(this))
+        getCommand("seed")?.setExecutor(Seed(this))
 
         server.pluginManager.registerEvents(PlayerLeaveListener(this), this)
         server.pluginManager.registerEvents(CachePlayerJoinListener(this), this)

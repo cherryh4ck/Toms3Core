@@ -6,11 +6,11 @@ authors: [ Cherryh4ck ]
 description: Core for anarchy servers
 commands:
   tmcore:
-    description: Toms3Core main command.
+    description: Toms3Core main command
     usage: /tmcore [option]
     permission: tmcore.main
   playtime:
-    description: Shows the playtime of a player.
+    description: Shows the playtime of a player
     usage: /playtime [player]
     aliases: pt
   dupe:
@@ -21,9 +21,12 @@ commands:
     usage: /joindate
     aliases: jd
   lastseen:
-    description: Shows player's last seen date.
+    description: Shows player's last seen date
     usage: /lastseen
     aliases: ls
   vote:
-    description: Vote redirection, no actual use.
+    description: Vote redirection, no actual use
     usage: /vote
+  seed:
+    description: Joke command
+    usage: /seed
