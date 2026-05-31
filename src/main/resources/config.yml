@@ -102,7 +102,7 @@ misc:
   announcements:
     enable: true
     # Time in seconds
-    timer: 10
+    timer: 60
     messages:
       example:
         en: "<gold>Example."
@@ -110,6 +110,17 @@ misc:
       example-two:
         en: "<gold>Example two."
         es: "<gold>Ejemplo dos."
+  # Emergent announcements system
+  # Useful for emergent announcements like "Server is restarting soon" // "We are currently suffering x problem"
+  emergent-announcements:
+    # By default, this is not enabled
+    enable: false
+    # Time in seconds (should be shorter than normal announcement's timer)
+    timer: 15
+    messages:
+      example:
+        en: "<gold>The server is currently suffering a problem, so expect low performance."
+        es: "<gold>El servidor está teniendo problemas, así que puede que haya bajo rendimiento."
 
 # Do not touch.
-config-version: 6
+config-version: 7

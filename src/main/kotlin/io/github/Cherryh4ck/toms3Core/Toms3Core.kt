@@ -29,7 +29,7 @@ import java.util.UUID
 
 class Toms3Core : JavaPlugin() {
     // -- IMPORTANT --
-    val configVersion = 6
+    val configVersion = 7
     // -- IMPORTANT --
 
     val minimessage = MiniMessage.miniMessage()
