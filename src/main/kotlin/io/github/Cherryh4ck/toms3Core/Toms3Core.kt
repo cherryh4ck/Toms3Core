@@ -77,6 +77,11 @@ class Toms3Core : JavaPlugin() {
     var announcements_timer = config.getInt("misc.announcements.timer")
     var announcements_interval = (20 * announcements_timer).toLong()
     var announcements = config.getConfigurationSection("misc.announcements.messages")
+
+    var emergent_announcements_enabled = config.getBoolean("misc.emergent-announcements.enable")
+    var emergent_announcements_timer = config.getInt("misc.emergent-announcements.timer")
+    var emergent_announcements_interval = (20 * emergent_announcements_timer).toLong()
+    var emergent_announcements = config.getConfigurationSection("misc.emergent-announcements.messages")
     val playerDataPath = File(dataFolder, "playerdata")
 
     override fun onEnable() {
@@ -171,12 +176,21 @@ class Toms3Core : JavaPlugin() {
         announcements_timer = config.getInt("misc.announcements.timer")
         announcements_interval = (20 * announcements_timer).toLong()
         announcements = config.getConfigurationSection("misc.announcements.messages")
+        emergent_announcements_enabled = config.getBoolean("misc.emergent-announcements.enable")
+        emergent_announcements_timer = config.getInt("misc.emergent-announcements.timer")
+        emergent_announcements_interval = (20 * emergent_announcements_timer).toLong()
+        emergent_announcements = config.getConfigurationSection("misc.emergent-announcements.messages")
 
         hookListeners()
         stopAnnouncements()
+        stopEmergentAnnouncements()
         if (announcements_enabled){
             sendAnnouncements()
             logToConsole("<green>Announcements restarted.")
+        }
+        if (emergent_announcements_enabled){
+            sendEmergentAnnouncements()
+            logToConsole("<green>Emergent announcements restarted.")
         }
     }
 
@@ -217,6 +231,38 @@ class Toms3Core : JavaPlugin() {
     fun stopAnnouncements(){
         announcementsTask?.cancel()
         announcementsTask = null
+    }
+
+    private var emergentAnnouncementsTask: BukkitTask? = null
+    fun sendEmergentAnnouncements(){
+        emergentAnnouncementsTask?.cancel()
+        emergentAnnouncementsTask = Bukkit.getScheduler().runTaskTimer(this, Runnable {
+            emergent_announcements?.let { announcement ->
+                val list = announcement.getKeys(false).toList()
+                if (list.isNotEmpty()) {
+                    val random = list.random()
+                    val path = "misc.emergent-announcements.messages.$random"
+                    val msgEn = config.getString("$path.en")?.let { input -> minimessage.deserialize(input) }
+                        ?: Component.empty()
+                    val msgEs = config.getString("$path.es")?.let { input -> minimessage.deserialize(input) }
+                        ?: Component.empty()
+
+                    for (player in Bukkit.getOnlinePlayers()) {
+                        val locale = player.locale().toString()
+                        if (locale.startsWith("es") && spanish_enabled) {
+                            player.sendMessage(msgEs)
+                        } else {
+                            player.sendMessage(msgEn)
+                        }
+                    }
+                }
+            }
+        }, 0L, emergent_announcements_interval)
+    }
+
+    fun stopEmergentAnnouncements(){
+        emergentAnnouncementsTask?.cancel()
+        emergentAnnouncementsTask = null
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
