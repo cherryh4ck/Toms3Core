@@ -15,7 +15,8 @@
 ## Features
 
 * Utility commands like joindate, playtime, lastseen and vote
-* Troll commands with Discord webhook connection (currently only /dupe)
+* Joke commands (/dupe & /seed)
+* Joke commands with Discord webhook connection integration (/dupe)
 * Utility admin commands
 * Cache system to support mixted UUIDs (premium and no-premium)
 * MOTD when entering the server
@@ -32,12 +33,11 @@ ___
 * /tmcore
 * /tmcore reload
 * /tmcore help
-* /tmcore illegal_test (not finished)
 * /tmcore get_player_by_uuid
 * /tmcore get_uuid_by_player
-* /tmcore migrate_fallen_dupe (debug)
 * /joindate (/jd)
 * /playtime (/pt)
 * /lastseen (/ls)
 * /vote
 * /dupe
+* /seed
