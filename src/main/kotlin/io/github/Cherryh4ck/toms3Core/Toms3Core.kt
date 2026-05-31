@@ -118,7 +118,6 @@ class Toms3Core : JavaPlugin() {
         logger.info("---------------------")
 
         isConfigUpdated()
-        sendAnnouncements()
     }
 
     override fun onDisable() {
