@@ -18,7 +18,6 @@ class CachePlayerJoinListener(private val plugin: Toms3Core) : Listener {
             val config = YamlConfiguration.loadConfiguration(playerData)
 
             val getUuid = config.getString("uuid")
-
             if (getUuid == null || getUuid != player.uniqueId.toString()) {
                 if (plugin.cache_system_logging_enabled){
                     if (getUuid != null) {
@@ -34,6 +33,18 @@ class CachePlayerJoinListener(private val plugin: Toms3Core) : Listener {
                 } catch (ex: Exception) {
                     ex.printStackTrace()
                 }
+            }
+
+            if (!config.contains("toggle-announcements")) {
+                config.set("toggle-announcements", true)
+                try {
+                    config.save(playerData)
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
+            else if (!config.getBoolean("toggle-announcements")){
+                plugin.haveAnnouncementsDisabled.add(player.uniqueId)
             }
         })
     }

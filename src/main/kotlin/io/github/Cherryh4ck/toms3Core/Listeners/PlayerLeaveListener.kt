@@ -26,6 +26,10 @@ class PlayerLeaveListener(private val plugin : Toms3Core) : Listener {
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }
+
+            if (plugin.haveAnnouncementsDisabled.contains(player.uniqueId)){
+                plugin.haveAnnouncementsDisabled.remove(player.uniqueId)
+            }
         })
     }
 }

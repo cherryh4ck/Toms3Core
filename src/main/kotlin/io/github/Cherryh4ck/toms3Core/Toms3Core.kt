@@ -84,6 +84,9 @@ class Toms3Core : JavaPlugin() {
     var emergent_announcements = config.getConfigurationSection("misc.emergent-announcements.messages")
     val playerDataPath = File(dataFolder, "playerdata")
 
+    // Lists
+    var haveAnnouncementsDisabled = HashSet<UUID>()
+
     override fun onEnable() {
         logger.info("---------------------")
         saveDefaultConfig()
