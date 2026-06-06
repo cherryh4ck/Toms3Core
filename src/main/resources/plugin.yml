@@ -30,3 +30,7 @@ commands:
   seed:
     description: Joke command
     usage: /seed
+  toggleannouncements:
+    description: Toggles announcements
+    usage: /toggleannouncements
+    aliases: toggleann

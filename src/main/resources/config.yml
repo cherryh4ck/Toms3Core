@@ -30,6 +30,14 @@ commands:
     message:
       en: "You can vote the server via: <b>url</b>"
       es: "Puedes votar por el servidor entrando a: <b>url</b>"
+  toggleannouncements:
+    message:
+      on:
+        en: "Announcements are now <b>ON</b>."
+        es: "Los anuncios ahora están <b>activados</b>."
+      off:
+        en: "Announcements are now <b>OFF</b>."
+        es: "Los anuncios ahora están <b>desactivados</b>."
 
 # Utilities that may be useful
 utilities:

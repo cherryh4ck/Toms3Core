@@ -5,6 +5,7 @@ import io.github.Cherryh4ck.toms3Core.Commands.Joindate
 import io.github.Cherryh4ck.toms3Core.Commands.LastSeen
 import io.github.Cherryh4ck.toms3Core.Commands.Playtime
 import io.github.Cherryh4ck.toms3Core.Commands.Seed
+import io.github.Cherryh4ck.toms3Core.Commands.ToggleAnnouncements
 import io.github.Cherryh4ck.toms3Core.Commands.Vote
 import io.github.Cherryh4ck.toms3Core.Listeners.AntiIllegals.PreventNBTChests
 import io.github.Cherryh4ck.toms3Core.Listeners.AntiIllegals.PreventPlace
@@ -52,6 +53,11 @@ class Toms3Core : JavaPlugin() {
 
     var vote_message_en = config.getString("commands.vote.message.en")
     var vote_message_es = config.getString("commands.vote.message.es")
+
+    var toggleannouncements_message_on_en = config.getString("commands.toggleannouncements.message.on.en")
+    var toggleannouncements_message_on_es = config.getString("commands.toggleannouncements.message.on.es")
+    var toggleannouncements_message_off_en = config.getString("commands.toggleannouncements.message.off.en")
+    var toggleannouncements_message_off_es = config.getString("commands.toggleannouncements.message.off.es")
 
     var op_blacklisted_commands = config.getStringList("utilities.op-command-blacklist.blacklisted-commands")
 
@@ -113,6 +119,8 @@ class Toms3Core : JavaPlugin() {
         getCommand("ls")?.setExecutor(LastSeen(this))
         getCommand("vote")?.setExecutor(Vote(this))
         getCommand("seed")?.setExecutor(Seed(this))
+        getCommand("toggleannouncements")?.setExecutor(ToggleAnnouncements(this))
+        getCommand("toggleann")?.setExecutor(ToggleAnnouncements(this))
 
         server.pluginManager.registerEvents(PlayerLeaveListener(this), this)
         server.pluginManager.registerEvents(CachePlayerJoinListener(this), this)
@@ -155,6 +163,7 @@ class Toms3Core : JavaPlugin() {
 
     fun reloadPlugin(){
         reloadConfig()
+        // This is so fucked up.
         prefix = config.getString("general.prefix")
         discordWebhook = config.getString("general.discord-webhook")
         spanish_enabled = config.getBoolean("general.enable-spanish-translation")
@@ -163,6 +172,10 @@ class Toms3Core : JavaPlugin() {
         dupe_webhook_message = config.getString("commands.dupe.discord-webhook-message")
         vote_message_en = config.getString("commands.vote.message.en")
         vote_message_es = config.getString("commands.vote.message.es")
+        toggleannouncements_message_on_en = config.getString("commands.toggleannouncements.message.on.en")
+        toggleannouncements_message_on_es = config.getString("commands.toggleannouncements.message.on.es")
+        toggleannouncements_message_off_en = config.getString("commands.toggleannouncements.message.off.en")
+        toggleannouncements_message_off_es = config.getString("commands.toggleannouncements.message.off.es")
         op_blacklisted_commands = config.getStringList("utilities.op-command-blacklist.blacklisted-commands")
         chunklimits_enable = config.getBoolean("chunk-limits.enable")
         tile_entities_limit = config.getInt("chunk-limits.tile-entities.entity-limit")
@@ -224,11 +237,13 @@ class Toms3Core : JavaPlugin() {
                         ?: Component.empty()
 
                     for (player in Bukkit.getOnlinePlayers()) {
-                        val locale = player.locale().toString()
-                        if (locale.startsWith("es") && spanish_enabled) {
-                            player.sendMessage(msgEs)
-                        } else {
-                            player.sendMessage(msgEn)
+                        if (!haveAnnouncementsDisabled.contains(player.uniqueId)) {
+                            val locale = player.locale().toString()
+                            if (locale.startsWith("es") && spanish_enabled) {
+                                player.sendMessage(msgEs)
+                            } else {
+                                player.sendMessage(msgEn)
+                            }
                         }
                     }
                 }
