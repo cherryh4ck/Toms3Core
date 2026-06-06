@@ -23,20 +23,24 @@ class PlayerJoinListener(private val plugin: Toms3Core) : Listener {
                 if (playerLocale.startsWith("es") && plugin.spanish_enabled){
                     player.sendMessage(plugin.minimessage.deserialize(plugin.motd_es.toString()))
                     player.showTitle(Title.title(plugin.minimessage.deserialize(plugin.title_announcement_es.toString()), Component.empty()))
+                    player.sendActionBar(plugin.minimessage.deserialize(plugin.actionbar_announcement_es.toString()))
                 }
                 else {
                     player.sendMessage(plugin.minimessage.deserialize(plugin.motd_general.toString()))
                     player.showTitle(Title.title(plugin.minimessage.deserialize(plugin.title_announcement_en.toString()), Component.empty()))
+                    player.sendActionBar(plugin.minimessage.deserialize(plugin.actionbar_announcement_en.toString()))
                 }
             }
             else{
                 if (playerLocale.startsWith("es")){
                     player.sendMessage(plugin.minimessage.deserialize(plugin.first_join_motd_es.toString()))
                     player.showTitle(Title.title(plugin.minimessage.deserialize(plugin.title_announcement_es.toString()), Component.empty()))
+                    player.sendActionBar(plugin.minimessage.deserialize(plugin.actionbar_announcement_es.toString()))
                 }
                 else {
                     player.sendMessage(plugin.minimessage.deserialize(plugin.first_join_motd.toString()))
                     player.showTitle(Title.title(plugin.minimessage.deserialize(plugin.title_announcement_en.toString()), Component.empty()))
+                    player.sendActionBar(plugin.minimessage.deserialize(plugin.actionbar_announcement_en.toString()))
                 }
             }
         }, 20L)

@@ -82,6 +82,9 @@ class Toms3Core : JavaPlugin() {
     var title_announcement_en = config.getString("misc.join-events.join-title-message.en")
     var title_announcement_es = config.getString("misc.join-events.join-title-message.es")
 
+    var actionbar_announcement_en = config.getString("misc.join-events.join-action-bar-message.en")
+    var actionbar_announcement_es = config.getString("misc.join-events.join-action-bar-message.es")
+
     var announcements_enabled = config.getBoolean("misc.announcements.enable")
     var announcements_timer = config.getInt("misc.announcements.timer")
     var announcements_interval = (20 * announcements_timer).toLong()
@@ -190,6 +193,8 @@ class Toms3Core : JavaPlugin() {
         first_join_motd_es = config.getString("misc.join-events.join-motd.first-join.es")
         title_announcement_en = config.getString("misc.join-events.join-title-message.en")
         title_announcement_es = config.getString("misc.join-events.join-title-message.es")
+        actionbar_announcement_en = config.getString("misc.join-events.join-action-bar-message.en")
+        actionbar_announcement_es = config.getString("misc.join-events.join-action-bar-message.es")
         announcements_enabled = config.getBoolean("misc.announcements.enable")
         announcements_timer = config.getInt("misc.announcements.timer")
         announcements_interval = (20 * announcements_timer).toLong()

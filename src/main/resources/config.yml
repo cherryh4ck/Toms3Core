@@ -112,6 +112,12 @@ misc:
         es: "¡Bienvenido devuelta al servidor!"
     # Join title
     join-title-message:
+      # You can disable this by setting everything to ""
+      # This also applies to the action bar
+      en: "Welcome"
+      es: "Bienvenido"
+    # Join action bar
+    join-action-bar-message:
       en: "Welcome"
       es: "Bienvenido"
   # Simple announcements system, create as many as you want
