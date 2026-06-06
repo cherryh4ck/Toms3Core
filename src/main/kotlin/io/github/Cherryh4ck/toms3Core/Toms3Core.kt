@@ -7,8 +7,9 @@ import io.github.Cherryh4ck.toms3Core.Commands.Playtime
 import io.github.Cherryh4ck.toms3Core.Commands.Seed
 import io.github.Cherryh4ck.toms3Core.Commands.Vote
 import io.github.Cherryh4ck.toms3Core.Listeners.AntiIllegals.PreventNBTChests
+import io.github.Cherryh4ck.toms3Core.Listeners.AntiIllegals.PreventPlace
 import io.github.Cherryh4ck.toms3Core.Listeners.CachePlayerJoinListener
-import io.github.Cherryh4ck.toms3Core.Listeners.PlayerInteractIllegalListener
+import io.github.Cherryh4ck.toms3Core.Listeners.AntiIllegals.PreventUse
 import io.github.Cherryh4ck.toms3Core.Listeners.PlayerJoinListener
 import io.github.Cherryh4ck.toms3Core.Listeners.PlayerLeaveListener
 import io.github.Cherryh4ck.toms3Core.Listeners.PlayerNetherRoofListener
@@ -43,7 +44,6 @@ class Toms3Core : JavaPlugin() {
     var spanish_enabled = config.getBoolean("general.enable-spanish-translation")
     var cache_system_logging_enabled = config.getBoolean("general.enable-cache-system-logging")
 
-    var illegals_enable = config.getBoolean("illegals.enable")
     var chunklimits_enable = config.getBoolean("chunk-limits.enable")
 
     var usernameValidationRegex = config.getString("commands.username-validation-regex") ?: "^[a-zA-Z0-9_]{3,16}\$"
@@ -58,8 +58,10 @@ class Toms3Core : JavaPlugin() {
     var tile_entities_limit = config.getInt("chunk-limits.tile-entities.entity-limit")
     var tile_entities_log = config.getBoolean("chunk-limits.tile-entities.log")
 
-    var illegals_prevent_use = config.getStringList("illegals.prevent-use").map { it.uppercase() }
-    var illegals_prevent_place = config.getStringList("illegals.prevent-place").map { it.uppercase() }
+    var illegals_prevent_use_enabled = config.getBoolean("illegals.block-use.enable")
+    var illegals_prevent_use = config.getStringList("illegals.block-use.list").map { it.uppercase() }
+    var illegals_prevent_place_enabled = config.getBoolean("illegals.block-place.enable")
+    var illegals_prevent_place = config.getStringList("illegals.block-place.list").map { it.uppercase() }
 
     var block_nether_roof = config.getBoolean("patches.nether.block-nether-roof.enable")
     var patch_vclip_exploit_mode = config.getString("patches.nether.patch-vclip-exploit.mode")
@@ -133,7 +135,8 @@ class Toms3Core : JavaPlugin() {
     }
 
     private val listeners = mapOf(
-        "illegals.enable" to PlayerInteractIllegalListener(this),
+        "illegals.block-use.enable" to PreventUse(this),
+        "illegals.block-place.enable" to PreventPlace(this),
         "patches.nether.enable" to PlayerNetherRoofListener(this),
         "misc.join-events.enable" to PlayerJoinListener(this),
         "utilities.op-command-blacklist.enable" to OPCommandBlacklistListener(this),
@@ -161,12 +164,13 @@ class Toms3Core : JavaPlugin() {
         vote_message_en = config.getString("commands.vote.message.en")
         vote_message_es = config.getString("commands.vote.message.es")
         op_blacklisted_commands = config.getStringList("utilities.op-command-blacklist.blacklisted-commands")
-        illegals_enable = config.getBoolean("illegals.enable")
         chunklimits_enable = config.getBoolean("chunk-limits.enable")
         tile_entities_limit = config.getInt("chunk-limits.tile-entities.entity-limit")
         tile_entities_log = config.getBoolean("chunk-limits.tile-entities.log")
-        illegals_prevent_use = config.getStringList("illegals.prevent-use").map { it.uppercase() }
-        illegals_prevent_place = config.getStringList("illegals.prevent-place").map { it.uppercase() }
+        illegals_prevent_use_enabled = config.getBoolean("illegals.block-use.enable")
+        illegals_prevent_place_enabled = config.getBoolean("illegals.block-place.enable")
+        illegals_prevent_use = config.getStringList("illegals.block-use.list").map { it.uppercase() }
+        illegals_prevent_place = config.getStringList("illegals.block-place.list").map { it.uppercase() }
         block_nether_roof = config.getBoolean("patches.nether.block-nether-roof.enable")
         patch_vclip_exploit_mode = config.getString("patches.nether.patch-vclip-exploit.mode")
         patch_vclip_exploit = config.getBoolean("patches.nether.patch-vclip-exploit.enable")
