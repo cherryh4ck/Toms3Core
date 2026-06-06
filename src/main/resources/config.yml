@@ -54,14 +54,23 @@ chunk-limits:
 
 # Anti illegals system
 illegals:
-  enable: true
-  # Prevents use, also patches dispenser bypass
-  prevent-use:
-    - SPAWN_EGG
+  # Prevents use of certain items, also patches dispenser bypass
+  block-use:
+    enable: true
+    list:
+      - SPAWN_EGG
   # Prevents place, only put blocks in there
-  prevent-place:
-    - BEDROCK
-    - SPAWNER
+  block-place:
+    enable: true
+    list:
+      - BEDROCK
+      - SPAWNER
+  # Prevents and deletes nbt chests
+  # Only listens to inventory move events and place event
+  # You shouldn't enable this unless your server suffers from illegals / admin abuse
+  # NBT Chests were used in toms3.cc to crash the whole server by spamming and breaking them
+  block-nbt-chests:
+    enable: false
 
 # Patches
 patches:
