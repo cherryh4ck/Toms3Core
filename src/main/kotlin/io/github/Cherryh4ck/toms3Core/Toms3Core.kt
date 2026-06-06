@@ -99,7 +99,6 @@ class Toms3Core : JavaPlugin() {
     override fun onEnable() {
         logger.info("---------------------")
         saveDefaultConfig()
-        reloadConfig()
 
         if (!playerDataPath.exists()) {
             logger.info("Playerdata folder created.")
@@ -126,12 +125,10 @@ class Toms3Core : JavaPlugin() {
         server.pluginManager.registerEvents(CachePlayerJoinListener(this), this)
         server.pluginManager.registerEvents(BlockPlaceListener(this), this)
 
-        hookListeners()
+        reloadPlugin()
 
         logger.info("Core activated.")
         logger.info("---------------------")
-
-        isConfigUpdated()
     }
 
     override fun onDisable() {
@@ -213,6 +210,7 @@ class Toms3Core : JavaPlugin() {
             sendEmergentAnnouncements()
             logToConsole("<green>Emergent announcements restarted.")
         }
+        isConfigUpdated()
     }
 
     fun isConfigUpdated(){
