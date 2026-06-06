@@ -42,10 +42,6 @@ class BlockPlaceListener(private val plugin: Toms3Core) : Listener {
             }
             return
         }
-
-        if (plugin.illegals_prevent_place.contains(block.type.name) && plugin.illegals_enable){
-            event.isCancelled = true
-        }
     }
 
     private val TILE_ENTITIES = setOf(
