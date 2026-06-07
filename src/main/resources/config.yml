@@ -32,10 +32,10 @@ commands:
       es: "Puedes votar por el servidor entrando a: <b>url</b>"
   toggleannouncements:
     message:
-      on:
+      "on":
         en: "Announcements are now <b>ON</b>."
         es: "Los anuncios ahora están <b>activados</b>."
-      off:
+      "off":
         en: "Announcements are now <b>OFF</b>."
         es: "Los anuncios ahora están <b>desactivados</b>."
 
