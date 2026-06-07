@@ -74,7 +74,7 @@ illegals:
       - BEDROCK
       - SPAWNER
   # Prevents and deletes nbt chests
-  # Only listens to inventory move events and place event
+  # Checks are really strict as it also checks shulkers, it may slightly hurt performance!!
   # You shouldn't enable this unless your server suffers from illegals / admin abuse
   # NBT Chests were used in toms3.cc to crash the whole server by spamming and breaking them
   block-nbt-chests:

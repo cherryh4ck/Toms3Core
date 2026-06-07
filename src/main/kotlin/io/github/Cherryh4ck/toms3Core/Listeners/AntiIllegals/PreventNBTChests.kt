@@ -3,6 +3,7 @@ package io.github.Cherryh4ck.toms3Core.Listeners.AntiIllegals
 import org.bukkit.Material
 import org.bukkit.block.Chest
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -31,10 +32,26 @@ class PreventNBTChests : Listener {
         return false
     }
 
+    fun isShulkerBox(material: Material): Boolean {
+        return material.name.endsWith("_SHULKER_BOX")
+    }
+
+    fun shulkerContainsNBTChests(item: ItemStack): Boolean {
+        if (!isShulkerBox(item.type)) return false
+        if (!item.hasItemMeta()) return false
+
+        val meta = item.itemMeta as? BlockStateMeta ?: return false
+        val shulker = meta.blockState as? org.bukkit.block.ShulkerBox ?: return false
+
+        return shulker.inventory.contents
+            .filterNotNull()
+            .any { checkItem(it) }
+    }
+
     @EventHandler
     fun onInventoryClick(event: InventoryClickEvent) {
         val cursor = event.cursor
-        if (cursor.type != Material.AIR && checkItem(cursor)) {
+        if (cursor.type != Material.AIR && (checkItem(cursor) || shulkerContainsNBTChests(cursor))) {
             event.isCancelled = true
             event.whoClicked.setItemOnCursor(null)
             return
@@ -42,7 +59,7 @@ class PreventNBTChests : Listener {
 
         val clickedInv = event.clickedInventory ?: return
         val item = clickedInv.getItem(event.slot) ?: return
-        if (checkItem(item)) {
+        if (checkItem(item) || shulkerContainsNBTChests(item)) {
             event.isCancelled = true
             clickedInv.setItem(event.slot, null)
         }
@@ -56,6 +73,14 @@ class PreventNBTChests : Listener {
                 event.whoClicked.setItemOnCursor(null)
                 return
             }
+
+            if (isShulkerBox(item.type)) {
+                if (shulkerContainsNBTChests(item)) {
+                    event.isCancelled = true
+                    event.whoClicked.setItemOnCursor(null)
+                    return
+                }
+            }
         }
     }
 
@@ -64,6 +89,28 @@ class PreventNBTChests : Listener {
         if (checkItem(event.itemInHand)) {
             event.isCancelled = true
             event.player.inventory.setItem(event.hand, null)
+        }
+
+        if (isShulkerBox(event.itemInHand.type)) {
+            if (shulkerContainsNBTChests(event.itemInHand)) {
+                event.isCancelled = true
+                event.player.inventory.setItem(event.hand, null)
+                return
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    fun onItemSpawn(event: org.bukkit.event.entity.EntitySpawnEvent) {
+        val entity = event.entity as? org.bukkit.entity.Item ?: return
+        val item = entity.itemStack
+
+        if (checkItem(item)) {
+            event.isCancelled = true
+            return
+        }
+        if (isShulkerBox(item.type) && shulkerContainsNBTChests(item)) {
+            event.isCancelled = true
         }
     }
 }
