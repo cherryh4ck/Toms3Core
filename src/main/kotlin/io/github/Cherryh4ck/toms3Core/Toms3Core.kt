@@ -7,7 +7,7 @@ import io.github.Cherryh4ck.toms3Core.Commands.Playtime
 import io.github.Cherryh4ck.toms3Core.Commands.Seed
 import io.github.Cherryh4ck.toms3Core.Commands.ToggleAnnouncements
 import io.github.Cherryh4ck.toms3Core.Commands.Vote
-import io.github.Cherryh4ck.toms3Core.Listeners.AntiIllegals.PreventNBTChests
+import io.github.Cherryh4ck.toms3Core.Listeners.AntiIllegals.PreventNBTStorages
 import io.github.Cherryh4ck.toms3Core.Listeners.AntiIllegals.PreventPlace
 import io.github.Cherryh4ck.toms3Core.Listeners.CachePlayerJoinListener
 import io.github.Cherryh4ck.toms3Core.Listeners.AntiIllegals.PreventUse
@@ -148,7 +148,7 @@ class Toms3Core : JavaPlugin() {
         "patches.nether.enable" to PlayerNetherRoofListener(this),
         "misc.join-events.enable" to PlayerJoinListener(this),
         "utilities.op-command-blacklist.enable" to OPCommandBlacklistListener(this),
-        "illegals.block-nbt-chests.enable" to PreventNBTChests()
+        "illegals.block-nbt-storages.enable" to PreventNBTStorages()
     )
 
     fun hookListeners(){

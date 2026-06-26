@@ -1,7 +1,6 @@
 package io.github.Cherryh4ck.toms3Core.Listeners.AntiIllegals
 
 import org.bukkit.Material
-import org.bukkit.block.Chest
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -11,7 +10,7 @@ import org.bukkit.event.inventory.InventoryDragEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.BlockStateMeta
 
-class PreventNBTChests : Listener {
+class PreventNBTStorages : Listener {
     val storageTypes = setOf(
         Material.CHEST,
         Material.TRAPPED_CHEST,

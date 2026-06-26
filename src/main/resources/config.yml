@@ -73,11 +73,12 @@ illegals:
     list:
       - BEDROCK
       - SPAWNER
-  # Prevents and deletes nbt chests
+  # Prevents and deletes any type of storage with nbt data in it
   # Checks are really strict as it also checks shulkers, it may slightly hurt performance!!
   # You shouldn't enable this unless your server suffers from illegals / admin abuse
-  # NBT Chests were used in toms3.cc to crash the whole server by spamming and breaking them
-  block-nbt-chests:
+  # NBT Storages were used in toms3.cc to crash the whole server by spamming and breaking them
+  # This also overflows playerdata, which may lead to bigger problems
+  block-nbt-storages:
     enable: false
 
 # Patches
