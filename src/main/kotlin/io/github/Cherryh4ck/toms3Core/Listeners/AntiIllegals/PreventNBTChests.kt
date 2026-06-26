@@ -12,8 +12,28 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.BlockStateMeta
 
 class PreventNBTChests : Listener {
+    val storageTypes = setOf(
+        Material.CHEST,
+        Material.TRAPPED_CHEST,
+        Material.COPPER_CHEST,
+        Material.WEATHERED_COPPER_CHEST,
+        Material.EXPOSED_COPPER_CHEST,
+        Material.WAXED_COPPER_CHEST,
+        Material.WAXED_WEATHERED_COPPER_CHEST,
+        Material.OXIDIZED_COPPER_CHEST,
+        Material.WAXED_EXPOSED_COPPER_CHEST,
+        Material.WAXED_OXIDIZED_COPPER_CHEST,
+        Material.BARREL,
+        Material.DROPPER,
+        Material.DISPENSER,
+        Material.FURNACE,
+        Material.SMOKER,
+        Material.HOPPER,
+        Material.BLAST_FURNACE
+    )
+
     fun checkItem(item: ItemStack) : Boolean{
-        if (item.type != Material.CHEST && item.type != Material.TRAPPED_CHEST) {
+        if (item.type !in storageTypes) {
             return false
         }
         if (!item.hasItemMeta()){
@@ -22,7 +42,7 @@ class PreventNBTChests : Listener {
 
         val meta = item.itemMeta
         if (meta is BlockStateMeta) {
-            val state = meta.blockState as? Chest ?: return false
+            val state = meta.blockState as? org.bukkit.block.Container ?: return false
             val inv = state.inventory
             val count = inv.contents.filterNotNull().size
             if (count > 0){
