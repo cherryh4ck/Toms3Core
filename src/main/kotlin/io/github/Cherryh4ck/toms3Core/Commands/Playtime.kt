@@ -17,8 +17,13 @@ class Playtime(private val plugin: Toms3Core) : TabExecutor {
     val minimessage = MiniMessage.miniMessage()
 
     fun validateUsername(username: String): Boolean {
-        val regex = Regex(plugin.usernameValidationRegex)
-        return regex.matches(username)
+        if (!plugin.usernameValidationRegexEnabled) {
+            val regex = Regex(plugin.usernameValidationRegex)
+            return regex.matches(username)
+        }
+        else {
+            return true
+        }
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
