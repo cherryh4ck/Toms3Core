@@ -41,3 +41,8 @@ ___
 * /vote
 * /dupe
 * /seed
+___
+
+## Special Thanks
+Special thanks to:
+* KaliFent from the Toms3 Discord for reporting bugs with the anti illegals system.
