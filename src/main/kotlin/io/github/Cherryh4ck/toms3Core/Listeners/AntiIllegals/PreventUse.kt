@@ -2,9 +2,11 @@ package io.github.Cherryh4ck.toms3Core.Listeners.AntiIllegals
 
 import io.github.Cherryh4ck.toms3Core.Toms3Core
 import org.bukkit.Material
+import org.bukkit.entity.ItemFrame
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockDispenseEvent
+import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 
@@ -21,6 +23,18 @@ class PreventUse(private val plugin: Toms3Core) : Listener {
                 return
             }
 
+            event.isCancelled = true
+        }
+    }
+
+    @EventHandler
+    fun onInteractEntity(event: PlayerInteractEntityEvent) {
+        val entity = event.rightClicked
+        val player = event.player
+
+        if (entity !is ItemFrame) return
+
+        if (isIllegal(player.inventory.itemInMainHand) || isIllegal(player.inventory.itemInOffHand)) {
             event.isCancelled = true
         }
     }
