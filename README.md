@@ -14,7 +14,7 @@
 
 ## Features
 
-* Utility commands like joindate, playtime, lastseen and vote
+* Utility commands (/joindate, /playtime, /lastseen & /vote)
 * Joke commands (/dupe & /seed)
 * Joke commands with Discord webhook connection integration (/dupe)
 * Utility admin commands
