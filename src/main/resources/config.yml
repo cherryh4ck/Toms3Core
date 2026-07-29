@@ -2,12 +2,12 @@
 general:
   # Plugin prefix, practically used in every single command
   prefix: "<gold>[<red><bold>Toms3<gray>Core</gray></bold></red>]"
-  # Discord Webhook for /dupe Hall of Shame
-  # Set it empty to disable
+  # Discord Webhook for /dupe "Hall of Shame"
+  # Set it empty to disable this function
   discord-webhook: ""
   # Spanish translations
   # THIS IS ONLY FOR toms3.cc, MOST MESSAGES CANNOT BE CUSTOMIZED!!!
-  # This will be removed soon and replaced with locale-based messages.
+  # This will be removed soon and replaced with locale-based messages (Hopefully).
   enable-spanish-translation: false
   # Enable cache system logging (logs playerdata creation & last seen updates)
   # Can be annoying if you have a lot of players, so be careful
@@ -18,6 +18,7 @@ general:
 commands:
   # Regex for username validation (/jd, /pt & /ls)
   # Do not change unless your server supports bedrock users or other custom names
+  # Set it empty to disable this function (not recommended)
   username-validation-regex: "^[a-zA-Z0-9_]{3,16}$"
   # Troll Dupe command (/dupe)
   # le popbob coming for you!!!1111
@@ -25,7 +26,7 @@ commands:
     # Message sent to the discord webhook
     discord-webhook-message: "%username% is probably missing a lot of neurons"
   # Vote command (/vote)
-  # Has no actual use.
+  # Has no actual use more than displaying a message.
   vote:
     message:
       en: "You can vote the server via: <b>url</b>"
@@ -39,10 +40,10 @@ commands:
         en: "Announcements are now <b>OFF</b>."
         es: "Los anuncios ahora están <b>desactivados</b>."
 
-# Utilities that may be useful
+# Utilities that may be useful or not
 utilities:
   # Prevents operators from using certain commands
-  # Can be useful when needed
+  # Can be useful if your server suffers from admin abuse
   op-command-blacklist:
     enable: false
     blacklisted-commands:
@@ -63,6 +64,7 @@ chunk-limits:
 # Anti illegals system
 illegals:
   # Prevents use of certain items, also patches dispenser bypass
+  # And prevents item frames from being used too
   block-use:
     enable: true
     list:
@@ -77,7 +79,7 @@ illegals:
   # Checks are really strict as it also checks shulkers, it may slightly hurt performance!!
   # You shouldn't enable this unless your server suffers from illegals / admin abuse
   # NBT Storages were used in toms3.cc to crash the whole server by spamming and breaking them
-  # This also overflows playerdata, which may lead to bigger problems
+  # They also overflow playerdata, which may lead to bigger problems
   block-nbt-storages:
     enable: false
 
@@ -93,7 +95,7 @@ patches:
     patch-vclip-exploit:
       # Modes: STRICT & ELYTRA
       # STRICT: Prevents players from going below bedrock
-      # ELYTRA: Same as above, but only if they have an elytra equipped (Make sure your server has a decent anti-cheat, otherwise it can be bypassed!)
+      # ELYTRA: Same as above, but only if they have an elytra equipped (Make sure your server has an anti-cheat, otherwise it can be bypassed!)
       mode: ELYTRA
       enable: true
 
