@@ -33,7 +33,7 @@ class PreventNBTStorages : Listener {
     )
 
     fun checkItem(item: ItemStack) : Boolean{
-        if (item.type !in storageTypes) {
+        if (item.type !in storageTypes && !item.type.name.endsWith("_shelf")) {
             return false
         }
         if (!item.hasItemMeta()){
