@@ -23,15 +23,18 @@ commands:
   # Troll Dupe command (/dupe)
   # le popbob coming for you!!!1111
   dupe:
+    enable: true
     # Message sent to the discord webhook
     discord-webhook-message: "%username% is probably missing a lot of neurons"
   # Vote command (/vote)
   # Has no actual use more than displaying a message.
   vote:
+    enable: true
     message:
       en: "You can vote the server via: <b>url</b>"
       es: "Puedes votar por el servidor entrando a: <b>url</b>"
   toggleannouncements:
+    enable: true
     message:
       "on":
         en: "Announcements are now <b>ON</b>."

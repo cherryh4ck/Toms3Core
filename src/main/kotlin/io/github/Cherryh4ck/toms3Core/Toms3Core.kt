@@ -7,6 +7,7 @@ import io.github.Cherryh4ck.toms3Core.Commands.Playtime
 import io.github.Cherryh4ck.toms3Core.Commands.Seed
 import io.github.Cherryh4ck.toms3Core.Commands.ToggleAnnouncements
 import io.github.Cherryh4ck.toms3Core.Commands.Vote
+import io.github.Cherryh4ck.toms3Core.Commands.ToggleableCommand
 import io.github.Cherryh4ck.toms3Core.Listeners.AntiIllegals.PreventNBTStorages
 import io.github.Cherryh4ck.toms3Core.Listeners.AntiIllegals.PreventPlace
 import io.github.Cherryh4ck.toms3Core.Listeners.CachePlayerJoinListener
@@ -116,15 +117,11 @@ class Toms3Core : JavaPlugin() {
 
         getCommand("playtime")?.setExecutor(Playtime(this))
         getCommand("pt")?.setExecutor(Playtime(this))
-        getCommand("dupe")?.setExecutor(Dupe(this))
         getCommand("joindate")?.setExecutor(Joindate(this))
         getCommand("jd")?.setExecutor(Joindate(this))
         getCommand("lastseen")?.setExecutor(LastSeen(this))
         getCommand("ls")?.setExecutor(LastSeen(this))
-        getCommand("vote")?.setExecutor(Vote(this))
         getCommand("seed")?.setExecutor(Seed(this))
-        getCommand("toggleannouncements")?.setExecutor(ToggleAnnouncements(this))
-        getCommand("toggleann")?.setExecutor(ToggleAnnouncements(this))
 
         server.pluginManager.registerEvents(PlayerLeaveListener(this), this)
         server.pluginManager.registerEvents(CachePlayerJoinListener(this), this)
@@ -165,7 +162,6 @@ class Toms3Core : JavaPlugin() {
         "utilities.op-command-blacklist.enable" to OPCommandBlacklistListener(this),
         "illegals.block-nbt-storages.enable" to PreventNBTStorages()
     )
-
     fun hookListeners(){
         listeners.forEach { (path, listener) ->
             HandlerList.unregisterAll(listener)
@@ -174,6 +170,30 @@ class Toms3Core : JavaPlugin() {
                 logToConsole("<yellow>Hooked listener: <green>$path")
             }
         }
+    }
+
+    private val registeredCommands = mutableListOf<Command>()
+    fun hookCommands() {
+        val commandMap = server.commandMap
+        registeredCommands.forEach { command ->
+            command.unregister(commandMap)
+            commandMap.knownCommands.values.removeIf { it === command }
+        }
+        registeredCommands.clear()
+
+        val toggleableCommands = mapOf(
+            "commands.dupe.enable" to ToggleableCommand("dupe", emptyList(), Dupe(this)),
+            "commands.vote.enable" to ToggleableCommand("vote", emptyList(), Vote(this)),
+            "commands.toggleannouncements.enable" to ToggleableCommand("toggleannouncements", listOf("toggleann"), ToggleAnnouncements(this))
+        )
+
+        toggleableCommands.forEach { (path, command) ->
+            if (config.getBoolean(path, false)) {
+                commandMap.register(name.lowercase(), command)
+                registeredCommands.add(command)
+            }
+        }
+        server.onlinePlayers.forEach { it.updateCommands() }
     }
 
     fun reloadPlugin(){
@@ -221,6 +241,7 @@ class Toms3Core : JavaPlugin() {
         emergent_announcements = config.getConfigurationSection("misc.emergent-announcements.messages")
 
         hookListeners()
+        hookCommands()
         stopAnnouncements()
         stopEmergentAnnouncements()
         if (announcements_enabled){

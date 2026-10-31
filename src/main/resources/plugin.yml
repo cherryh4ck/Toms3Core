@@ -13,9 +13,6 @@ commands:
     description: Shows the playtime of a player
     usage: /playtime [player]
     aliases: pt
-  dupe:
-    description: Joke command.
-    usage: /dupe
   joindate:
     description: Shows player's joindate
     usage: /joindate
@@ -24,16 +21,9 @@ commands:
     description: Shows player's last seen date
     usage: /lastseen
     aliases: ls
-  vote:
-    description: Vote redirection, no actual use
-    usage: /vote
   seed:
     description: Joke command
     usage: /seed
-  toggleannouncements:
-    description: Toggles announcements
-    usage: /toggleannouncements
-    aliases: toggleann
 
 permissions:
   tmcore.main:
