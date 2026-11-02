@@ -7,7 +7,7 @@
   <a href="https://www.spigotmc.org/resources/toms3core.134802/">
     <img src="https://img.shields.io/badge/SpigotMC-Toms3Core-orange?logo=spigotmc&logoColor=white">
   </a>
-  <a href="https://discord.gg/xX9c3xnZqq">
+  <a href="https://discord.gg/sACFWrPDkF">
     <img src="https://img.shields.io/discord/1466280177335013533?label=Discord&color=5865F2&logo=discord&logoColor=white%22%20alt=%22Discord%22" alt="Discord">
   </a>
 </p>
