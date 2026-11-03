@@ -21,6 +21,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.Bukkit.getOfflinePlayer
+import org.bstats.bukkit.Metrics
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.YamlConfiguration
@@ -105,6 +106,10 @@ class Toms3Core : JavaPlugin() {
     override fun onEnable() {
         logger.info("---------------------")
         saveDefaultConfig()
+
+        val pluginId = 35095
+        val metrics = Metrics(this, pluginId)
+        logger.info("bStats initialized.")
 
         if (!playerDataPath.exists()) {
             logger.info("Playerdata folder created.")
