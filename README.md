@@ -12,6 +12,8 @@
   </a>
 </p>
 
+[![bstats](https://bstats.org/signatures/bukkit/TMCore.svg)](https://bstats.org/plugin/bukkit/TMCore/35095)
+
 ## Features
 
 * Utility commands (/joindate, /playtime, /lastseen & /vote)
